@@ -1,0 +1,46 @@
+# .NET / C#
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+*.sln.ide/
+*.cache
+*.vssscc
+*.bak.*
+*.[Bb]in
+*.[Oo]bj
+*.log
+*.store
+*.bak
+*.swp
+*.sw*
+TestResults/
+*.pidb
+*.suo
+*.sdf
+*.sln.ide
+*.vsp
+*.bak
+*.[Cc]ache
+*.ncrunchsolution
+*.ncrunchproject
+*.log
+*.bak
+*.swp
+*.sw*
+# Visual Studio Code
+.vscode/
+
+# React / Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+yarn.lock
+.package-lock.json
+
+# WebStorm / Rider
+.idea/
+*.iml
+*.ipr
+*.iws
