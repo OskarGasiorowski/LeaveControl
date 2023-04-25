@@ -2,6 +2,12 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LeaveControl.Api", "LeaveControl.Api\LeaveControl.Api.csproj", "{406BAD26-5A0B-47C6-A6F2-AD630025B088}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LeaveControl.Domain", "LeaveControl.Domain\LeaveControl.Domain.csproj", "{EFC21214-F3B2-4979-A7E1-424E5BB5AD92}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LeaveControl.Application", "LeaveControl.Application\LeaveControl.Application.csproj", "{2F5AF588-20CE-4342-9D62-BB481B88DE8A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LeaveControl.Infrastructure", "LeaveControl.Infrastructure\LeaveControl.Infrastructure.csproj", "{E57827DC-6DAE-4560-84E1-0D5A3640F0CC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -12,5 +18,17 @@ Global
 		{406BAD26-5A0B-47C6-A6F2-AD630025B088}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{406BAD26-5A0B-47C6-A6F2-AD630025B088}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{406BAD26-5A0B-47C6-A6F2-AD630025B088}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EFC21214-F3B2-4979-A7E1-424E5BB5AD92}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EFC21214-F3B2-4979-A7E1-424E5BB5AD92}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EFC21214-F3B2-4979-A7E1-424E5BB5AD92}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EFC21214-F3B2-4979-A7E1-424E5BB5AD92}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2F5AF588-20CE-4342-9D62-BB481B88DE8A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2F5AF588-20CE-4342-9D62-BB481B88DE8A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2F5AF588-20CE-4342-9D62-BB481B88DE8A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2F5AF588-20CE-4342-9D62-BB481B88DE8A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E57827DC-6DAE-4560-84E1-0D5A3640F0CC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E57827DC-6DAE-4560-84E1-0D5A3640F0CC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E57827DC-6DAE-4560-84E1-0D5A3640F0CC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E57827DC-6DAE-4560-84E1-0D5A3640F0CC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
