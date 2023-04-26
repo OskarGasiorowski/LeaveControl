@@ -8,6 +8,7 @@
 *.vssscc
 *.bak.*
 *.[Bb]in
+*[Bb]in
 *.[Oo]bj
 *.log
 *.store
