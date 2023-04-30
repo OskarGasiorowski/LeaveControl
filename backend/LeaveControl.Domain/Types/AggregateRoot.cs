@@ -9,34 +9,23 @@ public interface IDomainEvent
 
 public abstract class AggregateRoot<T>
 {
-    public T Id { get; protected set; }
-    public int Version { get; protected set; }
-    public IEnumerable<IDomainEvent> Events => _events;
-    
-    private readonly List<IDomainEvent> _events = new();
-    private bool _versionIncremented;
+    public T Id { get; protected set; } = default!;
 
-    protected void AddEvent(IDomainEvent @event)
+    public int Version { get; protected set; }
+
+    [NonSerialized]
+    // TODO better type
+    private readonly Queue<object> _uncommittedEvents = new();
+
+    public object[] DequeueUncommittedEvents()
     {
-        if (!_events.Any() && !_versionIncremented)
-        {
-            Version++;
-            _versionIncremented = true;
-        }
-        
-        _events.Add(@event);
+        var dequeuedEvents = _uncommittedEvents.ToArray();
+        _uncommittedEvents.Clear();
+        return dequeuedEvents;
     }
 
-    public void ClearEvents() => _events.Clear();
-
-    protected void IncrementVersion()
+    protected void Enqueue(object @event)
     {
-        if (_versionIncremented)
-        {
-            return;
-        }
-        
-        Version++;
-        _versionIncremented = true;
+        _uncommittedEvents.Enqueue(@event);
     }
 }
