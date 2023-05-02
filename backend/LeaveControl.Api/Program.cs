@@ -1,3 +1,6 @@
+using LeaveControl.Application.Command.Calendar.AddLeave;
+using LeaveControl.Infrastructure;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -6,6 +9,10 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblyContaining<Program>());
+// TODO there is a better way
+builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblyContaining<AddLeaveCommand>());
+builder.Services.AddInfrastructure(builder.Configuration);
 
 var app = builder.Build();
 

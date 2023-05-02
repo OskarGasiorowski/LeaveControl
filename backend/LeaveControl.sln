@@ -16,6 +16,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LeaveControl.Utils", "Leave
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LeaveControl.Utils.Tests", "LeaveControl.Utils.Tests\LeaveControl.Utils.Tests.csproj", "{B968D612-F38D-42FC-9D4D-013E34DED796}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LeaveControl.Infrastructure.Tests", "LeaveControl.Infrastructure.Tests\LeaveControl.Infrastructure.Tests.csproj", "{C68DF2B7-DF06-4052-8E64-FAFEBB365631}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docker", "docker", "{7812309C-F473-4903-BBE5-D06F70AA9DF4}"
+	ProjectSection(SolutionItems) = preProject
+		docker-compose.yml = docker-compose.yml
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -50,9 +57,14 @@ Global
 		{B968D612-F38D-42FC-9D4D-013E34DED796}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B968D612-F38D-42FC-9D4D-013E34DED796}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B968D612-F38D-42FC-9D4D-013E34DED796}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C68DF2B7-DF06-4052-8E64-FAFEBB365631}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C68DF2B7-DF06-4052-8E64-FAFEBB365631}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C68DF2B7-DF06-4052-8E64-FAFEBB365631}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C68DF2B7-DF06-4052-8E64-FAFEBB365631}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{A71AD4E9-5D73-40FF-801D-73338FDFD357} = {FFD982C0-B221-4810-9DA1-BB8CB16A4EDA}
 		{B968D612-F38D-42FC-9D4D-013E34DED796} = {FFD982C0-B221-4810-9DA1-BB8CB16A4EDA}
+		{C68DF2B7-DF06-4052-8E64-FAFEBB365631} = {FFD982C0-B221-4810-9DA1-BB8CB16A4EDA}
 	EndGlobalSection
 EndGlobal

@@ -213,4 +213,42 @@ public class LeaveDayExtensionTests
 
         Assert.False(firstList.Overlaps(secondList));
     }
+    
+    [Fact]
+    public void LeaveDay_ObjectsAreEqual()
+    {
+        var date = new DateTime(2023, 5, 10);
+        var date2 = new DateTime(2023, 5, 10);
+        var leaveDay1 = LeaveDay.Full(date);
+        var leaveDay2 = LeaveDay.Full(date2);
+        
+        var areEqual = leaveDay1.Equals(leaveDay2);
+        
+        Assert.True(areEqual);
+    }
+
+    [Fact]
+    public void LeaveDay_ObjectsAreNotEqual_DifferentDays()
+    {
+        var date = new DateTime(2023, 5, 10);
+        var leaveDay1 = LeaveDay.Full(date);
+        var leaveDay2 = LeaveDay.Full(date.AddDays(1));
+        
+        var areEqual = leaveDay1.Equals(leaveDay2);
+        
+        Assert.False(areEqual);
+    }
+
+    [Fact]
+    public void LeaveDay_ObjectsAreNotEqual_DifferentDayTypes()
+    {
+        var date = new DateTime(2023, 5, 10);
+        var date2 = new DateTime(2023, 5, 10);
+        var leaveDay1 = LeaveDay.Full(date);
+        var leaveDay2 = LeaveDay.FirstHalf(date2);
+        
+        var areEqual = leaveDay1.Equals(leaveDay2);
+        
+        Assert.False(areEqual);
+    }
 }

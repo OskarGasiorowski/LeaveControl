@@ -1,0 +1,26 @@
+version: "3"
+services:
+    postgres:
+        image: postgres
+        container_name: leaveControl-postgres
+        environment:
+            POSTGRES_PASSWORD: Password12!
+        ports:
+            - "9000:5432"
+        networks:
+            - postgres
+
+    pgadmin:
+        image: adminer
+        container_name: leaveControl-pgadmin
+        ports:
+            - "9001:8080"
+        networks:
+            - postgres
+networks:
+    postgres:
+        driver: bridge
+
+volumes:
+    postgres:
+    pgadmin:

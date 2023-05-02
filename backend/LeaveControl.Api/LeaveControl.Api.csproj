@@ -15,6 +15,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\LeaveControl.Application\LeaveControl.Application.csproj" />
+      <ProjectReference Include="..\LeaveControl.Infrastructure\LeaveControl.Infrastructure.csproj" />
     </ItemGroup>
 
 </Project>

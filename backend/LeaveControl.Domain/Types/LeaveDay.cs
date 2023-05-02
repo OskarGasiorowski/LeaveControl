@@ -1,4 +1,5 @@
 using LeaveControl.Utils;
+using Newtonsoft.Json;
 
 namespace LeaveControl.Domain.Types;
 
@@ -11,9 +12,12 @@ public enum DayType
 
 public record LeaveDay
 {
+    [JsonProperty]
     private readonly DateTime _day;
+    [JsonProperty]
     private readonly DayType _type;
 
+    [JsonConstructor]
     private LeaveDay(DateTime day, DayType type)
     {
         _day = day.Date;

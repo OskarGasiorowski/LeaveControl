@@ -1,25 +1,59 @@
 using LeaveControl.Domain.Types;
+using LeaveControl.Domain.UserCalendar.Events;
 
 namespace LeaveControl.Domain.UserCalendar;
 
-public record LeaveRequest
+public sealed record LeaveRequest
 {
-    public HashSet<LeaveDay> LeaveDays { get; set; } = new HashSet<LeaveDay>();
+    public HashSet<LeaveDay> LeaveDays { get; set; } = new();
     public Reason Reason { get; set; }
+
+    public bool Equals(LeaveRequest other)
+    {
+        if (other == null) return false;
+        return LeaveDays.SetEquals(other.LeaveDays) && Reason == other.Reason;
+    }
+    
+    public override int GetHashCode()
+    {
+        return HashCode.Combine(LeaveDays, Reason);
+    }
 }
 
-public class UserCalendarAggregate : AggregateRoot<UserId>
+public class UserCalendarAggregate : AggregateRoot<Guid>
 {
-    private readonly IList<LeaveRequest> _leaveRequests = new List<LeaveRequest>();
+    public IList<LeaveRequest> LeaveRequests { get; private set; } = new List<LeaveRequest>();
+    
+    public UserCalendarAggregate(){}
+
+    private UserCalendarAggregate(UserId id)
+    {
+        Id = id;
+    }
 
     public void RequestLeave(LeaveRequest leaveRequest)
     {
-        if (_leaveRequests.SelectMany(r => r.LeaveDays).Overlaps(leaveRequest.LeaveDays))
+        if (LeaveRequests.SelectMany(r => r.LeaveDays).Overlaps(leaveRequest.LeaveDays))
         {
             // TODO better error handling
             throw new Exception();
         }
-        
-        _leaveRequests.Add(leaveRequest);
+
+        var @event = LeaveRequestedEvent.Create(leaveRequest.LeaveDays, leaveRequest.Reason);
+
+        Enqueue(@event);
+        Apply(@event);
     }
+
+    private void Apply(LeaveRequestedEvent @event)
+    {
+        LeaveRequests.Add(new()
+        {
+            Reason = @event.Reason,
+            LeaveDays = @event.LeaveDays,
+        });
+    }
+
+    // TODO think about it - what data should be stored when created
+    public static UserCalendarAggregate Create(UserId id) => new(id);
 }

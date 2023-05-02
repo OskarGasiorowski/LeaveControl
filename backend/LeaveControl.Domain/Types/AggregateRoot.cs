@@ -3,6 +3,7 @@ namespace LeaveControl.Domain.Types;
 using System.Collections.Generic;
 using System.Linq;
 
+// TODO think if this should be one generic event
 public interface IDomainEvent
 {
 }
