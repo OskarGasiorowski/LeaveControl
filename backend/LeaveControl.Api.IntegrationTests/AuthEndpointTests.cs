@@ -1,6 +1,8 @@
 using System.Net;
 using System.Net.Http.Json;
 using LeaveControl.Api.Controllers.Auth.Requests;
+using LeaveControl.Domain;
+using LeaveControl.Infrastructure;
 
 namespace LeaveControl.Api.IntegrationTests;
 
@@ -33,6 +35,34 @@ public class AuthEndpointTests : IClassFixture<ApiTestFixture>
         Assert.IsType<Guid>(payload.UserId);
         Assert.NotEqual(Guid.Empty, payload.UserId);
         Assert.Equal(HttpStatusCode.Created, response.StatusCode);
+    }
+    
+    [Fact]
+    public async Task RegisterButEmailAlreadyExist_ReturnsConflict()
+    {
+        var client = _fixture.CreateClient();
+        
+        await client.PostAsync("/auth/register", JsonContent.Create(new RegisterRequest
+        {
+            AdminEmail = "jan@example.com",
+            AdminPassword = "superstrongpassword",
+        }));
+        
+        var response = await client.PostAsync("/auth/register", JsonContent.Create(new RegisterRequest
+        {
+            AdminEmail = "jan@example.com",
+            AdminPassword = "superstrongpassword2",
+        }));
+
+        var payload = await response.Content.ReadFromJsonAsync<RequestFailedBody>();
+        
+        Assert.NotNull(payload);
+        Assert.Equal(HttpStatusCode.Conflict, response.StatusCode);
+        var exception = AppException.UserWithGivenEmailExistsException();
+        Assert.Equal(exception.Message, payload.Message);
+        Assert.Equal(exception.CodeNumber, payload.CodeNumber);
+        Assert.Equal(exception.Code, payload.Code);
+        Assert.Equal(exception.Type.ToString(), payload.Type);
     }
 
     [Fact]

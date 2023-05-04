@@ -1,16 +1,15 @@
 using LeaveControl.Domain.Aggregates.User.Events;
-using LeaveControl.Domain.Types;
 using Marten.Events.Aggregation;
 using Marten.Schema;
-using Newtonsoft.Json;
 
-namespace LeaveControl.Domain.Aggregates.User.Projections;
+namespace LeaveControl.Infrastructure.Projections;
 
 public class UsersEmailProjection
 {
-    [Identity]
+    [Identity] 
     public Guid Id { get; set; }
-    public string Email { get; set; }
+
+    public string Email { get; set; } = default!;
 
     public void Apply(UserCreatedEvent @event)
     {

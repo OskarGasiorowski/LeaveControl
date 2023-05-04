@@ -1,6 +1,6 @@
-using LeaveControl.Domain.Aggregates.User.Projections;
 using LeaveControl.Domain.Repositories;
 using LeaveControl.Domain.Types;
+using LeaveControl.Infrastructure.Projections;
 using Marten;
 
 namespace LeaveControl.Infrastructure.Repositories;

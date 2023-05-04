@@ -1,4 +1,5 @@
 using LeaveControl.Application.Services;
+using LeaveControl.Domain;
 using LeaveControl.Domain.Aggregates.User;
 using LeaveControl.Domain.Repositories;
 using MediatR;
@@ -23,7 +24,7 @@ public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, Creat
         var emailExists = await _userEmailRepository.Contains(request.Email);
         if (emailExists)
         {
-            throw new Exception();
+            throw AppException.UserWithGivenEmailExistsException();
         }
         
         var user = UserAggregate.CreateAdmin(new()

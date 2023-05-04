@@ -15,4 +15,8 @@
       <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="8.0.0-preview.3.23174.8" />
     </ItemGroup>
 
+    <ItemGroup>
+        <FrameworkReference Include="Microsoft.AspNetCore.App" />
+    </ItemGroup>
+
 </Project>

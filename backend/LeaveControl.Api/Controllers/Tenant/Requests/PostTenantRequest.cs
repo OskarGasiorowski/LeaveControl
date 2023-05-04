@@ -4,8 +4,8 @@ namespace LeaveControl.Api.Controllers.Tenant.Requests;
 
 public record PostTenantRequest
 {
-    public string AdminEmail { get; set; }
-    public string AdminPassword { get; set; }
+    public string AdminEmail { get; set; } = default!;
+    public string AdminPassword { get; set; } = default!;
 }
 
 public class PostTenantRequestValidator : AbstractValidator<PostTenantRequest>

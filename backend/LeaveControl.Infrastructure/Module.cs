@@ -1,13 +1,15 @@
 using LeaveControl.Domain.Aggregates.User;
-using LeaveControl.Domain.Aggregates.User.Projections;
 using LeaveControl.Domain.Repositories;
+using LeaveControl.Infrastructure.Projections;
 using LeaveControl.Infrastructure.Repositories;
 using Marten;
 using Marten.Events.Projections;
 using Marten.Storage;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Configuration;
+using Microsoft.AspNetCore.Builder;
 using Weasel.Core;
+
 
 namespace LeaveControl.Infrastructure;
 
@@ -40,9 +42,16 @@ public static class Module
             .UseLightweightSessions()
             .ApplyAllDatabaseChangesOnStartup();
 
-        services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
-        services.AddScoped<IUserEmailRepository, UserEmailRepository>();
+        services.AddScoped(typeof(IRepository<>), typeof(Repository<>))
+            .AddScoped<IUserEmailRepository, UserEmailRepository>();
 
         return services;
+    }
+    
+    public static IApplicationBuilder AddInfrastructure(this IApplicationBuilder app)
+    {
+        app.UseMiddleware<ExceptionHandlerMiddleware>();
+
+        return app;
     }
 }
