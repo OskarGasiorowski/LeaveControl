@@ -3,7 +3,7 @@ using MediatR;
 
 namespace LeaveControl.Application.Command.Calendar.AddLeave;
 
-public class AddLeaveCommand : IRequest
+public record AddLeaveCommand : IRequest
 {
     public Reason Reason { get; set; }
     public UserId UserId { get; set; }

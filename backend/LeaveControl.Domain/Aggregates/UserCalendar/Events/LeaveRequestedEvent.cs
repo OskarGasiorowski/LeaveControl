@@ -1,6 +1,6 @@
 using LeaveControl.Domain.Types;
 
-namespace LeaveControl.Domain.UserCalendar.Events;
+namespace LeaveControl.Domain.Aggregates.UserCalendar.Events;
 
 public record LeaveRequestedEvent : IDomainEvent
 {

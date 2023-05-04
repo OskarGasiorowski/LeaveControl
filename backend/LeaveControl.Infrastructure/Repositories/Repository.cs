@@ -1,36 +1,35 @@
 using LeaveControl.Domain.Repositories;
 using LeaveControl.Domain.Types;
-using LeaveControl.Domain.UserCalendar;
 using Marten;
 
 namespace LeaveControl.Infrastructure.Repositories;
 
-public class UserCalendarRepository : IUserCalendarRepository
+public class Repository<TAggregate> : IRepository<TAggregate> where TAggregate : AggregateRoot<Guid>
 {
     private readonly IDocumentSession _documentSession;
 
-    public UserCalendarRepository(IDocumentSession documentSession)
+    public Repository(IDocumentSession documentSession)
     {
         _documentSession = documentSession;
     }
-
-    public async Task Create(UserCalendarAggregate aggregate)
+    
+    public async Task Create(TAggregate aggregate)
     {
         var events = aggregate.DequeueUncommittedEvents();
 
-        _documentSession.Events.StartStream<UserCalendarAggregate>(
+        _documentSession.Events.StartStream<TAggregate>(
             aggregate.Id,
             events
         );
         await _documentSession.SaveChangesAsync();
     }
 
-    public Task<UserCalendarAggregate?> Get(UserId id)
+    public Task<TAggregate?> Get(Guid id)
     {
-        return _documentSession.Events.AggregateStreamAsync<UserCalendarAggregate>(id);
+        return _documentSession.Events.AggregateStreamAsync<TAggregate>(id);
     }
 
-    public async Task Update(UserCalendarAggregate aggregate)
+    public async Task Update(TAggregate aggregate)
     {
         var events = aggregate.DequeueUncommittedEvents();
 

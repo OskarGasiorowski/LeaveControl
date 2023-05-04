@@ -1,5 +1,5 @@
+using LeaveControl.Domain.Aggregates.UserCalendar;
 using LeaveControl.Domain.Types;
-using LeaveControl.Domain.UserCalendar;
 using LeaveControl.Infrastructure.Repositories;
 using Marten;
 using Testcontainers.PostgreSql;
@@ -15,7 +15,7 @@ public class UserCalendarRepositoryTests : IAsyncLifetime
     {
         using var documentStore = DocumentStore.For(_postgreSqlContainer.GetConnectionString());
         using var session = documentStore.LightweightSession();
-        var repository = new UserCalendarRepository(session);
+        var repository = new Repository<UserCalendarAggregate>(session);
 
         var aggregate = UserCalendarAggregate.Create(UserId.Generate());
         aggregate.RequestLeave(new()

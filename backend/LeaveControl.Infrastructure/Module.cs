@@ -1,6 +1,8 @@
+using LeaveControl.Domain.Aggregates.User;
 using LeaveControl.Domain.Repositories;
 using LeaveControl.Infrastructure.Repositories;
 using Marten;
+using Marten.Storage;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Weasel.Core;
@@ -20,17 +22,20 @@ public static class Module
     
     public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration config)
     {
-        var martenConfig = config.GetRequiredSection(DefaultConfigKey).Get<MartenConfig>();
-        var options = new StoreOptions();
-        options.Connection(martenConfig!.ConnectionString);
-        options.AutoCreateSchemaObjects = AutoCreate.CreateOrUpdate;
-
         services
-            .AddMarten(_ => options)
+            .AddMarten(options =>
+            {
+                var martenConfig = config.GetRequiredSection(DefaultConfigKey).Get<MartenConfig>();
+                
+                options.Connection(martenConfig!.ConnectionString);
+                options.AutoCreateSchemaObjects = AutoCreate.CreateOrUpdate;
+                options.Events.TenancyStyle = TenancyStyle.Conjoined;
+                options.Schema.For<UserAggregate>().SingleTenanted();
+            })
             .UseLightweightSessions()
             .ApplyAllDatabaseChangesOnStartup();
 
-        services.AddTransient<IUserCalendarRepository, UserCalendarRepository>();
+        services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 
         return services;
     }

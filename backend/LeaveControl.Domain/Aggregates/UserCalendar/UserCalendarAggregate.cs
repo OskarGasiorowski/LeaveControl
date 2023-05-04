@@ -1,7 +1,7 @@
+using LeaveControl.Domain.Aggregates.UserCalendar.Events;
 using LeaveControl.Domain.Types;
-using LeaveControl.Domain.UserCalendar.Events;
 
-namespace LeaveControl.Domain.UserCalendar;
+namespace LeaveControl.Domain.Aggregates.UserCalendar;
 
 public sealed record LeaveRequest
 {

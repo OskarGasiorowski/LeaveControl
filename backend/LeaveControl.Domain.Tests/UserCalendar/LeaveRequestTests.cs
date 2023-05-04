@@ -1,5 +1,5 @@
+using LeaveControl.Domain.Aggregates.UserCalendar;
 using LeaveControl.Domain.Types;
-using LeaveControl.Domain.UserCalendar;
 
 namespace LeaveControl.Domain.Tests.UserCalendar;
 

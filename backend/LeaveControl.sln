@@ -23,6 +23,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docker", "docker", "{781230
 		docker-compose.yml = docker-compose.yml
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LeaveControl.Api.IntegrationTests", "LeaveControl.Api.IntegrationTests\LeaveControl.Api.IntegrationTests.csproj", "{4709EE4E-7B92-40E0-9C60-7045E65E0224}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -61,10 +63,15 @@ Global
 		{C68DF2B7-DF06-4052-8E64-FAFEBB365631}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C68DF2B7-DF06-4052-8E64-FAFEBB365631}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C68DF2B7-DF06-4052-8E64-FAFEBB365631}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4709EE4E-7B92-40E0-9C60-7045E65E0224}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4709EE4E-7B92-40E0-9C60-7045E65E0224}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4709EE4E-7B92-40E0-9C60-7045E65E0224}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4709EE4E-7B92-40E0-9C60-7045E65E0224}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{A71AD4E9-5D73-40FF-801D-73338FDFD357} = {FFD982C0-B221-4810-9DA1-BB8CB16A4EDA}
 		{B968D612-F38D-42FC-9D4D-013E34DED796} = {FFD982C0-B221-4810-9DA1-BB8CB16A4EDA}
 		{C68DF2B7-DF06-4052-8E64-FAFEBB365631} = {FFD982C0-B221-4810-9DA1-BB8CB16A4EDA}
+		{4709EE4E-7B92-40E0-9C60-7045E65E0224} = {FFD982C0-B221-4810-9DA1-BB8CB16A4EDA}
 	EndGlobalSection
 EndGlobal

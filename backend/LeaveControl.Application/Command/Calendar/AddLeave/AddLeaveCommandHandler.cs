@@ -1,15 +1,15 @@
+using LeaveControl.Domain.Aggregates.UserCalendar;
 using LeaveControl.Domain.Repositories;
 using LeaveControl.Domain.Types;
-using LeaveControl.Domain.UserCalendar;
 using MediatR;
 
 namespace LeaveControl.Application.Command.Calendar.AddLeave;
 
 public class AddLeaveCommandHandler : IRequestHandler<AddLeaveCommand>
 {
-    private readonly IUserCalendarRepository _userCalendarRepository;
+    private readonly IRepository<UserCalendarAggregate> _userCalendarRepository;
 
-    public AddLeaveCommandHandler(IUserCalendarRepository userCalendarRepository)
+    public AddLeaveCommandHandler(IRepository<UserCalendarAggregate> userCalendarRepository)
     {
         _userCalendarRepository = userCalendarRepository;
     }
