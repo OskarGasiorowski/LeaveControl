@@ -1,7 +1,6 @@
 using LeaveControl.Application.Services;
 using LeaveControl.Domain.Aggregates.User;
 using LeaveControl.Domain.Repositories;
-using LeaveControl.Domain.Types;
 using MediatR;
 
 namespace LeaveControl.Application.Command.User.CreateUser;
@@ -10,16 +9,22 @@ public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, Creat
 {
     private readonly IRepository<UserAggregate> _userRepository;
     private readonly IJwtService _jwtService;
+    private readonly IUserEmailRepository _userEmailRepository;
 
-    public CreateUserCommandHandler(IRepository<UserAggregate> userRepository, IJwtService jwtService)
+    public CreateUserCommandHandler(IRepository<UserAggregate> userRepository, IJwtService jwtService, IUserEmailRepository userEmailRepository)
     {
         _userRepository = userRepository;
         _jwtService = jwtService;
+        _userEmailRepository = userEmailRepository;
     }
 
     public async Task<CreateUserCommand.Response> Handle(CreateUserCommand request, CancellationToken cancellationToken)
     {
-        // TODO check if user with given email exists
+        var emailExists = await _userEmailRepository.Contains(request.Email);
+        if (emailExists)
+        {
+            throw new Exception();
+        }
         
         var user = UserAggregate.CreateAdmin(new()
         {

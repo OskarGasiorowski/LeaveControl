@@ -1,7 +1,9 @@
 using LeaveControl.Domain.Aggregates.User;
+using LeaveControl.Domain.Aggregates.User.Projections;
 using LeaveControl.Domain.Repositories;
 using LeaveControl.Infrastructure.Repositories;
 using Marten;
+using Marten.Events.Projections;
 using Marten.Storage;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -31,11 +33,15 @@ public static class Module
                 options.AutoCreateSchemaObjects = AutoCreate.CreateOrUpdate;
                 options.Events.TenancyStyle = TenancyStyle.Conjoined;
                 options.Schema.For<UserAggregate>().SingleTenanted();
+                options.Events.EnableGlobalProjectionsForConjoinedTenancy = true;
+                
+                options.Projections.Add<UsersEmailProjectionSetup>(ProjectionLifecycle.Inline);
             })
             .UseLightweightSessions()
             .ApplyAllDatabaseChangesOnStartup();
 
         services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+        services.AddScoped<IUserEmailRepository, UserEmailRepository>();
 
         return services;
     }

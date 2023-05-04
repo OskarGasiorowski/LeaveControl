@@ -1,14 +1,16 @@
 using System.Text.RegularExpressions;
+using Newtonsoft.Json;
 
 namespace LeaveControl.Domain.Types;
 
 public readonly struct Email
 {
+    [JsonProperty]
     private readonly string _email;
     private static readonly Regex EmailRegex = new(
         @"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$",
         RegexOptions.Compiled | RegexOptions.IgnoreCase);
-
+    
     public Email(string email)
     {
         if (string.IsNullOrWhiteSpace(email))

@@ -1,9 +1,13 @@
+using Newtonsoft.Json;
+
 namespace LeaveControl.Domain.Types;
 
 public readonly struct UserId
  {
+     [JsonProperty]
      private readonly Guid _id;
  
+     [JsonConstructor]
      private UserId(Guid id)
      {
          _id = id;

@@ -1,7 +1,6 @@
 using System.Net;
 using System.Net.Http.Json;
 using LeaveControl.Api.Controllers.Auth.Requests;
-using Microsoft.AspNetCore.Mvc.Testing;
 
 namespace LeaveControl.Api.IntegrationTests;
 
@@ -35,7 +34,7 @@ public class AuthEndpointTests : IClassFixture<ApiTestFixture>
         Assert.NotEqual(Guid.Empty, payload.UserId);
         Assert.Equal(HttpStatusCode.Created, response.StatusCode);
     }
-    
+
     [Fact]
     public async Task Register_WithEmptyEmail_ReturnsBadRequest()
     {
