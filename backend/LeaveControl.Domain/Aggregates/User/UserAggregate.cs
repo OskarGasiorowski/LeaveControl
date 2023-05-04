@@ -33,12 +33,24 @@ public class UserAggregate : AggregateRoot<Guid>
         return new UserAggregate(createUser.Email, createUser.Password, Role.IncompleteAdmin(), TenantId.Generate());
     }
 
-    public void Apply(UserCreatedEvent @event)
+    private void Apply(UserCreatedEvent @event)
     {
         Email = @event.Email;
         Password = @event.Password;
         Id = @event.UserId;
         Role = @event.Role;
         TenantId = @event.TenantId;
+    }
+
+    public void MakeAdmin()
+    {
+        var @event = new UserChangedToAdminEvent();
+        Apply(@event);
+        Enqueue(@event);
+    }
+
+    private void Apply(UserChangedToAdminEvent @event)
+    {
+        Role = Role.Admin();
     }
 }

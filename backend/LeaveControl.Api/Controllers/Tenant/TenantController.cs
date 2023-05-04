@@ -1,6 +1,9 @@
+using LeaveControl.Api.ActionFilters;
 using LeaveControl.Api.Controllers.Tenant.Requests;
 using LeaveControl.Application.Command.Tenant.CreateTenant;
+using LeaveControl.Domain.Types;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LeaveControl.Api.Controllers.Tenant;
@@ -17,12 +20,20 @@ public class TenantController : ControllerBase
     }
 
     [HttpPost]
-    public async Task Post([FromBody] PostTenantRequest body)
+    [Authorize(Roles = "IncompleteAdmin")]
+    [InjectUserId]
+    public async Task<IActionResult> Post([FromBody] CreateTenantRequest body, Guid userId)
     {
-        await _mediator.Send(new CreateTenantCommand
+        var result = await _mediator.Send(new CreateTenantCommand
         {
-            AdminEmail = body.AdminEmail,
-            AdminPassword = body.AdminPassword
+            AllowanceOverflowAllowed = body.AllowanceOverflowAllowed,
+            DefaultAllowance = body.DefaultAllowance,
+            AcceptanceRequired = body.AcceptanceRequired,
+            AdminSurname = body.AdminSurname,
+            AdminFirstName = body.AdminFirstName,
+            UserId = userId,
         });
+
+        return Ok(result.Token.ToString());
     }
 }

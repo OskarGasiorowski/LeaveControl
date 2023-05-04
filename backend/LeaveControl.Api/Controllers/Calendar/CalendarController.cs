@@ -1,6 +1,9 @@
+using LeaveControl.Api.ActionFilters;
 using LeaveControl.Api.Controllers.Calendar.Requests;
 using LeaveControl.Application.Command.Calendar.AddLeave;
+using LeaveControl.Domain.Types;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LeaveControl.Api.Controllers.Calendar;
@@ -16,13 +19,15 @@ public class CalendarController : ControllerBase
         _mediator = mediator;
     }
 
+    [InjectUserId]
     [HttpPatch("leave")]
-    public Task Patch([FromBody] PatchLeaveRequest body)
+    [Authorize(Roles = "Admin,User")]
+    public Task Patch([FromBody] PatchLeaveRequest body, Guid userId)
     {
         return _mediator.Send(new AddLeaveCommand
         {
             Reason = body.Reason,
-            UserId = body.UserId,
+            UserId = userId,
             LeaveDays = body.Entry.Select(LeaveDayMapper.Map).ToArray(),
         });
     }

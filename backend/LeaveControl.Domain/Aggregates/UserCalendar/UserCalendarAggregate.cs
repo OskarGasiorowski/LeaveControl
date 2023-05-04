@@ -1,42 +1,48 @@
 using LeaveControl.Domain.Aggregates.UserCalendar.Events;
+using LeaveControl.Domain.Aggregates.UserCalendar.Models;
 using LeaveControl.Domain.Types;
 
 namespace LeaveControl.Domain.Aggregates.UserCalendar;
-
-public sealed record LeaveRequest
-{
-    public HashSet<LeaveDay> LeaveDays { get; set; } = new();
-    public Reason Reason { get; set; }
-
-    public bool Equals(LeaveRequest other)
-    {
-        if (other == null) return false;
-        return LeaveDays.SetEquals(other.LeaveDays) && Reason == other.Reason;
-    }
-    
-    public override int GetHashCode()
-    {
-        return HashCode.Combine(LeaveDays, Reason);
-    }
-}
 
 public class UserCalendarAggregate : AggregateRoot<Guid>
 {
     public IList<LeaveRequest> LeaveRequests { get; private set; } = new List<LeaveRequest>();
     
+    public CalendarSettings Settings { get; private set; }
+    
     public UserCalendarAggregate(){}
 
-    private UserCalendarAggregate(UserId id)
+    private UserCalendarAggregate(UserId id, CalendarSettings settings)
     {
-        Id = id;
+        var @event = new UserCalendarCreatedEvent
+        {
+            Settings = settings,
+            UserId = id,
+        };
+        
+        Enqueue(@event);
+        Apply(@event);
+    }
+
+    private void Apply(UserCalendarCreatedEvent @event)
+    {
+        Id = @event.UserId;
+        Settings = @event.Settings;
     }
 
     public void RequestLeave(LeaveRequest leaveRequest)
     {
-        if (LeaveRequests.SelectMany(r => r.LeaveDays).Overlaps(leaveRequest.LeaveDays))
+        var leaveDays = LeaveRequests.SelectMany(r => r.LeaveDays).ToArray();
+        
+        if (leaveDays.Overlaps(leaveRequest.LeaveDays))
         {
-            // TODO better error handling
-            throw new Exception();
+            throw AppException.LeaveDaysOverlaps();
+        }
+
+        var leaveDaysTaken = leaveDays.Length + leaveRequest.LeaveDays.Count;
+        if (leaveDaysTaken + leaveRequest.LeaveDays.Count > Settings.Allowance && !Settings.AllowanceOverflowAllowed)
+        {
+            throw AppException.LeaveDaysExceeded(Settings.Allowance);
         }
 
         var @event = LeaveRequestedEvent.Create(leaveRequest.LeaveDays, leaveRequest.Reason);
@@ -53,7 +59,6 @@ public class UserCalendarAggregate : AggregateRoot<Guid>
             LeaveDays = @event.LeaveDays,
         });
     }
-
-    // TODO think about it - what data should be stored when created
-    public static UserCalendarAggregate Create(UserId id) => new(id);
+    
+    public static UserCalendarAggregate Create(UserId id, CalendarSettings settings) => new(id, settings);
 }

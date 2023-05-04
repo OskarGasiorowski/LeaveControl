@@ -1,4 +1,5 @@
 using LeaveControl.Domain.Aggregates.UserCalendar;
+using LeaveControl.Domain.Aggregates.UserCalendar.Models;
 using LeaveControl.Domain.Repositories;
 using LeaveControl.Domain.Types;
 using MediatR;
@@ -16,10 +17,9 @@ public class AddLeaveCommandHandler : IRequestHandler<AddLeaveCommand>
 
     public async Task Handle(AddLeaveCommand request, CancellationToken cancellationToken)
     {
-        var userCalendar = await _userCalendarRepository.Get(request.UserId) 
-                           ?? UserCalendarAggregate.Create(request.UserId);
+        var userCalendar = await _userCalendarRepository.Get(request.UserId);
 
-        userCalendar.RequestLeave(new LeaveRequest
+        userCalendar!.RequestLeave(new LeaveRequest
         {
             Reason = request.Reason,
             LeaveDays = new HashSet<LeaveDay>(request.LeaveDays),

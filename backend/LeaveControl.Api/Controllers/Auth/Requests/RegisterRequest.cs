@@ -1,5 +1,4 @@
 using FluentValidation;
-using LeaveControl.Api.Controllers.Tenant.Requests;
 
 namespace LeaveControl.Api.Controllers.Auth.Requests;
 

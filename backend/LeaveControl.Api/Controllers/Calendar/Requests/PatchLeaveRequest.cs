@@ -20,9 +20,6 @@ public record PatchLeaveRequest
 {
     public IReadOnlyList<LeaveEntry> Entry { get; set; } = new List<LeaveEntry>();
     public string Reason { get; set; } = "";
-    
-    // TODO Should be taken from token instead of body
-    public Guid UserId { get; set; }
 }
 
 public static class LeaveDayMapper

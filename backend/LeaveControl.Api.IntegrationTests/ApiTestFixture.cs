@@ -2,7 +2,6 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 
 using Testcontainers.PostgreSql;
-using Microsoft.VisualStudio.TestPlatform.TestHost;
 
 namespace LeaveControl.Api.IntegrationTests;
 

@@ -8,11 +8,11 @@ namespace LeaveControl.Application.Command.User.CreateUser;
 
 public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, CreateUserCommand.Response>
 {
-    private readonly IRepository<UserAggregate> _userRepository;
+    private readonly IUserRepository _userRepository;
     private readonly IJwtService _jwtService;
     private readonly IUserEmailRepository _userEmailRepository;
 
-    public CreateUserCommandHandler(IRepository<UserAggregate> userRepository, IJwtService jwtService, IUserEmailRepository userEmailRepository)
+    public CreateUserCommandHandler(IUserRepository userRepository, IJwtService jwtService, IUserEmailRepository userEmailRepository)
     {
         _userRepository = userRepository;
         _jwtService = jwtService;

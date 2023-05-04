@@ -1,4 +1,5 @@
 using LeaveControl.Domain.Aggregates.UserCalendar;
+using LeaveControl.Domain.Aggregates.UserCalendar.Models;
 using LeaveControl.Domain.Types;
 using LeaveControl.Infrastructure.Repositories;
 using Marten;
@@ -17,7 +18,12 @@ public class UserCalendarRepositoryTests : IAsyncLifetime
         using var session = documentStore.LightweightSession();
         var repository = new Repository<UserCalendarAggregate>(session);
 
-        var aggregate = UserCalendarAggregate.Create(UserId.Generate());
+        var aggregate = UserCalendarAggregate.Create(UserId.Generate(), new CalendarSettings
+        {
+            Allowance = 25,
+            AcceptanceRequired = true,
+            AllowanceOverflowAllowed = false,
+        });
         aggregate.RequestLeave(new()
         {
             Reason = "test reason",

@@ -40,10 +40,12 @@ public static class Module
                 options.Projections.Add<UsersEmailProjectionSetup>(ProjectionLifecycle.Inline);
             })
             .UseLightweightSessions()
+            .BuildSessionsWith<CustomSessionFactory>()
             .ApplyAllDatabaseChangesOnStartup();
 
         services.AddScoped(typeof(IRepository<>), typeof(Repository<>))
-            .AddScoped<IUserEmailRepository, UserEmailRepository>();
+            .AddScoped<IUserEmailRepository, UserEmailRepository>()
+            .AddScoped<IUserRepository, UserRepository>();
 
         return services;
     }
