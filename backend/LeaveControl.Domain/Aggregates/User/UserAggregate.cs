@@ -39,5 +39,6 @@ public class UserAggregate : AggregateRoot<Guid>
         Password = @event.Password;
         Id = @event.UserId;
         Role = @event.Role;
+        TenantId = @event.TenantId;
     }
 }

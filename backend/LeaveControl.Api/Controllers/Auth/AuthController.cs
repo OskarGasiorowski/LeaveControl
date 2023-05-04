@@ -34,6 +34,7 @@ public class AuthController : ControllerBase
         {
             Token = response.Token,
             UserId = response.UserId,
+            TenantId = response.TenantId
         };
     }
 }

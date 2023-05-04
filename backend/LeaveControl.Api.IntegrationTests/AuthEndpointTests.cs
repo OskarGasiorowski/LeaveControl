@@ -30,7 +30,9 @@ public class AuthEndpointTests : IClassFixture<ApiTestFixture>
         Assert.NotNull(payload);
         Assert.NotEmpty(payload.Token);
         Assert.IsType<Guid>(payload.TenantId);
+        Assert.NotEqual(Guid.Empty, payload.TenantId);
         Assert.IsType<Guid>(payload.UserId);
+        Assert.NotEqual(Guid.Empty, payload.UserId);
         Assert.Equal(HttpStatusCode.Created, response.StatusCode);
     }
     
