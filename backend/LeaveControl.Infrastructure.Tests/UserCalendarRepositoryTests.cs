@@ -18,7 +18,7 @@ public class UserCalendarRepositoryTests : IAsyncLifetime
         using var session = documentStore.LightweightSession();
         var repository = new Repository<UserCalendarAggregate>(session);
 
-        var aggregate = UserCalendarAggregate.Create(UserId.Generate(), new CalendarSettings
+        var aggregate = UserCalendarAggregate.New(UserId.Generate(), new CalendarSettings
         {
             Allowance = 25,
             AcceptanceRequired = true,

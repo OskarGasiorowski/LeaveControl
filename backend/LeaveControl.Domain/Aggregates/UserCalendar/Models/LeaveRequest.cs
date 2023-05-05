@@ -4,6 +4,7 @@ namespace LeaveControl.Domain.Aggregates.UserCalendar.Models;
 
 public sealed record LeaveRequest
 {
+    public Guid Id { get; set; }
     public HashSet<LeaveDay> LeaveDays { get; set; } = new();
     public Reason Reason { get; set; }
 

@@ -4,13 +4,15 @@ namespace LeaveControl.Domain.Aggregates.UserCalendar.Events;
 
 public record LeaveRequestedEvent : IDomainEvent
 {
+    public Guid LeaveId { get; set; }
     public HashSet<LeaveDay> LeaveDays { get; set; } = new();
     public Reason Reason { get; set; }
 
-    public static LeaveRequestedEvent Create(HashSet<LeaveDay> leaveDays, Reason reason)
+    public static LeaveRequestedEvent Create(Guid leaveId, HashSet<LeaveDay> leaveDays, Reason reason)
     {
         return new LeaveRequestedEvent
         {
+            LeaveId = leaveId,
             LeaveDays = leaveDays,
             Reason = reason,
         };

@@ -16,7 +16,7 @@ public record LeaveEntry
     public LeaveEntryType Type { get; set; }
 }
 
-public record PatchLeaveRequest
+public record PostLeaveRequest
 {
     public IReadOnlyList<LeaveEntry> Entry { get; set; } = new List<LeaveEntry>();
     public string Reason { get; set; } = "";
@@ -36,7 +36,7 @@ public static class LeaveDayMapper
     }
 }
 
-public class PatchLeaveRequestValidator : AbstractValidator<PatchLeaveRequest>
+public class PatchLeaveRequestValidator : AbstractValidator<PostLeaveRequest>
 {
     public PatchLeaveRequestValidator()
     {

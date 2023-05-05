@@ -20,9 +20,9 @@ public class CalendarController : ControllerBase
     }
 
     [InjectUserId]
-    [HttpPatch("leave")]
+    [HttpPost("me/leave")]
     [Authorize(Roles = "Admin,User")]
-    public Task Patch([FromBody] PatchLeaveRequest body, Guid userId)
+    public Task Post([FromBody] PostLeaveRequest body, Guid userId)
     {
         return _mediator.Send(new AddLeaveCommand
         {

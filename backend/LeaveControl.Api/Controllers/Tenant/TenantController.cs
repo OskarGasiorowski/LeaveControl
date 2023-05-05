@@ -1,7 +1,6 @@
 using LeaveControl.Api.ActionFilters;
 using LeaveControl.Api.Controllers.Tenant.Requests;
 using LeaveControl.Application.Command.Tenant.CreateTenant;
-using LeaveControl.Domain.Types;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
