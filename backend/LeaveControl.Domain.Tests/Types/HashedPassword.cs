@@ -21,7 +21,7 @@ public class PasswordHasherTests
         Password password = "P@$$w0rd";
         var hashedPassword = HashedPassword.Create(password);
 
-        var isCorrectPassword = hashedPassword.Varify(password);
+        var isCorrectPassword = hashedPassword.Verify(password);
 
         Assert.True(isCorrectPassword);
     }
@@ -33,7 +33,7 @@ public class PasswordHasherTests
         var hashedPassword = HashedPassword.Create(password);
 
         Password incorrectPassword = "WrongP@$$w0rd";
-        var isCorrectPassword = hashedPassword.Varify(incorrectPassword);
+        var isCorrectPassword = hashedPassword.Verify(incorrectPassword);
 
         Assert.False(isCorrectPassword);
     }

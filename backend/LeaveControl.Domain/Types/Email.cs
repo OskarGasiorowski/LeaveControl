@@ -28,7 +28,13 @@ public readonly struct Email
 
     public static implicit operator Email(string email) => new(email);
     public static implicit operator string(Email emailAddress) => emailAddress.ToString();
-
+    public static bool operator ==(Email left, Email right) => left._email == right._email;
+    public static bool operator !=(Email left, Email right) => !(left == right);
+    public static bool operator ==(string left, Email right) => left == right._email;
+    public static bool operator !=(string left, Email right) => !(left == right);
+    public static bool operator ==(Email left, string right) => left._email == right;
+    public static bool operator !=(Email left, string right) => !(left == right);
+    
     public override string ToString()
     {
         return _email;

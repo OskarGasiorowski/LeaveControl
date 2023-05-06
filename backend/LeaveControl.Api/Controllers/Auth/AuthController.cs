@@ -1,5 +1,6 @@
 using System.Net;
 using LeaveControl.Api.Controllers.Auth.Requests;
+using LeaveControl.Application.Command.User.Authenticate;
 using LeaveControl.Application.Command.User.CreateUser;
 using LeaveControl.Domain.Types;
 using MediatR;
@@ -36,5 +37,17 @@ public class AuthController : ControllerBase
             UserId = response.UserId,
             TenantId = response.TenantId
         };
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> Login([FromBody] LoginRequest body)
+    {
+        var response = await _mediator.Send(new AuthenticateCommand
+        {
+            Email = body.Email,
+            Password = body.Password,
+        });
+
+        return new JsonResult(response);
     }
 }
