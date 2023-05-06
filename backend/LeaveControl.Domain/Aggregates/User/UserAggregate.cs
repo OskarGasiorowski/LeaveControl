@@ -37,8 +37,8 @@ public class UserAggregate : AggregateRoot<Guid>
         return new UserAggregate(
             createUser.Email,
             createUser.Password,
-            createUser.FirstName,
-            createUser.Surname,
+            "",
+            "",
             Role.IncompleteAdmin(),
             TenantId.Generate()
         );
@@ -77,5 +77,23 @@ public class UserAggregate : AggregateRoot<Guid>
     private void Apply(UserChangedToAdminEvent @event)
     {
         Role = Role.Admin();
+    }
+
+    public void Update(FirstName firstName, Surname surname)
+    {
+        var @event = new UserDataUpdatedEvent
+        {
+            FirstName = firstName,
+            Surname = surname,
+        };
+        
+        Apply(@event);
+        Enqueue(@event);
+    }
+
+    private void Apply(UserDataUpdatedEvent @event)
+    {
+        FirstName = @event.FirstName;
+        Surname = @event.Surname;
     }
 }
