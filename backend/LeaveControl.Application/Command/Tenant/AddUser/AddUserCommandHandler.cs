@@ -3,6 +3,7 @@ using LeaveControl.Domain.Aggregates.Tenant;
 using LeaveControl.Domain.Aggregates.User;
 using LeaveControl.Domain.Aggregates.User.Models;
 using LeaveControl.Domain.Repositories;
+using LeaveControl.Domain.Repositories.User;
 using LeaveControl.Domain.Types;
 using MediatR;
 
@@ -11,10 +12,10 @@ namespace LeaveControl.Application.Command.Tenant.AddUser;
 public class AddUserCommandHandler : IRequestHandler<AddUserCommand, AddUserCommand.Response>
 {
     private readonly IUserRepository _userRepository;
-    private readonly IUserEmailRepository _userEmailRepository;
+    private readonly IUserProjectionRepository _userEmailRepository;
     private readonly IRepository<TenantAggregate> _tenantRepository;
 
-    public AddUserCommandHandler(IUserRepository userRepository, IUserEmailRepository userEmailRepository, IRepository<TenantAggregate> tenantRepository)
+    public AddUserCommandHandler(IUserRepository userRepository, IUserProjectionRepository userEmailRepository, IRepository<TenantAggregate> tenantRepository)
     {
         _userRepository = userRepository;
         _userEmailRepository = userEmailRepository;

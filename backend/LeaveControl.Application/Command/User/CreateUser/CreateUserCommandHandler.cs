@@ -2,6 +2,7 @@ using LeaveControl.Application.Services;
 using LeaveControl.Domain;
 using LeaveControl.Domain.Aggregates.User;
 using LeaveControl.Domain.Repositories;
+using LeaveControl.Domain.Repositories.User;
 using MediatR;
 
 namespace LeaveControl.Application.Command.User.CreateUser;
@@ -10,9 +11,9 @@ public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, Creat
 {
     private readonly IUserRepository _userRepository;
     private readonly IJwtService _jwtService;
-    private readonly IUserEmailRepository _userEmailRepository;
+    private readonly IUserProjectionRepository _userEmailRepository;
 
-    public CreateUserCommandHandler(IUserRepository userRepository, IJwtService jwtService, IUserEmailRepository userEmailRepository)
+    public CreateUserCommandHandler(IUserRepository userRepository, IJwtService jwtService, IUserProjectionRepository userEmailRepository)
     {
         _userRepository = userRepository;
         _jwtService = jwtService;

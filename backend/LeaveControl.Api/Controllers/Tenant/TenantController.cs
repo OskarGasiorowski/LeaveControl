@@ -2,6 +2,7 @@ using LeaveControl.Api.ActionFilters;
 using LeaveControl.Api.Controllers.Tenant.Requests;
 using LeaveControl.Application.Command.Tenant.AddUser;
 using LeaveControl.Application.Command.Tenant.CreateTenant;
+using LeaveControl.Infrastructure.Query.User;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -37,9 +38,9 @@ public class TenantController : ControllerBase
         return Ok(result.Token.ToString());
     }
 
-    [HttpPost]
     [InjectTenantId]
     [Authorize(Roles = "Admin")]
+    [HttpPost("current/users")]
     public async Task<IActionResult> Post([FromBody] AddUserRequest body, Guid tenantId)
     {
         var response = await _mediator.Send(new AddUserCommand
@@ -50,6 +51,15 @@ public class TenantController : ControllerBase
             FirstName = body.FirstName,
         });
 
+        return new JsonResult(response);
+    }
+    
+    // TODO think if this is right place and if only admin should have access to it
+    [Authorize(Roles = "Admin")]
+    [HttpGet("current/users")]
+    public async Task<IActionResult> Get()
+    {
+        var response = await _mediator.Send(new UsersQuery());
         return new JsonResult(response);
     }
 }

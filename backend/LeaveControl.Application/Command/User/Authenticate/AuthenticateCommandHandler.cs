@@ -1,6 +1,7 @@
 using LeaveControl.Application.Services;
 using LeaveControl.Domain;
 using LeaveControl.Domain.Repositories;
+using LeaveControl.Domain.Repositories.User;
 using MediatR;
 
 namespace LeaveControl.Application.Command.User.Authenticate;
@@ -8,10 +9,10 @@ namespace LeaveControl.Application.Command.User.Authenticate;
 public class AuthenticateCommandHandler : IRequestHandler<AuthenticateCommand, AuthenticateCommand.Response>
 {
     private readonly IUserRepository _userRepository;
-    private readonly IUserEmailRepository _userEmailRepository;
+    private readonly IUserProjectionRepository _userEmailRepository;
     private readonly IJwtService _jwtService;
 
-    public AuthenticateCommandHandler(IUserRepository userRepository, IUserEmailRepository userEmailRepository, IJwtService jwtService)
+    public AuthenticateCommandHandler(IUserRepository userRepository, IUserProjectionRepository userEmailRepository, IJwtService jwtService)
     {
         _userRepository = userRepository;
         _userEmailRepository = userEmailRepository;

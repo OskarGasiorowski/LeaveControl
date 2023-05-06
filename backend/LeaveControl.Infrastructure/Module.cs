@@ -1,5 +1,6 @@
 using LeaveControl.Domain.Aggregates.User;
 using LeaveControl.Domain.Repositories;
+using LeaveControl.Domain.Repositories.User;
 using LeaveControl.Infrastructure.Projections;
 using LeaveControl.Infrastructure.Repositories;
 using Marten;
@@ -37,7 +38,7 @@ public static class Module
                 options.Schema.For<UserAggregate>().SingleTenanted();
                 options.Events.EnableGlobalProjectionsForConjoinedTenancy = true;
                 
-                options.Projections.Add<UsersEmailProjectionSetup>(ProjectionLifecycle.Inline);
+                options.Projections.Add<UsersProjectionSetup>(ProjectionLifecycle.Inline);
                 options.Projections.Add<LeaveProjectionSetup>(ProjectionLifecycle.Inline);
             })
             .UseLightweightSessions()
@@ -45,7 +46,7 @@ public static class Module
             .ApplyAllDatabaseChangesOnStartup();
 
         services.AddScoped(typeof(IRepository<>), typeof(Repository<>))
-            .AddScoped<IUserEmailRepository, UserEmailRepository>()
+            .AddScoped<IUserProjectionRepository, UserProjectionRepository>()
             .AddScoped<IUserRepository, UserRepository>();
 
         return services;
