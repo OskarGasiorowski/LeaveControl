@@ -35,7 +35,7 @@ public readonly struct HashedPassword
         return new(Convert.ToBase64String(saltAndHash));
     }
     
-    public bool Varify(Password password)
+    public bool Verify(Password password)
     {
         var saltAndHash = Convert.FromBase64String(_password);
         

@@ -20,4 +20,14 @@ public class UserEmailRepository : IUserEmailRepository
             Query<UsersEmailProjection>()
             .AnyAsync(projection => projection.Email == email);
     }
+    
+    public async Task<UserId?> GetId(Email email)
+    {
+        var result =  await _documentSession.
+            Query<UsersEmailProjection>()
+            .Where(projection => projection.Email == email)
+            .SingleOrDefaultAsync();
+
+        return result?.Id ?? null;
+    }
 }
