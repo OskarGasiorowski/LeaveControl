@@ -8,6 +8,7 @@ public class UserCalendarAggregate : AggregateRoot<Guid>
 {
     public IList<LeaveRequest> LeaveRequests { get; private set; } = new List<LeaveRequest>();
     public IList<LeaveRequest> PendingLeaveRequests { get; private set; } = new List<LeaveRequest>();
+    public IList<LeaveRequest> DeclinedLeaveRequests { get; private set; } = new List<LeaveRequest>();
     
     public CalendarSettings Settings { get; private set; }
     
@@ -24,6 +25,8 @@ public class UserCalendarAggregate : AggregateRoot<Guid>
         Enqueue(@event);
         Apply(@event);
     }
+    
+    public static UserCalendarAggregate New(UserId id, CalendarSettings settings) => new(id, settings);
 
     private void Apply(UserCalendarCreatedEvent @event)
     {
@@ -33,7 +36,7 @@ public class UserCalendarAggregate : AggregateRoot<Guid>
 
     public void RequestLeave(LeaveRequest leaveRequest)
     {
-        leaveRequest.Id = Guid.NewGuid();
+        leaveRequest.Id = LeaveId.Generate();
         var leaveDays = LeaveRequests.SelectMany(r => r.LeaveDays).ToArray();
         
         if (leaveDays.Overlaps(leaveRequest.LeaveDays))
@@ -68,6 +71,61 @@ public class UserCalendarAggregate : AggregateRoot<Guid>
             LeaveDays = @event.LeaveDays,
         });
     }
+
+    public void ApproveLeaveRequest(LeaveId id)
+    {
+        var leaveRequest = PendingLeaveRequests.SingleOrDefault(pending => pending.Id == id);
+        if (leaveRequest == null)
+        {
+            throw AppException.LeaveRequestNotFounded();
+        }
+        
+        var @event = new LeaveApprovedEvent
+        {
+            LeaveId = id,
+        };
+        
+        Enqueue(@event);
+        Apply(@event);
+    }
+
+    private void Apply(LeaveApprovedEvent @event)
+    {
+        var leaveRequest = PendingLeaveRequests
+            .SingleOrDefault(pending => pending.Id == @event.LeaveId);
+        
+        LeaveRequests.Add(leaveRequest);
+        
+        PendingLeaveRequests = PendingLeaveRequests
+            .Where(pending => pending.Id != @event.LeaveId).ToList();
+    }
     
-    public static UserCalendarAggregate New(UserId id, CalendarSettings settings) => new(id, settings);
+    public void DeclineLeaveRequest(LeaveId id, Reason reason)
+    {
+        var leaveRequest = PendingLeaveRequests.SingleOrDefault(pending => pending.Id == id);
+        if (leaveRequest == null)
+        {
+            throw AppException.LeaveRequestNotFounded();
+        }
+
+        var @event = new LeaveDeclinedEvent
+        {
+            LeaveId = id,
+            DeclineReason = reason,
+        };
+        
+        Enqueue(@event);
+        Apply(@event);
+    }
+
+    private void Apply(LeaveDeclinedEvent @event)
+    {
+        var leaveRequest = PendingLeaveRequests
+            .SingleOrDefault(pending => pending.Id == @event.LeaveId);
+        
+        DeclinedLeaveRequests.Add(leaveRequest);
+        
+        PendingLeaveRequests = PendingLeaveRequests
+            .Where(pending => pending.Id != @event.LeaveId).ToList();
+    }
 }

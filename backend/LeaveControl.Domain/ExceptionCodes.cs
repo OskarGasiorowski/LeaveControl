@@ -37,4 +37,12 @@ public class AppException : Exception
     public static AppException LeaveDaysExceeded(Allowance allowance)
         => new AppException(3, "LeaveDaysExceeded", AppExceptionType.User,
             $"Leave days exceeded. Your allowance is {allowance} days.");
+    
+    public static AppException LeaveRequestNotFounded()
+        => new AppException(4, "LeaveDaysExceeded", AppExceptionType.User,
+            $"Leave request with given id doesn't exists");
+    
+    public static AppException UserCalendarNotFounded()
+        => new AppException(5, "UserCalendarNotFounded", AppExceptionType.User,
+            $"User Calendar with given id doesn't exists");
 }

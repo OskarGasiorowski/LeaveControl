@@ -38,7 +38,7 @@ public static class Module
                 options.Events.EnableGlobalProjectionsForConjoinedTenancy = true;
                 
                 options.Projections.Add<UsersEmailProjectionSetup>(ProjectionLifecycle.Inline);
-                options.Projections.Add<PendingLeaveProjectionSetup>(ProjectionLifecycle.Inline);
+                options.Projections.Add<LeaveProjectionSetup>(ProjectionLifecycle.Inline);
             })
             .UseLightweightSessions()
             .BuildSessionsWith<CustomSessionFactory>()

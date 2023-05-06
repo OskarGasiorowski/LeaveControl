@@ -5,15 +5,16 @@ using Marten.Schema;
 
 namespace LeaveControl.Infrastructure.Projections;
 
-public class PendingLeaveProjection
+public class LeaveProjection
 {
     [Identity]
     public Guid Id { get; set; }
-    public IList<LeaveRequest> Leave { get; set; } = new List<LeaveRequest>();
+    public IList<LeaveRequest> PendingLeaves { get; set; } = new List<LeaveRequest>();
+    public IList<LeaveRequest> Leaves { get; set; } = new List<LeaveRequest>();
 
     public void Apply(LeaveRequestedEvent @event)
     {
-        Leave.Add(new LeaveRequest
+        PendingLeaves.Add(new LeaveRequest
         {
             Id = @event.LeaveId,
             LeaveDays = @event.LeaveDays,
@@ -22,9 +23,9 @@ public class PendingLeaveProjection
     }
 }
 
-public class PendingLeaveProjectionSetup : SingleStreamProjection<PendingLeaveProjection>
+public class LeaveProjectionSetup : SingleStreamProjection<LeaveProjection>
 {
-    public PendingLeaveProjectionSetup()
+    public LeaveProjectionSetup()
     {
         ProjectEvent<LeaveRequestedEvent>((item, @event) => item.Apply(@event));
     }

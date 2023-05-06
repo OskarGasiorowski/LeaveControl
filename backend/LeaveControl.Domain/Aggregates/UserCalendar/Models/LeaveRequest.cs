@@ -4,7 +4,7 @@ namespace LeaveControl.Domain.Aggregates.UserCalendar.Models;
 
 public sealed record LeaveRequest
 {
-    public Guid Id { get; set; }
+    public LeaveId Id { get; set; }
     public HashSet<LeaveDay> LeaveDays { get; set; } = new();
     public Reason Reason { get; set; }
 
@@ -16,6 +16,6 @@ public sealed record LeaveRequest
     
     public override int GetHashCode()
     {
-        return HashCode.Combine(LeaveDays, Reason);
+        return HashCode.Combine(Id, LeaveDays, Reason);
     }
 }

@@ -59,9 +59,7 @@ public class PatchLeaveRequestValidator : AbstractValidator<PostLeaveRequest>
             });
 
         RuleFor(request => request.Reason)
-            .NotNull()
-            .WithMessage("Reason cannot be null.")
-            .NotEmpty()
-            .WithMessage("Reason cannot be empty.");
+            .MaximumLength(1000)
+            .WithMessage("The reason must be no more than 1000 characters long.");
     }
 }

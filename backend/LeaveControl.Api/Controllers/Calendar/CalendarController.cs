@@ -1,7 +1,9 @@
 using LeaveControl.Api.ActionFilters;
 using LeaveControl.Api.Controllers.Calendar.Requests;
+using LeaveControl.Application.Command.Calendar.AcceptLeave;
 using LeaveControl.Application.Command.Calendar.AddLeave;
-using LeaveControl.Domain.Types;
+using LeaveControl.Application.Command.Calendar.DeclineLeave;
+using LeaveControl.Infrastructure.Query.Calendar;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -30,5 +32,35 @@ public class CalendarController : ControllerBase
             UserId = userId,
             LeaveDays = body.Entry.Select(LeaveDayMapper.Map).ToArray(),
         });
+    }
+    
+    [Authorize(Roles = "Admin")]
+    [HttpPost("{userId}/leave/{leaveId}/approve")]
+    public Task Approve(Guid leaveId, Guid userId)
+    {
+        return _mediator.Send(new ApproveLeaveCommand
+        {
+            LeaveId = leaveId,
+            UserCalendarId = userId,
+        });
+    }
+    
+    [Authorize(Roles = "Admin")]
+    [HttpPost("{userId}/leave/{leaveId}/decline")]
+    public Task Decline([FromBody] DeclineLeaveRequest body, Guid leaveId, Guid userId)
+    {
+        return _mediator.Send(new DeclineLeaveCommand
+        {
+            LeaveId = leaveId,
+            UserCalendarId = userId,
+            DeclineReason = body.Reason,
+        });
+    }
+
+    [Authorize(Roles = "Admin,User")]
+    public async Task<IActionResult> Get()
+    {
+        var result = await _mediator.Send(new CalendarQuery());
+        return new JsonResult(result);
     }
 }
