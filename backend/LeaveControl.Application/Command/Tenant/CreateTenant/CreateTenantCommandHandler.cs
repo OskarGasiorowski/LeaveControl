@@ -40,6 +40,7 @@ public class CreateTenantCommandHandler : IRequestHandler<CreateTenantCommand, C
         
         var user = await _userRepository.Get(request.UserId);
         user!.MakeAdmin();
+        user.Update(request.AdminFirstName, request.AdminSurname);
         await _userRepository.Update(user);
 
         var calendar = UserCalendarAggregate.New(
