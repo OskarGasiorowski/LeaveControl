@@ -96,4 +96,29 @@ public class UserAggregate : AggregateRoot<Guid>
         FirstName = @event.FirstName;
         Surname = @event.Surname;
     }
+
+    // TODO security risk! Old passwords shouldn't be stored anymore in events stream! Encrypt password, store keys and drop it when password changed!
+    public void ChangePassword(HashedPassword password)
+    {
+        var @event = new UserPasswordChangedEvent { Password = password };
+        Enqueue(@event);
+        Apply(@event);
+    }
+
+    private void Apply(UserPasswordChangedEvent @event)
+    {
+        Password = @event.Password;
+    }
+
+    public void MakeStandard()
+    {
+        var @event = new UserChangedToStandardEvent();
+        Enqueue(@event);
+        Apply(@event);
+    }
+
+    private void Apply(UserChangedToStandardEvent @event)
+    {
+        Role = Role.User();
+    }
 }

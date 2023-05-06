@@ -1,5 +1,6 @@
 namespace LeaveControl.Domain.Types;
 
+// TODO JWT already have "token" in acronym, think about better nmae
 public readonly struct JwtToken
 {
     private readonly string _token;
