@@ -60,6 +60,18 @@ public class UserCalendarAggregate : AggregateRoot<Guid>
 
         Enqueue(@event);
         Apply(@event);
+
+        if (Settings.AcceptanceRequired) 
+            return;
+        
+        var autoApprovedEvent = new LeaveAutoApprovedEvent { LeaveId = leaveRequest.Id };
+        Enqueue(autoApprovedEvent);
+        Apply(autoApprovedEvent);
+    }
+    
+    private void Apply(LeaveAutoApprovedEvent @event)
+    {
+        ApproveLeave(@event.LeaveId);
     }
 
     private void Apply(LeaveRequestedEvent @event)
@@ -91,13 +103,7 @@ public class UserCalendarAggregate : AggregateRoot<Guid>
 
     private void Apply(LeaveApprovedEvent @event)
     {
-        var leaveRequest = PendingLeaveRequests
-            .SingleOrDefault(pending => pending.Id == @event.LeaveId);
-        
-        LeaveRequests.Add(leaveRequest);
-        
-        PendingLeaveRequests = PendingLeaveRequests
-            .Where(pending => pending.Id != @event.LeaveId).ToList();
+        ApproveLeave(@event.LeaveId);
     }
     
     public void DeclineLeaveRequest(LeaveId id, Reason reason)
@@ -127,5 +133,16 @@ public class UserCalendarAggregate : AggregateRoot<Guid>
         
         PendingLeaveRequests = PendingLeaveRequests
             .Where(pending => pending.Id != @event.LeaveId).ToList();
+    }
+
+    private void ApproveLeave(LeaveId id)
+    {
+        var leaveRequest = PendingLeaveRequests
+            .SingleOrDefault(pending => pending.Id == id);
+        
+        LeaveRequests.Add(leaveRequest);
+        
+        PendingLeaveRequests = PendingLeaveRequests
+            .Where(pending => pending.Id != id).ToList();
     }
 }
