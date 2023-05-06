@@ -1,5 +1,6 @@
 using LeaveControl.Api.ActionFilters;
 using LeaveControl.Api.Controllers.Tenant.Requests;
+using LeaveControl.Application.Command.Tenant.AddUser;
 using LeaveControl.Application.Command.Tenant.CreateTenant;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -19,8 +20,8 @@ public class TenantController : ControllerBase
     }
 
     [HttpPost]
-    [Authorize(Roles = "IncompleteAdmin")]
     [InjectUserId]
+    [Authorize(Roles = "IncompleteAdmin")]
     public async Task<IActionResult> Post([FromBody] CreateTenantRequest body, Guid userId)
     {
         var result = await _mediator.Send(new CreateTenantCommand
@@ -34,5 +35,21 @@ public class TenantController : ControllerBase
         });
 
         return Ok(result.Token.ToString());
+    }
+
+    [HttpPost]
+    [InjectTenantId]
+    [Authorize(Roles = "Admin")]
+    public async Task<IActionResult> Post([FromBody] AddUserRequest body, Guid tenantId)
+    {
+        var response = await _mediator.Send(new AddUserCommand
+        {
+            TenantId = tenantId,
+            Email = body.Email,
+            Surname = body.Surname,
+            FirstName = body.FirstName,
+        });
+
+        return new JsonResult(response);
     }
 }

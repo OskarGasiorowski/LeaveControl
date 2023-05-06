@@ -7,5 +7,4 @@ public record TenantCreatedEvent
 {
     public TenantId TenantId { get; init; }
     public TenantSettings Settings { get; init; }
-    public UserId AdminId { get; init; }
 }

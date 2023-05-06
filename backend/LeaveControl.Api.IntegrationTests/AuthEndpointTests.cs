@@ -58,7 +58,7 @@ public class AuthEndpointTests : IClassFixture<ApiTestFixture>
         
         Assert.NotNull(payload);
         Assert.Equal(HttpStatusCode.Conflict, response.StatusCode);
-        var exception = AppException.UserWithGivenEmailExistsException();
+        var exception = AppException.UserWithGivenEmailExists();
         Assert.Equal(exception.Message, payload.Message);
         Assert.Equal(exception.CodeNumber, payload.CodeNumber);
         Assert.Equal(exception.Code, payload.Code);

@@ -22,6 +22,8 @@ public readonly struct Password
     public static implicit operator Password(string password) => new(password);
     public static implicit operator string(Password password) => password.ToString();
 
+    public static Password Random() => new(Guid.NewGuid().ToString());
+
     public HashedPassword GenerateHash()
     {
         return HashedPassword.Create(this);

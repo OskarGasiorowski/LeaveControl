@@ -26,8 +26,8 @@ public class AppException : Exception
         => new AppException(0, "InternalServerError", AppExceptionType.Fatal,
             "An unexpected error occurred. Please try again later or contact our support team.");
 
-    public static AppException UserWithGivenEmailExistsException()
-        => new AppException(1, "UserWithGivenEmailExistsException", AppExceptionType.Conflict,
+    public static AppException UserWithGivenEmailExists()
+        => new AppException(1, "UserWithGivenEmailExists", AppExceptionType.Conflict,
             "User with given email already exists.");
     
     public static AppException LeaveDaysOverlaps()

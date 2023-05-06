@@ -17,11 +17,12 @@ public class TenantAggregate : AggregateRoot<Guid>
         {
             TenantId = tenantId,
             Settings = settings,
-            AdminId = adminId,
         };
+        var userAddedEvent = new UserAddedEvent { UserId = adminId };
         
         Apply(@event);
-        Enqueue(@event);
+        Apply(userAddedEvent);
+        Enqueue(@event, userAddedEvent);
     }
     
     public static TenantAggregate Create(TenantSettings settings, UserId adminId) 
@@ -31,6 +32,17 @@ public class TenantAggregate : AggregateRoot<Guid>
     {
         Id = @event.TenantId;
         Settings = @event.Settings;
-        Users.Add(@event.AdminId);
+    }
+
+    public void AddUser(UserId userId)
+    {
+        var @event = new UserAddedEvent { UserId = userId };
+        Enqueue(@event);
+        Apply(@event);
+    }
+
+    private void Apply(UserAddedEvent @event)
+    {
+        Users.Add(@event.UserId);
     }
 }

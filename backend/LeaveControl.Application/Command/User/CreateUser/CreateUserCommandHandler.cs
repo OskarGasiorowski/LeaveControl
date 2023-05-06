@@ -24,7 +24,7 @@ public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, Creat
         var emailExists = await _userEmailRepository.Contains(request.Email);
         if (emailExists)
         {
-            throw AppException.UserWithGivenEmailExistsException();
+            throw AppException.UserWithGivenEmailExists();
         }
         
         var user = UserAggregate.CreateAdmin(new()

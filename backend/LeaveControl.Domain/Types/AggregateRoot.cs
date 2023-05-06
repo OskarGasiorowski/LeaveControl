@@ -29,4 +29,12 @@ public abstract class AggregateRoot<T>
     {
         _uncommittedEvents.Enqueue(@event);
     }
+    
+    protected void Enqueue(params object[] events)
+    {
+        foreach (var @event in events)
+        {
+            _uncommittedEvents.Enqueue(@event);
+        }
+    }
 }
