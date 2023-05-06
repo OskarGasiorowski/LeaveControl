@@ -127,7 +127,7 @@ public class UserCalendarAggregate : AggregateRoot<Guid>
     private void Apply(LeaveDeclinedEvent @event)
     {
         var leaveRequest = PendingLeaveRequests
-            .SingleOrDefault(pending => pending.Id == @event.LeaveId);
+            .Single(pending => pending.Id == @event.LeaveId);
         
         DeclinedLeaveRequests.Add(leaveRequest);
         
