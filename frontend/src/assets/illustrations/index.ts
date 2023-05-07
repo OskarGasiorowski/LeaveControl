@@ -1,0 +1,1 @@
+export { default as BackgroundIllustration } from './background.png';
