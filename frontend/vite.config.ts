@@ -8,7 +8,11 @@ export default defineConfig({
       react(),
     ],
     resolve: {
-        alias: [{ find: '#illustrations', replacement: path.resolve(__dirname, './src/assets/illustrations') }],
+        alias: [
+            { find: '#illustrations', replacement: path.resolve(__dirname, './src/assets/illustrations') },
+            { find: '#api', replacement: path.resolve(__dirname, './src/api') },
+            { find: '#hooks', replacement: path.resolve(__dirname, './src/hooks') }
+        ],
     },
     server: {
         watch: {

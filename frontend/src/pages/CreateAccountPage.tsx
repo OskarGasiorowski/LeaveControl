@@ -7,12 +7,23 @@ import {
     FormControl,
     FormLabel,
     Input,
-    InputGroup, Button, useBreakpointValue
+    InputGroup,
+    Button,
+    useBreakpointValue
 } from '@chakra-ui/react'
 import { BackgroundIllustration } from '#illustrations';
+import { useCreateAccount } from "#hooks";
 
 export function CreateAccountPage() {
+    const { createAccount } = useCreateAccount();
     const breakpoint = useBreakpointValue({ base: false, lg: true });
+
+    function handleOnClick() {
+        createAccount({
+            adminEmail: "jan2@example.com",
+            adminPassword: "superstrongpassword",
+        });
+    }
 
     return (
         <Flex height="100vh" backgroundColor="#141416">
@@ -58,7 +69,7 @@ export function CreateAccountPage() {
                             </FormControl>
                         </Stack>
 
-                        <Button colorScheme="blue" size="lg" rounded="3xl" width="full">Create account</Button>
+                        <Button colorScheme="blue" size="lg" rounded="3xl" width="full" onClick={handleOnClick}>Create account</Button>
                     </Stack>
 
                 </Flex>

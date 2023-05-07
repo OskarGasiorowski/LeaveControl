@@ -21,7 +21,9 @@
     "noFallthroughCasesInSwitch": true,
     "baseUrl": "./src",
     "paths": {
-      "#illustations": ["assets/illustrations"]
+      "#illustations": ["assets/illustrations"],
+      "#api": ["api"],
+      "#hooks": ["hooks"],
     }
   },
   "include": ["src"],
