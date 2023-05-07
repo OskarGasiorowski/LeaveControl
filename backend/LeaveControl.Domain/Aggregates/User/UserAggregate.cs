@@ -37,8 +37,8 @@ public class UserAggregate : AggregateRoot<Guid>
         return new UserAggregate(
             createUser.Email,
             createUser.Password,
-            "",
-            "",
+            "Empty", //TODO think how to do it better without doing it nullable and keeping FirstName/Surname struct still with proper validation
+            "Empty",
             Role.IncompleteAdmin(),
             TenantId.Generate()
         );

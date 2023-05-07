@@ -57,6 +57,7 @@ public class CalendarController : ControllerBase
         });
     }
 
+    [HttpGet]
     [Authorize(Roles = "Admin,User")]
     public async Task<IActionResult> Get()
     {

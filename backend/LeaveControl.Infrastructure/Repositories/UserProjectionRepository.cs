@@ -21,14 +21,14 @@ public class UserProjectionRepository : IUserProjectionRepository
     {
         return _documentSession.
             Query<UsersProjection>()
-            .AnyAsync(projection => projection.Email == email);
+            .AnyAsync(projection => projection.Email == email.ToString());
     }
     
     public async Task<UserId?> GetId(Email email)
     {
         var result =  await _documentSession.
             Query<UsersProjection>()
-            .Where(projection => projection.Email == email)
+            .Where(projection => projection.Email == email.ToString())
             .SingleOrDefaultAsync();
 
         return result?.Id ?? null;
