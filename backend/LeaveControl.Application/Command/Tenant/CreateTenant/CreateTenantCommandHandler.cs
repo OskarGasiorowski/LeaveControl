@@ -17,7 +17,11 @@ public class CreateTenantCommandHandler : IRequestHandler<CreateTenantCommand, C
     private readonly IRepository<UserCalendarAggregate> _userCalendarRepository;
     private readonly IJwtService _jwtService;
 
-    public CreateTenantCommandHandler(IUserRepository userRepository, IRepository<TenantAggregate> tenantRepository, IJwtService jwtService, IRepository<UserCalendarAggregate> userCalendarRepository)
+    public CreateTenantCommandHandler(
+        IUserRepository userRepository,
+        IRepository<TenantAggregate> tenantRepository,
+        IJwtService jwtService,
+        IRepository<UserCalendarAggregate> userCalendarRepository)
     {
         _userRepository = userRepository;
         _tenantRepository = tenantRepository;
