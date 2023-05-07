@@ -4,8 +4,7 @@ import {useApi} from "#api";
 export function useCreateAccount() {
     const { createAccount } = useApi();
 
-    const { mutate, data } = useMutation('create-account', createAccount);
-    console.log(data);
+    const { mutate } = useMutation('create-account', createAccount);
 
     return {
         createAccount: mutate,

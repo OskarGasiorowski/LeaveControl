@@ -9,19 +9,38 @@ import {
     Input,
     InputGroup,
     Button,
-    useBreakpointValue
+    useBreakpointValue, FormErrorMessage
 } from '@chakra-ui/react'
 import { BackgroundIllustration } from '#illustrations';
 import { useCreateAccount } from "#hooks";
+import * as Yup from 'yup';
+import {useForm} from "react-hook-form";
+import {yupResolver} from "@hookform/resolvers/yup";
+
+type Form = {
+    adminEmail: string;
+    adminPassword: string;
+}
+
+const formSchema = Yup.object<Form>().shape({
+    adminEmail: Yup.string()
+        .required('Email is required.')
+        .email('Email must be a valid email address.'),
+    adminPassword: Yup.string()
+        .required('Password is required.')
+        .min(8, 'Password must be at least 8 characters long.'),
+});
+
 
 export function CreateAccountPage() {
     const { createAccount } = useCreateAccount();
     const breakpoint = useBreakpointValue({ base: false, lg: true });
 
-    function handleOnClick() {
+    const { register, handleSubmit, formState: { errors } } = useForm<Form>({ resolver: yupResolver(formSchema), reValidateMode: "onBlur", mode: "onBlur" });
+
+    function handleOnClick(form: Form) {
         createAccount({
-            adminEmail: "jan2@example.com",
-            adminPassword: "superstrongpassword",
+            ...form,
         });
     }
 
@@ -49,27 +68,26 @@ export function CreateAccountPage() {
                 <Flex gap={10} height="full" justifyContent="center" alignContent="center" flexDirection="column" width="full" color="#B1B5C3">
                     <Heading color="#FCFCFD" textAlign="center">Create new account</Heading>
 
-                    <Stack spacing={8} maxWidth={380} width="full" alignSelf="center">
+                    <Stack as="form" spacing={8} maxWidth={380} width="full" alignSelf="center" onSubmit={handleSubmit(handleOnClick)}>
                         <Stack spacing="5">
-                            <FormControl>
-                                <FormLabel htmlFor="email">Email</FormLabel>
-                                <Input color="" id="email" type="email" />
+                            <FormControl isInvalid={!!errors.adminEmail}>
+                                <FormLabel htmlFor="adminEmail">Email</FormLabel>
+                                <Input {...register('adminEmail')} id="adminEmail" formNoValidate={true} />
+                                <FormErrorMessage>{errors.adminEmail?.message}</FormErrorMessage>
                             </FormControl>
 
-                            <FormControl>
-                                <FormLabel htmlFor="password">Password</FormLabel>
-                                <InputGroup>
-                                    <Input
-                                        id="password"
-                                        name="password"
-                                        autoComplete="current-password"
-                                        required
-                                    />
-                                </InputGroup>
+                            <FormControl isInvalid={!!errors.adminPassword}>
+                                <FormLabel htmlFor="adminPassword">Password</FormLabel>
+                                <Input
+                                    {...register('adminPassword')}
+                                    id="adminPassword"
+                                    autoComplete="current-password"
+                                />
+                                <FormErrorMessage>{errors.adminPassword?.message}</FormErrorMessage>
                             </FormControl>
                         </Stack>
 
-                        <Button colorScheme="blue" size="lg" rounded="3xl" width="full" onClick={handleOnClick}>Create account</Button>
+                        <Button colorScheme="blue" size="lg" rounded="3xl" width="full" type="submit">Create account</Button>
                     </Stack>
 
                 </Flex>
