@@ -8,18 +8,19 @@ import {
     FormLabel,
     Input,
     Button,
-    useBreakpointValue, FormErrorMessage
-} from '@chakra-ui/react'
+    useBreakpointValue,
+    FormErrorMessage,
+} from '@chakra-ui/react';
 import { BackgroundIllustration } from '#illustrations';
-import { useCreateAccount } from "#hooks";
+import { useCreateAccount } from '#hooks';
 import * as Yup from 'yup';
-import {useForm} from "react-hook-form";
-import {yupResolver} from "@hookform/resolvers/yup";
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
 
 type Form = {
     adminEmail: string;
     adminPassword: string;
-}
+};
 
 const formSchema = Yup.object<Form>().shape({
     adminEmail: Yup.string()
@@ -30,12 +31,19 @@ const formSchema = Yup.object<Form>().shape({
         .min(8, 'Password must be at least 8 characters long.'),
 });
 
-
 export function CreateAccountPage() {
     const { createAccount } = useCreateAccount();
     const breakpoint = useBreakpointValue({ base: false, lg: true });
 
-    const { register, handleSubmit, formState: { errors } } = useForm<Form>({ resolver: yupResolver(formSchema), reValidateMode: "onBlur", mode: "onBlur" });
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+    } = useForm<Form>({
+        resolver: yupResolver(formSchema),
+        reValidateMode: 'onBlur',
+        mode: 'onBlur',
+    });
 
     function handleOnClick(form: Form) {
         createAccount({
@@ -57,21 +65,39 @@ export function CreateAccountPage() {
                     backgroundPosition="30% 40px"
                     backgroundRepeat="no-repeat"
                     paddingX={20}
-                    paddingY={20}
-                >
+                    paddingY={20}>
                     <Heading color="#FCFCFD">Leave Control</Heading>
                 </Box>
             )}
 
             <Container height="full">
-                <Flex gap={10} height="full" justifyContent="center" alignContent="center" flexDirection="column" width="full" color="#B1B5C3">
-                    <Heading color="#FCFCFD" textAlign="center">Create new account</Heading>
+                <Flex
+                    gap={10}
+                    height="full"
+                    justifyContent="center"
+                    alignContent="center"
+                    flexDirection="column"
+                    width="full"
+                    color="#B1B5C3">
+                    <Heading color="#FCFCFD" textAlign="center">
+                        Create new account
+                    </Heading>
 
-                    <Stack as="form" spacing={8} maxWidth={380} width="full" alignSelf="center" onSubmit={handleSubmit(handleOnClick)}>
+                    <Stack
+                        as="form"
+                        spacing={8}
+                        maxWidth={380}
+                        width="full"
+                        alignSelf="center"
+                        onSubmit={handleSubmit(handleOnClick)}>
                         <Stack spacing="5">
                             <FormControl isInvalid={!!errors.adminEmail}>
                                 <FormLabel htmlFor="adminEmail">Email</FormLabel>
-                                <Input {...register('adminEmail')} id="adminEmail" formNoValidate={true} />
+                                <Input
+                                    {...register('adminEmail')}
+                                    id="adminEmail"
+                                    formNoValidate={true}
+                                />
                                 <FormErrorMessage>{errors.adminEmail?.message}</FormErrorMessage>
                             </FormControl>
 
@@ -86,11 +112,17 @@ export function CreateAccountPage() {
                             </FormControl>
                         </Stack>
 
-                        <Button colorScheme="blue" size="lg" rounded="3xl" width="full" type="submit">Create account</Button>
+                        <Button
+                            colorScheme="blue"
+                            size="lg"
+                            rounded="3xl"
+                            width="full"
+                            type="submit">
+                            Create account
+                        </Button>
                     </Stack>
-
                 </Flex>
             </Container>
         </Flex>
-    )
+    );
 }
