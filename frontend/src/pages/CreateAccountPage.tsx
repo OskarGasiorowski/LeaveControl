@@ -107,6 +107,7 @@ export function CreateAccountPage() {
                                     {...register('adminPassword')}
                                     id="adminPassword"
                                     autoComplete="current-password"
+                                    type="password"
                                 />
                                 <FormErrorMessage>{errors.adminPassword?.message}</FormErrorMessage>
                             </FormControl>

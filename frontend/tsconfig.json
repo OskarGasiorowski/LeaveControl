@@ -22,8 +22,8 @@
     "baseUrl": "./src",
     "paths": {
       "#illustrations": ["assets/illustrations"],
-      "#api": ["api"],
       "#hooks": ["hooks"],
+      "#modules/*": ["modules/*"]
     }
   },
   "include": ["src"],
