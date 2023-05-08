@@ -7,7 +7,6 @@ import {
     FormControl,
     FormLabel,
     Input,
-    InputGroup,
     Button,
     useBreakpointValue, FormErrorMessage
 } from '@chakra-ui/react'
