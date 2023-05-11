@@ -1,1 +1,1 @@
-export { CreateAccountPage } from './CreateAccountPage';
+export { CreateAccountPage } from './create-account';
