@@ -49,7 +49,7 @@ export function CreateAccountPage() {
                 >
                     <Form form={form} />
 
-                    <Button colorScheme='blue' size='lg' rounded='3xl' width='full' type='submit'>
+                    <Button size='lg' type='submit'>
                         Create account
                     </Button>
                 </Stack>

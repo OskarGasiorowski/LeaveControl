@@ -3,13 +3,14 @@ import { CreateAccountPage } from './pages';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { AuthProvider, ProtectedRoute } from '#modules/auth';
 import { Route, Routes } from 'react-router';
+import { theme } from './theme';
 
 const queryClient = new QueryClient();
 
 export function App() {
     return (
-        <QueryClientProvider client={queryClient}>
-            <ChakraProvider>
+        <ChakraProvider theme={theme}>
+            <QueryClientProvider client={queryClient}>
                 <AuthProvider>
                     <Routes>
                         <Route path='/' element={<CreateAccountPage />} />
@@ -19,7 +20,7 @@ export function App() {
                         </Route>
                     </Routes>
                 </AuthProvider>
-            </ChakraProvider>
-        </QueryClientProvider>
+            </QueryClientProvider>
+        </ChakraProvider>
     );
 }
