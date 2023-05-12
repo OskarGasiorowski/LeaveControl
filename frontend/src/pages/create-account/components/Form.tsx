@@ -13,7 +13,7 @@ export function Form({
     },
 }: Props) {
     return (
-        <Stack spacing='5'>
+        <Stack spacing='8'>
             <FormControl isInvalid={!!errors.adminEmail}>
                 <FormLabel htmlFor='adminEmail'>Email</FormLabel>
                 <Input {...register('adminEmail')} id='adminEmail' />

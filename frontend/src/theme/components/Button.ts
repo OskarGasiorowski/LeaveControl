@@ -6,7 +6,7 @@ export const Button = defineStyleConfig({
         fontSize: '16px',
         rounded: '3xl',
         width: 'full',
-        // backgroundColor: 'primary',
+        paddingY: 4,
     },
     defaultProps: {
         colorScheme: 'primary',

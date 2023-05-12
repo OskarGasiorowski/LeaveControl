@@ -15,7 +15,6 @@ export function RightSideContent({ children }: Props) {
                 alignContent='center'
                 flexDirection='column'
                 width='full'
-                color='#B1B5C3'
             >
                 <Heading color='#FCFCFD' textAlign='center'>
                     Create new account
