@@ -19,7 +19,7 @@ export function NavLink({ label, href }: Props) {
             paddingX={5}
             paddingY={4}
             backgroundColor={isActive ? 'primary.500' : 'transparent'}
-            color={isActive ? 'white' : '#808191'}
+            color={isActive ? 'white' : 'grey.300'}
             borderRadius='xl'
             width='full'
         >
