@@ -21,6 +21,7 @@ export function NavLink({ label, href }: Props) {
             backgroundColor={isActive ? 'primary.500' : 'transparent'}
             color={isActive ? 'white' : '#808191'}
             borderRadius='xl'
+            width='full'
         >
             <TimeIcon />
             <LinkOverlay as={Link} to={href} marginInlineStart='0 !important'>
