@@ -5,5 +5,5 @@ export function ProtectedRoute() {
     const { isAuthenticated } = useAuth();
     const location = useLocation();
 
-    return isAuthenticated ? <Outlet /> : <Navigate to='/error' state={{ from: location }} />;
+    return isAuthenticated ? <Outlet /> : <Navigate to='/login' state={{ from: location }} />;
 }

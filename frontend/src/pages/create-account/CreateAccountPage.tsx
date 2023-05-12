@@ -3,7 +3,7 @@ import { useCreateAccount } from '#hooks';
 import * as Yup from 'yup';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useLocation, useNavigate } from 'react-router';
+import { useNavigate } from 'react-router';
 import { Layout, LeftSideBranding, Form, RightSideContent } from './components';
 import { Form as FormType } from './types';
 
@@ -18,9 +18,7 @@ const formSchema = Yup.object<FormType>().shape({
 
 export function CreateAccountPage() {
     const navigate = useNavigate();
-    const location = useLocation();
-    const { createAccount } = useCreateAccount(() => navigate(from, { replace: true }));
-    const from = location.state?.from?.pathname || '/test';
+    const { createAccount } = useCreateAccount(() => navigate('/dashboard', { replace: true }));
 
     const form = useForm<FormType>({
         resolver: yupResolver(formSchema),

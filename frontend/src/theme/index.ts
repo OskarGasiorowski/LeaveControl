@@ -14,6 +14,7 @@ export const theme = extendTheme({
             800: '#312E83',
             900: '#1F1E68',
         },
+        background: '#242731',
     },
     components: {
         ...Components,
