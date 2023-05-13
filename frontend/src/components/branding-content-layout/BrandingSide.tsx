@@ -1,7 +1,8 @@
 import { Box, Heading, useBreakpointValue } from '@chakra-ui/react';
 import { BackgroundIllustration } from '#illustrations';
 
-export function LeftSideBranding() {
+// TODO modify it to be more generic
+export function BrandingSide() {
     const breakpoint = useBreakpointValue({ base: false, lg: true });
 
     if (!breakpoint) {

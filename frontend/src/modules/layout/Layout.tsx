@@ -6,7 +6,7 @@ export function Layout() {
     return (
         <HStack minHeight='100vh' backgroundColor='background'>
             <Nav />
-            <Box minHeight='100vh' width='full'>
+            <Box minHeight='100vh' width='full' paddingY={12} paddingX={16}>
                 <Outlet />
             </Box>
         </HStack>

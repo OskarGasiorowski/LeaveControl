@@ -23,7 +23,8 @@
     "paths": {
       "#illustrations": ["assets/illustrations"],
       "#hooks": ["hooks"],
-      "#modules/*": ["modules/*"]
+      "#modules/*": ["modules/*"],
+      "#components": ["components"]
     }
   },
   "include": ["src"],

@@ -1,42 +1,35 @@
 import { Stack, Button } from '@chakra-ui/react';
 import { useCreateAccount } from '#hooks';
-import * as Yup from 'yup';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useNavigate } from 'react-router';
-import { Layout, LeftSideBranding, Form, RightSideContent } from './components';
-import { Form as FormType } from './types';
+import { LoginPassword } from '#modules/auth';
+import { BrandingContentLayout } from '#components';
 
-const formSchema = Yup.object<FormType>().shape({
-    adminEmail: Yup.string()
-        .required('Email is required.')
-        .email('Email must be a valid email address.'),
-    adminPassword: Yup.string()
-        .required('Password is required.')
-        .min(8, 'Password must be at least 8 characters long.'),
-});
+const formSchema = LoginPassword.Validator;
 
 export function CreateAccountPage() {
     const navigate = useNavigate();
     const { createAccount } = useCreateAccount(() => navigate('/dashboard', { replace: true }));
 
-    const form = useForm<FormType>({
+    const form = useForm<LoginPassword.Type>({
         resolver: yupResolver(formSchema),
         reValidateMode: 'onBlur',
         mode: 'onBlur',
     });
 
-    function handleOnClick(form: FormType) {
+    function handleOnClick(form: LoginPassword.Type) {
         createAccount({
-            ...form,
+            adminPassword: form.password,
+            adminEmail: form.email,
         });
     }
 
     return (
-        <Layout>
-            <LeftSideBranding />
+        <BrandingContentLayout>
+            <BrandingContentLayout.BrandingSide />
 
-            <RightSideContent>
+            <BrandingContentLayout.ContentSide>
                 <Stack
                     as='form'
                     spacing={8}
@@ -45,13 +38,13 @@ export function CreateAccountPage() {
                     alignSelf='center'
                     onSubmit={form.handleSubmit(handleOnClick)}
                 >
-                    <Form form={form} />
+                    <LoginPassword.Form form={form} />
 
                     <Button size='lg' type='submit'>
                         Create account
                     </Button>
                 </Stack>
-            </RightSideContent>
-        </Layout>
+            </BrandingContentLayout.ContentSide>
+        </BrandingContentLayout>
     );
 }

@@ -14,6 +14,7 @@ export default defineConfig({
             },
             // eslint-disable-next-line no-undef
             { find: '#hooks', replacement: path.resolve(__dirname, './src/hooks') },
+            { find: '#components', replacement: path.resolve(__dirname, './src/components') },
             { find: /^#modules\/(.*)$/, replacement: path.resolve(__dirname, './src/modules/$1') },
         ],
     },

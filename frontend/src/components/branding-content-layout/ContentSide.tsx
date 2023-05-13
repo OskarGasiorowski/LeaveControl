@@ -5,7 +5,7 @@ interface Props {
     children: ReactNode;
 }
 
-export function RightSideContent({ children }: Props) {
+export function ContentSide({ children }: Props) {
     return (
         <Container height='full'>
             <Flex
