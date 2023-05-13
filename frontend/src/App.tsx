@@ -1,5 +1,5 @@
 import { ChakraProvider } from '@chakra-ui/react';
-import { CreateAccountPage, DashboardPage } from './pages';
+import { CreateAccountPage, DashboardPage, LoginPage } from './pages';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { AuthProvider, ProtectedRoute } from '#modules/auth';
 import { Route, Routes } from 'react-router';
@@ -15,7 +15,7 @@ export function App() {
                 <AuthProvider>
                     <Routes>
                         <Route path='/create-account' element={<CreateAccountPage />} />
-                        <Route path='/login' element={<div>login</div>} />
+                        <Route path='/login' element={<LoginPage />} />
                         <Route element={<ProtectedRoute />}>
                             <Route element={<Layout />}>
                                 <Route path='/dashboard' element={<DashboardPage />} />
