@@ -1,17 +1,13 @@
 import { FormControl, FormErrorMessage, FormLabel, Input, Stack } from '@chakra-ui/react';
-import { UseFormReturn } from 'react-hook-form';
-import { Type } from './Type';
+import { useFormContext } from 'react-hook-form';
+import { Type as FormType } from './Type';
 
-interface Props {
-    form: UseFormReturn<Type>;
-}
-
-export function Form({
-    form: {
-        register,
+export function Form() {
+    const {
         formState: { errors },
-    },
-}: Props) {
+        register,
+    } = useFormContext<FormType>();
+
     return (
         <Stack spacing='8'>
             <FormControl isInvalid={!!errors.email}>

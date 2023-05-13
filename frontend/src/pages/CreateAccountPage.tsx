@@ -1,19 +1,19 @@
-import { Stack, Button } from '@chakra-ui/react';
+import { Stack, Button, Heading, Flex } from '@chakra-ui/react';
 import { useCreateAccount } from '#hooks';
-import { useForm } from 'react-hook-form';
+import { FormProvider, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useNavigate } from 'react-router';
 import { LoginPassword } from '#modules/auth';
 import { BrandingContentLayout } from '#components';
 
-const formSchema = LoginPassword.Validator;
-
 export function CreateAccountPage() {
     const navigate = useNavigate();
-    const { createAccount } = useCreateAccount(() => navigate('/dashboard', { replace: true }));
+    const { createAccount, isLoading } = useCreateAccount(() =>
+        navigate('/dashboard', { replace: true }),
+    );
 
-    const form = useForm<LoginPassword.Type>({
-        resolver: yupResolver(formSchema),
+    const methods = useForm<LoginPassword.Type>({
+        resolver: yupResolver(LoginPassword.Validator()),
         reValidateMode: 'onBlur',
         mode: 'onBlur',
     });
@@ -30,20 +30,34 @@ export function CreateAccountPage() {
             <BrandingContentLayout.BrandingSide />
 
             <BrandingContentLayout.ContentSide>
-                <Stack
-                    as='form'
-                    spacing={8}
-                    maxWidth={380}
+                <Flex
+                    gap={10}
+                    height='full'
+                    justifyContent='center'
+                    alignContent='center'
+                    flexDirection='column'
                     width='full'
-                    alignSelf='center'
-                    onSubmit={form.handleSubmit(handleOnClick)}
                 >
-                    <LoginPassword.Form form={form} />
+                    <Heading color='#FCFCFD' textAlign='center'>
+                        Create new account
+                    </Heading>
+                    <FormProvider {...methods}>
+                        <Stack
+                            as='form'
+                            spacing={8}
+                            maxWidth={380}
+                            width='full'
+                            alignSelf='center'
+                            onSubmit={methods.handleSubmit(handleOnClick)}
+                        >
+                            <LoginPassword.Form />
 
-                    <Button size='lg' type='submit'>
-                        Create account
-                    </Button>
-                </Stack>
+                            <Button size='lg' type='submit' isLoading={isLoading}>
+                                Create account
+                            </Button>
+                        </Stack>
+                    </FormProvider>
+                </Flex>
             </BrandingContentLayout.ContentSide>
         </BrandingContentLayout>
     );

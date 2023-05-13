@@ -1,4 +1,4 @@
-import { CreateAccountRequest, CreateAccountResponse } from './types';
+import { CreateAccountRequest, CreateAccountResponse, LoginRequest, LoginResponse } from './types';
 import ky from 'ky';
 
 export function createAccount(
@@ -10,4 +10,12 @@ export function createAccount(
             json: body,
         })
         .json<CreateAccountResponse>();
+}
+
+export function login(api: typeof ky, body: LoginRequest) {
+    return api
+        .post('auth', {
+            json: body,
+        })
+        .json<LoginResponse>();
 }
