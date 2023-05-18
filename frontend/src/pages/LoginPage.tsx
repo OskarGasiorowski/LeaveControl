@@ -36,7 +36,7 @@ export function LoginPage() {
                     <FormProvider {...methods}>
                         <Stack
                             as='form'
-                            spacing={8}
+                            spacing={7}
                             maxWidth={380}
                             width='full'
                             alignSelf='center'

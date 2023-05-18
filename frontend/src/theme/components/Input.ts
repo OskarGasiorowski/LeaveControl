@@ -25,7 +25,8 @@ export const Input = defineMultiStyleConfig({
     sizes: {
         md: {
             field: {
-                padding: '12px 16px',
+                paddingY: 2,
+                paddingX: 3,
                 fontSize: 'sm',
                 lineHeight: 'taller',
                 height: 'unset',

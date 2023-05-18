@@ -9,7 +9,7 @@ export function Form() {
     } = useFormContext<FormType>();
 
     return (
-        <Stack spacing='8'>
+        <Stack spacing={5}>
             <FormControl isInvalid={!!errors.email}>
                 <FormLabel htmlFor='email'>Email</FormLabel>
                 <Input {...register('email')} id='email' />
