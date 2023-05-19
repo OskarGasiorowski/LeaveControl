@@ -6,6 +6,8 @@ specifiers:
   '@chakra-ui/react': ^2.6.1
   '@emotion/react': ^11.11.0
   '@emotion/styled': ^11.11.0
+  '@fontsource/dm-sans': ^4.5.9
+  '@fontsource/poppins': ^4.5.10
   '@hookform/devtools': ^4.3.1
   '@hookform/resolvers': ^3.1.0
   '@tanstack/react-query': ^4.29.7
@@ -42,6 +44,8 @@ dependencies:
   '@chakra-ui/react': 2.6.1_gfbselmlixkynuwsizqm2w22ty
   '@emotion/react': 11.11.0_s3k22s5ab4eu26xuel7hiaraxy
   '@emotion/styled': 11.11.0_gwsnvbfty4jua3m4tf74x4grui
+  '@fontsource/dm-sans': 4.5.9
+  '@fontsource/poppins': 4.5.10
   '@hookform/resolvers': 3.1.0_react-hook-form@7.43.9
   '@tanstack/react-query': 4.29.7_biqbaboplfbrettd7655fr4n2y
   '@types/lodash': 4.14.194
@@ -1731,6 +1735,14 @@ packages:
     resolution: {integrity: sha512-ElyB54bJIhXQYVKjDSvCkPO1iU1tSAeVQJbllWJq1XQSmmA4dgFk8CbiBGpiOPxleE48vDogxCtmMYku4HSVLA==}
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
     dev: true
+
+  /@fontsource/dm-sans/4.5.9:
+    resolution: {integrity: sha512-qaFvSBJhoeley1A9myRUUuHbm9sz7ADyC2WodezBzdFSPs2VD/p5WPPwtpVE8b1SglQrOPAnxA7s3fH5zOtiMQ==}
+    dev: false
+
+  /@fontsource/poppins/4.5.10:
+    resolution: {integrity: sha512-oYZVHsnlwV3VWM1SE/m6SUxVh0QLk5+2wB+lBiXcI7N/0KVQWmV9YykaPqfJHBLvmdya+MAOnv+BQHeLU1vOOw==}
+    dev: false
 
   /@hookform/devtools/4.3.1_tqcjxml4rosq5qpg5cznikfcd4:
     resolution: {integrity: sha512-CrWxEoHQZaOXJZVQ8KBgOuAa8p2LI8M0DAN5GTRTmdCieRwFVjVDEmuTAVazWVRRkpEQSgSt3KYp7VmmqXdEnw==}
