@@ -1,5 +1,5 @@
 import { CreateAccountRequest, CreateAccountResponse, LoginRequest, LoginResponse } from './types';
-import ky from 'ky';
+import ky, { HTTPError } from 'ky';
 
 export function createAccount(
     api: typeof ky,
@@ -17,5 +17,9 @@ export function login(api: typeof ky, body: LoginRequest) {
         .post('auth', {
             json: body,
         })
-        .json<LoginResponse>();
+        .json<LoginResponse>()
+        .catch(async (httpError: HTTPError) => {
+            const error = await httpError.response.json();
+            throw error;
+        });
 }

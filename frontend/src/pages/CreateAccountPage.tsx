@@ -8,7 +8,7 @@ import { BrandingContentLayout } from '#components';
 
 export function CreateAccountPage() {
     const navigate = useNavigate();
-    const { createAccount, isLoading } = useCreateAccount(() =>
+    const { createAccount, isLoading, error } = useCreateAccount(() =>
         navigate('/dashboard', { replace: true }),
     );
 
@@ -50,7 +50,7 @@ export function CreateAccountPage() {
                             alignSelf='center'
                             onSubmit={methods.handleSubmit(handleOnClick)}
                         >
-                            <LoginPassword.Form />
+                            <LoginPassword.Form errorSummary={error?.message} />
 
                             <Button size='lg' type='submit' isLoading={isLoading}>
                                 Create account

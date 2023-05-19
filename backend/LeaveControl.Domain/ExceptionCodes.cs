@@ -40,13 +40,13 @@ public class AppException : Exception
     
     public static AppException LeaveRequestNotFounded()
         => new AppException(4, "LeaveDaysExceeded", AppExceptionType.User,
-            $"Leave request with given id doesn't exists.");
+            "Leave request with given id doesn't exists.");
     
     public static AppException UserCalendarNotFounded()
         => new AppException(5, "UserCalendarNotFounded", AppExceptionType.User,
-            $"User Calendar with given id doesn't exists.");
+            "User Calendar with given id doesn't exists.");
     
     public static AppException InvalidCredentials()
         => new AppException(6, "InvalidCredentials", AppExceptionType.User,
-            $"Invalid email or password.");
+            "Invalid email or password.");
 }

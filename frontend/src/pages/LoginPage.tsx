@@ -6,7 +6,7 @@ import { LoginPassword } from '#modules/auth';
 import { useLogin } from '#hooks';
 
 export function LoginPage() {
-    const { login, isLoading } = useLogin();
+    const { login, isLoading, error } = useLogin();
     const methods = useForm<LoginPassword.Type>({
         resolver: yupResolver(LoginPassword.Validator()),
         reValidateMode: 'onBlur',
@@ -42,7 +42,7 @@ export function LoginPage() {
                             alignSelf='center'
                             onSubmit={methods.handleSubmit(handleOnSubmit)}
                         >
-                            <LoginPassword.Form />
+                            <LoginPassword.Form errorSummary={error?.message} />
 
                             <Button size='lg' type='submit' isLoading={isLoading}>
                                 Login

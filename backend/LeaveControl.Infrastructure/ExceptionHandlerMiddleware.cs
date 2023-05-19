@@ -55,7 +55,7 @@ public class ExceptionHandlerMiddleware
             CodeNumber = appException.CodeNumber,
             Message = appException.Message,
             Type = appException.Type.ToString(),
-        });
+        }, new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase });
         return context.Response.WriteAsync(json);
     }
 }

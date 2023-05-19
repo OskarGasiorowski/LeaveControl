@@ -1,8 +1,12 @@
-import { FormControl, FormErrorMessage, FormLabel, Input, Stack } from '@chakra-ui/react';
+import { Alert, FormControl, FormErrorMessage, FormLabel, Input, Stack } from '@chakra-ui/react';
 import { useFormContext } from 'react-hook-form';
 import { Type as FormType } from './Type';
 
-export function Form() {
+interface Props {
+    errorSummary?: string;
+}
+
+export function Form({ errorSummary }: Props) {
     const {
         formState: { errors },
         register,
@@ -10,6 +14,7 @@ export function Form() {
 
     return (
         <Stack spacing={5}>
+            {errorSummary && <Alert>{errorSummary}</Alert>}
             <FormControl isInvalid={!!errors.email}>
                 <FormLabel htmlFor='email'>Email</FormLabel>
                 <Input {...register('email')} id='email' />

@@ -1,3 +1,5 @@
+import { ErrorType } from '../types';
+
 export interface CreateAccountRequest {
     adminEmail: string;
     adminPassword: string;
@@ -19,3 +21,17 @@ export interface LoginResponse {
     userId: string;
     tenantId: string;
 }
+
+export type InvalidCredentialsError = {
+    code: 'InvalidCredentials';
+    codeNumber: 6;
+    type: ErrorType.User;
+    message: string;
+};
+
+export type UserWithGivenEmailExistsError = {
+    code: 'UserWithGivenEmailExists';
+    codeNumber: 1;
+    type: ErrorType.Conflict;
+    message: string;
+};

@@ -1,10 +1,10 @@
 import { ChakraProvider } from '@chakra-ui/react';
 import { CreateAccountPage, DashboardPage, LoginPage } from './pages';
-import { QueryClient, QueryClientProvider } from 'react-query';
 import { AuthProvider, ProtectedRoute } from '#modules/auth';
 import { Navigate, Route, Routes } from 'react-router';
 import { theme } from './theme';
 import { Layout } from '#modules/layout';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 const queryClient = new QueryClient();
 
