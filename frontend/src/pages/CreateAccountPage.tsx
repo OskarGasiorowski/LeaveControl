@@ -1,5 +1,5 @@
 import { Stack, Button, Heading, Flex, Spacer, HStack } from '@chakra-ui/react';
-import { useCreateAccount } from '#hooks';
+import { useCreateAccount, usePaths } from '#hooks';
 import { FormProvider, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useNavigate } from 'react-router';
@@ -7,9 +7,10 @@ import { LoginPassword } from '#modules/auth';
 import { BrandingContentLayout, Link } from '#components';
 
 export function CreateAccountPage() {
+    const paths = usePaths();
     const navigate = useNavigate();
     const { createAccount, isLoading, error } = useCreateAccount(() =>
-        navigate('/dashboard', { replace: true }),
+        navigate(paths.dashboard, { replace: true }),
     );
 
     const methods = useForm<LoginPassword.Type>({
@@ -40,12 +41,12 @@ export function CreateAccountPage() {
                 >
                     <HStack width='fit-content' alignSelf='flex-end' marginTop={20}>
                         <Heading size='xs'>Already have an account?</Heading>
-                        <Link to='/login' size='xs'>
+                        <Link to={paths.login} size='xs'>
                             Login
                         </Link>
                     </HStack>
                     <Spacer />
-                    <Heading color='#FCFCFD' textAlign='center'>
+                    <Heading color='white' textAlign='center'>
                         Create new account
                     </Heading>
                     <FormProvider {...methods}>

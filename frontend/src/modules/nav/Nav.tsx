@@ -1,7 +1,10 @@
 import { VStack } from '@chakra-ui/react';
 import { NavLink } from './NavLink';
+import { usePaths } from '#hooks';
 
 export function Nav() {
+    const paths = usePaths();
+
     return (
         <VStack
             width={{ base: 'full', md: 60 }}
@@ -12,7 +15,7 @@ export function Nav() {
             paddingY={10}
             gap={0.5}
         >
-            <NavLink href='/dashboard' label='Dashboard' />
+            <NavLink href={paths.dashboard} label='Dashboard' />
             <NavLink href='/settings' label='Settings' />
         </VStack>
     );

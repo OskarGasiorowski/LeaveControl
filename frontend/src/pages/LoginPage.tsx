@@ -3,13 +3,14 @@ import { Button, Flex, Heading, HStack, Spacer, Stack } from '@chakra-ui/react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { LoginPassword } from '#modules/auth';
-import { useLogin } from '#hooks';
+import { useLogin, usePaths } from '#hooks';
 import { useLocation, useNavigate } from 'react-router';
 
 export function LoginPage() {
+    const paths = usePaths();
     const navigate = useNavigate();
     const location = useLocation();
-    const redirectTo = location.state?.from?.pathname || '/dashboard';
+    const redirectTo = location.state?.from?.pathname || paths.dashboard;
 
     const { login, isLoading, error } = useLogin(() => navigate(redirectTo, { replace: true }));
     const methods = useForm<LoginPassword.Type>({
@@ -38,12 +39,12 @@ export function LoginPage() {
                     <HStack width='fit-content' alignSelf='flex-end' marginTop={20}>
                         {/* eslint-disable-next-line react/no-unescaped-entities */}
                         <Heading size='xs'>Don't have an account?</Heading>
-                        <Link to='/create-account' size='xs'>
+                        <Link to={paths.createAccount} size='xs'>
                             Sign up for free
                         </Link>
                     </HStack>
                     <Spacer />
-                    <Heading color='#FCFCFD' textAlign='center'>
+                    <Heading color='white' textAlign='center'>
                         Login
                     </Heading>
                     <FormProvider {...methods}>
