@@ -15,6 +15,9 @@ const outline = definePartsStyle({
             borderColor: 'danger.700',
             boxShadow: 'none',
         },
+        _hover: {
+            borderColor: 'primary.500',
+        },
         _focus: {
             borderColor: 'primary.700',
             boxShadow: 'none',
