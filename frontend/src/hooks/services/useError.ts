@@ -22,12 +22,12 @@ export function useError<TError extends Error>(
         }
 
         if (errorCodesToDisplay.some((code) => code === error.code)) {
-            setErrorToDisplay(null);
-            errorToast(error.message);
+            setErrorToDisplay(error);
             return;
         }
 
-        setErrorToDisplay(error);
+        setErrorToDisplay(null);
+        errorToast(error.message);
     }, [error]);
 
     return errorToDisplay;

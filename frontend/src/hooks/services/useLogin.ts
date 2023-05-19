@@ -11,7 +11,7 @@ import { useError } from './useError';
 
 type AppError = InternalServerError | InvalidCredentialsError;
 
-export function useLogin() {
+export function useLogin(onSuccess?: () => void) {
     const { login } = useApi();
     const { setToken } = useAuth();
 
@@ -20,6 +20,7 @@ export function useLogin() {
         login,
         {
             onSuccess: (data) => {
+                onSuccess?.();
                 setToken(data.token);
             },
         },

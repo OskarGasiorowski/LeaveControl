@@ -1,10 +1,10 @@
-import { Stack, Button, Heading, Flex } from '@chakra-ui/react';
+import { Stack, Button, Heading, Flex, Box } from '@chakra-ui/react';
 import { useCreateAccount } from '#hooks';
 import { FormProvider, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useNavigate } from 'react-router';
 import { LoginPassword } from '#modules/auth';
-import { BrandingContentLayout } from '#components';
+import { BrandingContentLayout, Link } from '#components';
 
 export function CreateAccountPage() {
     const navigate = useNavigate();
@@ -30,6 +30,9 @@ export function CreateAccountPage() {
             <BrandingContentLayout.BrandingSide />
 
             <BrandingContentLayout.ContentSide>
+                <Box>
+                    Already have an account? <Link to='/login'>Login</Link>
+                </Box>
                 <Flex
                     gap={10}
                     height='full'

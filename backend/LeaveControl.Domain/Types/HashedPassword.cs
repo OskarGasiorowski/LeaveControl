@@ -1,4 +1,5 @@
 using System.Security.Cryptography;
+using Newtonsoft.Json;
 
 namespace LeaveControl.Domain.Types;
 
@@ -8,6 +9,7 @@ public readonly struct HashedPassword
     private const int HashSize = 32;
     private const int Iterations = 10000;
     
+    [JsonProperty]
     private readonly string _password;
 
     private HashedPassword(string password)

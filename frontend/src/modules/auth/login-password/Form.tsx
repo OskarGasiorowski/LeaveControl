@@ -14,7 +14,9 @@ export function Form({ errorSummary }: Props) {
 
     return (
         <Stack spacing={5}>
-            {errorSummary && <Alert>{errorSummary}</Alert>}
+            <Alert visibility={errorSummary ? 'visible' : 'hidden'}>
+                {errorSummary || 'Error'}
+            </Alert>
             <FormControl isInvalid={!!errors.email}>
                 <FormLabel htmlFor='email'>Email</FormLabel>
                 <Input {...register('email')} id='email' />

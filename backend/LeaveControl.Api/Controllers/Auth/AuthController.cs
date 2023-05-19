@@ -42,7 +42,7 @@ public class AuthController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> Login([FromBody] LoginRequest body)
+    public async Task<RegisterRequest.Response> Login([FromBody] LoginRequest body)
     {
         var response = await _mediator.Send(new AuthenticateCommand
         {
@@ -50,7 +50,12 @@ public class AuthController : ControllerBase
             Password = body.Password,
         });
 
-        return new JsonResult(response);
+        return new RegisterRequest.Response
+        {
+            Token = response.Token,
+            UserId = response.UserId,
+            TenantId = response.TenantId
+        };
     }
 
     [Authorize(Roles = "InvitedUser")]
