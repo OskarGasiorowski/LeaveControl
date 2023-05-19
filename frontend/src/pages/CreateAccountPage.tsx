@@ -1,4 +1,4 @@
-import { Stack, Button, Heading, Flex, Box } from '@chakra-ui/react';
+import { Stack, Button, Heading, Flex, Spacer, HStack } from '@chakra-ui/react';
 import { useCreateAccount } from '#hooks';
 import { FormProvider, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -30,17 +30,21 @@ export function CreateAccountPage() {
             <BrandingContentLayout.BrandingSide />
 
             <BrandingContentLayout.ContentSide>
-                <Box>
-                    Already have an account? <Link to='/login'>Login</Link>
-                </Box>
                 <Flex
-                    gap={10}
+                    gap={3}
                     height='full'
                     justifyContent='center'
                     alignContent='center'
                     flexDirection='column'
                     width='full'
                 >
+                    <HStack width='fit-content' alignSelf='flex-end' marginTop={20}>
+                        <Heading size='xs'>Already have an account?</Heading>
+                        <Link to='/login' size='xs'>
+                            Login
+                        </Link>
+                    </HStack>
+                    <Spacer />
                     <Heading color='#FCFCFD' textAlign='center'>
                         Create new account
                     </Heading>
@@ -60,6 +64,7 @@ export function CreateAccountPage() {
                             </Button>
                         </Stack>
                     </FormProvider>
+                    <Spacer />
                 </Flex>
             </BrandingContentLayout.ContentSide>
         </BrandingContentLayout>

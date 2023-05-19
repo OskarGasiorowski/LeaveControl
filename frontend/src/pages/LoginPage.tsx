@@ -1,5 +1,5 @@
-import { BrandingContentLayout } from '#components';
-import { Button, Flex, Heading, Stack } from '@chakra-ui/react';
+import { BrandingContentLayout, Link } from '#components';
+import { Button, Flex, Heading, HStack, Spacer, Stack } from '@chakra-ui/react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { LoginPassword } from '#modules/auth';
@@ -28,13 +28,21 @@ export function LoginPage() {
 
             <BrandingContentLayout.ContentSide>
                 <Flex
-                    gap={10}
+                    gap={3}
                     height='full'
                     justifyContent='center'
                     alignContent='center'
                     flexDirection='column'
                     width='full'
                 >
+                    <HStack width='fit-content' alignSelf='flex-end' marginTop={20}>
+                        {/* eslint-disable-next-line react/no-unescaped-entities */}
+                        <Heading size='xs'>Don't have an account?</Heading>
+                        <Link to='/create-account' size='xs'>
+                            Sign up for free
+                        </Link>
+                    </HStack>
+                    <Spacer />
                     <Heading color='#FCFCFD' textAlign='center'>
                         Login
                     </Heading>
@@ -54,6 +62,7 @@ export function LoginPage() {
                             </Button>
                         </Stack>
                     </FormProvider>
+                    <Spacer />
                 </Flex>
             </BrandingContentLayout.ContentSide>
         </BrandingContentLayout>

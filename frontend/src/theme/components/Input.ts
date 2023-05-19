@@ -8,9 +8,21 @@ const { definePartsStyle, defineMultiStyleConfig } = createMultiStyleConfigHelpe
 const outline = definePartsStyle({
     field: {
         border: '2px solid',
-        borderColor: '#353945',
+        borderColor: 'gray.700',
         borderRadius: '12px',
         color: 'white',
+        _error: {
+            borderColor: 'danger.700',
+            boxShadow: 'none',
+        },
+        _focus: {
+            borderColor: 'primary.700',
+            boxShadow: 'none',
+        },
+        _focusVisible: {
+            borderColor: 'primary.700',
+            boxShadow: 'none',
+        },
     },
 });
 
