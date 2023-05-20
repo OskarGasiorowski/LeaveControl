@@ -1,4 +1,4 @@
-import { BrandingContentLayout, Link } from '#components';
+import { BrandingContentLayout } from '#components';
 import { useAuth } from '#modules/auth';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router';
@@ -14,6 +14,7 @@ import {
     FormLabel,
     Heading,
     Input,
+    Link,
     Spacer,
     Stack,
 } from '@chakra-ui/react';
@@ -30,7 +31,7 @@ type Form = {
 export function SetupAccountPage() {
     const paths = usePaths();
     const navigate = useNavigate();
-    const { role } = useAuth();
+    const { role, logout } = useAuth();
     const { setupAccount, isLoading } = useSetupAccount();
     const {
         handleSubmit,
@@ -64,7 +65,7 @@ export function SetupAccountPage() {
                     width='full'
                 >
                     <Box width='fit-content' alignSelf='flex-end' marginTop={20}>
-                        <Link to={paths.createAccount} size='xs'>
+                        <Link onClick={logout} size='xs'>
                             Logout
                         </Link>
                     </Box>

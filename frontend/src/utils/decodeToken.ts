@@ -2,7 +2,7 @@ import jwt_decode, { JwtPayload } from 'jwt-decode';
 
 type Role = 'IncompleteAdmin' | 'Admin' | 'InvitedUser' | 'User';
 
-export function decodeToken(token: string | undefined) {
+export function decodeToken(token: string | null) {
     if (!token) {
         return {
             role: null,

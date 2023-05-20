@@ -1,12 +1,14 @@
 import { createContext } from 'react';
+import { noop } from 'lodash';
 
 interface AuthContextType {
-    token: string | undefined;
+    token: string | null;
     setToken: (token: string) => void;
+    removeToken: () => void;
 }
 
 export const AuthContext = createContext<AuthContextType>({
-    token: undefined,
-    // eslint-disable-next-line @typescript-eslint/no-empty-function
-    setToken: () => {},
+    token: null,
+    setToken: noop,
+    removeToken: noop,
 });
