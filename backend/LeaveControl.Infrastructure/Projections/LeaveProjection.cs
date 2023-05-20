@@ -1,3 +1,4 @@
+using LeaveControl.Domain.Aggregates.User.Events;
 using LeaveControl.Domain.Aggregates.UserCalendar.Events;
 using LeaveControl.Domain.Aggregates.UserCalendar.Models;
 using LeaveControl.Domain.Types;
@@ -11,6 +12,8 @@ public class LeaveProjection
 {
     [Identity]
     public Guid Id { get; set; }
+    public FirstName FirstName { get; set; }
+    public Surname Surname { get; set; }
     public IList<LeaveRequest> PendingLeaves { get; set; } = new List<LeaveRequest>();
     public IList<LeaveRequest> Leaves { get; set; } = new List<LeaveRequest>();
     public IList<LeaveRequest> DeclinedLeaves { get; set; } = new List<LeaveRequest>();
@@ -64,6 +67,18 @@ public class LeaveProjection
         PendingLeaves = new List<LeaveRequest>();
         Leaves = new List<LeaveRequest>();
     }
+
+    public void Apply(UserCreatedEvent @event)
+    {
+        FirstName = @event.FirstName;
+        Surname = @event.Surname;
+    }
+    
+    public void Apply(UserDataUpdatedEvent @event)
+    {
+        FirstName = @event.FirstName;
+        Surname = @event.Surname;
+    }
 }
 
 public class LeaveProjectionSetup : MultiStreamProjection<LeaveProjection, Guid>
@@ -77,5 +92,7 @@ public class LeaveProjectionSetup : MultiStreamProjection<LeaveProjection, Guid>
         ProjectEvent<LeaveApprovedEvent>((item, @event) => item.Apply(@event));
         ProjectEvent<LeaveDeclinedEvent>((item, @event) => item.Apply(@event));
         ProjectEvent<UserCalendarCreatedEvent>((item, @event) => item.Apply(@event));
+        ProjectEvent<UserCreatedEvent>((item, @event) => item.Apply(@event));
+        ProjectEvent<UserDataUpdatedEvent>((item, @event) => item.Apply(@event));
     }
 }

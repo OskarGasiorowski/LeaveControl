@@ -25,6 +25,8 @@ public class CalendarQueryHandler : IRequestHandler<CalendarQuery, IReadOnlyList
         return calendars.Select(calendar => new CalendarQuery.Response
         {
             UserId = calendar.Id,
+            FirstName = calendar.FirstName,
+            Surname = calendar.Surname,
             Leaves = calendar.Leaves
                 .Map(leave => new LeaveRequest
                 {

@@ -39,11 +39,11 @@ public static class Module
                 options.Events.TenancyStyle = TenancyStyle.Conjoined;
                 options.Schema.For<UserAggregate>().SingleTenanted();
                 options.Events.EnableGlobalProjectionsForConjoinedTenancy = true;
+                options.Policies.AllDocumentsAreMultiTenanted();
                 
                 options.Projections.Add<UsersProjectionSetup>(ProjectionLifecycle.Inline);
                 options.Projections.Add<LeaveProjectionSetup>(ProjectionLifecycle.Inline);
             })
-            .UseLightweightSessions()
             .BuildSessionsWith<CustomSessionFactory>()
             .ApplyAllDatabaseChangesOnStartup();
 

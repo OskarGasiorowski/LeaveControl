@@ -85,6 +85,7 @@ public class UserAggregate : AggregateRoot<Guid>
         {
             FirstName = firstName,
             Surname = surname,
+            UserId = Id,
         };
         
         Apply(@event);

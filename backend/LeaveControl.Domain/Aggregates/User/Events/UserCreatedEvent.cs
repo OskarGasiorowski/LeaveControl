@@ -2,7 +2,7 @@ using LeaveControl.Domain.Types;
 
 namespace LeaveControl.Domain.Aggregates.User.Events;
 
-public record UserCreatedEvent : IDomainEvent
+public record UserCreatedEvent : IUserEvent
 {
     public UserId UserId { get; init; }
     public Email Email { get; init; }
