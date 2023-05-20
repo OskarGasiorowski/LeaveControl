@@ -5,6 +5,7 @@ import { ProtectedRoute } from '#modules/auth';
 import { Layout } from '#modules/layout';
 import { DashboardPage } from './DashboardPage';
 import { usePaths } from '#hooks';
+import { SetupAccountPage } from './SetupAccountPage';
 
 export function Router() {
     const paths = usePaths();
@@ -13,6 +14,7 @@ export function Router() {
         <Routes>
             <Route path='/' element={<Navigate to={paths.login} />} />
             <Route path={paths.createAccount} element={<CreateAccountPage />} />
+            <Route path={paths.setupAccount} element={<SetupAccountPage />} />
             <Route path={paths.login} element={<LoginPage />} />
             <Route element={<ProtectedRoute />}>
                 <Route element={<Layout />}>

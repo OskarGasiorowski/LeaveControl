@@ -24,7 +24,8 @@
       "#illustrations": ["assets/illustrations"],
       "#hooks": ["hooks"],
       "#modules/*": ["modules/*"],
-      "#components": ["components"]
+      "#components": ["components"],
+      "#utils": ["utils"]
     }
   },
   "include": ["src"],

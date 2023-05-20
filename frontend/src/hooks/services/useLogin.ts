@@ -8,10 +8,17 @@ import {
 import { useAuth } from '#modules/auth';
 import { useMutation } from '@tanstack/react-query';
 import { useError } from './useError';
+import { usePaths } from '../usePaths';
+import { useLocation, useNavigate } from 'react-router';
+import { decodeToken } from '#utils';
 
 type AppError = InternalServerError | InvalidCredentialsError;
 
-export function useLogin(onSuccess?: () => void) {
+export function useLogin() {
+    const paths = usePaths();
+    const navigate = useNavigate();
+    const location = useLocation();
+
     const { login } = useApi();
     const { setToken } = useAuth();
 
@@ -20,8 +27,21 @@ export function useLogin(onSuccess?: () => void) {
         login,
         {
             onSuccess: (data) => {
-                onSuccess?.();
                 setToken(data.token);
+                const { role } = decodeToken(data.token);
+
+                if (role === 'IncompleteAdmin') {
+                    navigate(paths.setupAccount, { replace: true });
+                    return;
+                }
+
+                if (role === 'InvitedUser') {
+                    // TODO
+                    return;
+                }
+
+                const redirectTo = location.state?.from?.pathname || paths.dashboard;
+                navigate(redirectTo, { replace: true });
             },
         },
     );

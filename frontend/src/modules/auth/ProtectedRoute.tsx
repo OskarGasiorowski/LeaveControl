@@ -1,9 +1,19 @@
 import { Navigate, Outlet, useLocation } from 'react-router';
 import { useAuth } from '#modules/auth/useAuth';
+import { usePaths } from '#hooks';
 
 export function ProtectedRoute() {
-    const { isAuthenticated } = useAuth();
+    const { isAuthenticated, role } = useAuth();
     const location = useLocation();
+    const paths = usePaths();
 
-    return isAuthenticated ? <Outlet /> : <Navigate to='/login' state={{ from: location }} />;
+    if (!isAuthenticated) {
+        return <Navigate to={paths.login} state={{ from: location }} />;
+    }
+
+    if (role === 'IncompleteAdmin') {
+        return <Navigate to={paths.setupAccount} state={{ from: location }} />;
+    }
+
+    return <Outlet />;
 }

@@ -2,16 +2,12 @@ import { Stack, Button, Heading, Flex, Spacer, HStack } from '@chakra-ui/react';
 import { useCreateAccount, usePaths } from '#hooks';
 import { FormProvider, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useNavigate } from 'react-router';
 import { LoginPassword } from '#modules/auth';
 import { BrandingContentLayout, Link } from '#components';
 
 export function CreateAccountPage() {
     const paths = usePaths();
-    const navigate = useNavigate();
-    const { createAccount, isLoading, error } = useCreateAccount(() =>
-        navigate(paths.dashboard, { replace: true }),
-    );
+    const { createAccount, isLoading, error } = useCreateAccount();
 
     const methods = useForm<LoginPassword.Type>({
         resolver: yupResolver(LoginPassword.Validator()),

@@ -6,13 +6,17 @@ import {
     UserWithGivenEmailExistsError,
 } from '../api';
 import { useAuth } from '#modules/auth';
-import { noop } from 'lodash';
 import { useMutation } from '@tanstack/react-query';
 import { useError } from './useError';
+import { usePaths } from '../usePaths';
+import { useNavigate } from 'react-router';
+import { decodeToken } from '#utils';
 
 type AppError = InternalServerError | UserWithGivenEmailExistsError;
 
-export function useCreateAccount(onSuccess: () => void = noop) {
+export function useCreateAccount() {
+    const paths = usePaths();
+    const navigate = useNavigate();
     const { createAccount } = useApi();
     const { setToken } = useAuth();
 
@@ -23,7 +27,9 @@ export function useCreateAccount(onSuccess: () => void = noop) {
     >(['create-account'], createAccount, {
         onSuccess: (data) => {
             setToken(data.token);
-            onSuccess();
+            decodeToken(data.token);
+
+            navigate(paths.dashboard, { replace: true });
         },
     });
 

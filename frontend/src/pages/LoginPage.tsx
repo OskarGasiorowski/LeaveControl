@@ -4,15 +4,11 @@ import { FormProvider, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { LoginPassword } from '#modules/auth';
 import { useLogin, usePaths } from '#hooks';
-import { useLocation, useNavigate } from 'react-router';
 
 export function LoginPage() {
     const paths = usePaths();
-    const navigate = useNavigate();
-    const location = useLocation();
-    const redirectTo = location.state?.from?.pathname || paths.dashboard;
 
-    const { login, isLoading, error } = useLogin(() => navigate(redirectTo, { replace: true }));
+    const { login, isLoading, error } = useLogin();
     const methods = useForm<LoginPassword.Type>({
         resolver: yupResolver(LoginPassword.Validator()),
         reValidateMode: 'onBlur',

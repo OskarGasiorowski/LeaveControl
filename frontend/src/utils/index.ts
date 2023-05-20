@@ -1,0 +1,1 @@
+export { decodeToken } from './decodeToken';
