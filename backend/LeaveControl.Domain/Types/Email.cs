@@ -3,14 +3,15 @@ using Newtonsoft.Json;
 
 namespace LeaveControl.Domain.Types;
 
+[JsonConverter(typeof(ToStringJsonConverter))]
 public readonly struct Email
 {
-    [JsonProperty]
     private readonly string _email;
     private static readonly Regex EmailRegex = new(
         @"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$",
         RegexOptions.Compiled | RegexOptions.IgnoreCase);
-    
+ 
+    [JsonConstructor]
     public Email(string email)
     {
         if (string.IsNullOrWhiteSpace(email))

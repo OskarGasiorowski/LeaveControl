@@ -2,11 +2,12 @@ using Newtonsoft.Json;
 
 namespace LeaveControl.Domain.Types;
 
+[JsonConverter(typeof(ToStringJsonConverter))]
 public readonly struct Surname
 {
-    [JsonProperty]
     private readonly string _surname;
     
+    [JsonConstructor]
     public Surname(string surname)
     {
         if (string.IsNullOrWhiteSpace(surname))

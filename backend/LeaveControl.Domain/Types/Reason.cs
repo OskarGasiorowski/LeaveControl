@@ -2,9 +2,9 @@ using Newtonsoft.Json;
 
 namespace LeaveControl.Domain.Types;
 
+[JsonConverter(typeof(ToStringJsonConverter))]
 public readonly struct Reason
 {
-    [JsonProperty]
     private readonly string _reason;
 
     [JsonConstructor]

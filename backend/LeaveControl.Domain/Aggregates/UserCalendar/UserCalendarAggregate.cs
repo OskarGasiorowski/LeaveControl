@@ -53,6 +53,7 @@ public class UserCalendarAggregate : AggregateRoot<Guid>
 
         var @event = new LeaveRequestedEvent
         {
+            UserId = Id,
             LeaveId = leaveRequest.Id, 
             LeaveDays = leaveRequest.LeaveDays, 
             Reason = leaveRequest.Reason
@@ -64,7 +65,7 @@ public class UserCalendarAggregate : AggregateRoot<Guid>
         if (Settings.AcceptanceRequired) 
             return;
         
-        var autoApprovedEvent = new LeaveAutoApprovedEvent { LeaveId = leaveRequest.Id };
+        var autoApprovedEvent = new LeaveAutoApprovedEvent { LeaveId = leaveRequest.Id, UserId = Id, };
         Enqueue(autoApprovedEvent);
         Apply(autoApprovedEvent);
     }
@@ -95,6 +96,7 @@ public class UserCalendarAggregate : AggregateRoot<Guid>
         var @event = new LeaveApprovedEvent
         {
             LeaveId = id,
+            UserId = Id,
         };
         
         Enqueue(@event);
@@ -118,6 +120,7 @@ public class UserCalendarAggregate : AggregateRoot<Guid>
         {
             LeaveId = id,
             DeclineReason = reason,
+            UserId = Id,
         };
         
         Enqueue(@event);

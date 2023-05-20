@@ -1,9 +1,13 @@
+using System.Text.Json.Serialization;
+
 namespace LeaveControl.Domain.Types;
 
+[JsonConverter(typeof(ToStringJsonConverter))]
 public readonly struct Password
 {
     private readonly string _password;
 
+    [JsonConstructor]
     public Password(string password)
     {
         if (string.IsNullOrWhiteSpace(password))

@@ -3,6 +3,7 @@ import { createAccount, CreateAccountRequest, login, LoginRequest } from './auth
 import { createTenant, CreateTenantRequest } from './tenant';
 import { useAuth } from '#modules/auth';
 import { useMemo } from 'react';
+import { getCalendar } from './calendar';
 
 export function useApi() {
     const { token } = useAuth();
@@ -22,5 +23,6 @@ export function useApi() {
         createAccount: (body: CreateAccountRequest) => createAccount(api, body),
         login: (body: LoginRequest) => login(api, body),
         setupAccount: (body: CreateTenantRequest) => createTenant(authenticatedApi, body),
+        getCalendar: () => getCalendar(authenticatedApi),
     };
 }

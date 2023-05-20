@@ -2,6 +2,7 @@ using LeaveControl.Domain.Aggregates.User;
 using LeaveControl.Domain.Repositories;
 using LeaveControl.Domain.Repositories.User;
 using LeaveControl.Infrastructure.Projections;
+using LeaveControl.Infrastructure.Query.Calendar;
 using LeaveControl.Infrastructure.Repositories;
 using Marten;
 using Marten.Events.Projections;
@@ -28,6 +29,7 @@ public static class Module
     public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration config)
     {
         services
+            .AddMediatR(cfg => cfg.RegisterServicesFromAssemblyContaining<CalendarQuery>())
             .AddMarten(options =>
             {
                 var martenConfig = config.GetRequiredSection(DefaultConfigKey).Get<MartenConfig>();

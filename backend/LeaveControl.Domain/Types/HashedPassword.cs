@@ -3,21 +3,23 @@ using Newtonsoft.Json;
 
 namespace LeaveControl.Domain.Types;
 
+[JsonConverter(typeof(ToStringJsonConverter))]
 public readonly struct HashedPassword
 {
     private const int SaltSize = 16;
     private const int HashSize = 32;
     private const int Iterations = 10000;
     
-    [JsonProperty]
     private readonly string _password;
 
+    [JsonConstructor]
     private HashedPassword(string password)
     {
         _password = password;
     }
     
     public static implicit operator string(HashedPassword password) => password.ToString();
+    public static implicit operator HashedPassword(string password) => new(password);
 
     public static HashedPassword Create(Password password)
     {

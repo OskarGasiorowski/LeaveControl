@@ -4,10 +4,11 @@ namespace LeaveControl.Domain.Types;
 
 public readonly struct Allowance
 {
-    [JsonProperty]
+    [JsonProperty]   
     private readonly int _allowance;
     
-    public Allowance(int allowance)
+    [JsonConstructor]
+    private Allowance(int allowance)
     {
         if (allowance is < 0 or > 365)
         {

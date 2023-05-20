@@ -2,19 +2,22 @@ using LeaveControl.Domain.Types;
 
 namespace LeaveControl.Domain.Aggregates.UserCalendar.Events;
 
-public record LeaveRequestedEvent : IDomainEvent
+public record LeaveRequestedEvent : IUserEvent
 {
-    public LeaveId LeaveId { get; set; }
-    public HashSet<LeaveDay> LeaveDays { get; set; } = new();
-    public Reason Reason { get; set; }
+    public UserId UserId { get; init; }
+    public LeaveId LeaveId { get; init; }
+    public HashSet<LeaveDay> LeaveDays { get; init; } = new();
+    public Reason Reason { get; init; }
 
-    public static LeaveRequestedEvent Create(Guid leaveId, HashSet<LeaveDay> leaveDays, Reason reason)
+    public static LeaveRequestedEvent Create(UserId userId, Guid leaveId, HashSet<LeaveDay> leaveDays, Reason reason)
     {
         return new LeaveRequestedEvent
         {
+            UserId = userId,
             LeaveId = leaveId,
             LeaveDays = leaveDays,
             Reason = reason,
         };
     }
+
 }

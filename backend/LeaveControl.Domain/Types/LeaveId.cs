@@ -2,7 +2,7 @@ using Newtonsoft.Json;
 
 namespace LeaveControl.Domain.Types;
 
-[JsonConverter(typeof(LeaveIdJsonConverter))]
+[JsonConverter(typeof(ToStringJsonConverter))]
 public readonly struct LeaveId
 {
     public override int GetHashCode()
@@ -18,6 +18,7 @@ public readonly struct LeaveId
     }
 
     public static implicit operator LeaveId(Guid id) => new(id);
+    public static implicit operator LeaveId(string id) => new(Guid.Parse(id));
     public static implicit operator Guid(LeaveId id) => id._id;
     public static bool operator ==(LeaveId left, LeaveId right) => left._id == right._id;
     public static bool operator !=(LeaveId left, LeaveId right) => !(left == right);
@@ -37,24 +38,5 @@ public readonly struct LeaveId
     public override bool Equals(object obj)
     {
         return obj is LeaveId other && Equals(other);
-    }
-}
-
-public class LeaveIdJsonConverter : JsonConverter<LeaveId>
-{
-    public override void WriteJson(JsonWriter writer, LeaveId value, JsonSerializer serializer)
-    {
-        writer.WriteValue(value.ToString());
-    }
-
-    public override LeaveId ReadJson(JsonReader reader, Type objectType, LeaveId existingValue, bool hasExistingValue, JsonSerializer serializer)
-    {
-        if (reader.TokenType != JsonToken.String)
-        {
-            throw new JsonSerializationException($"Expected a string token, but got {reader.TokenType}");
-        }
-
-        var guidString = (string)reader.Value;
-        return Guid.Parse(guidString!);
     }
 }

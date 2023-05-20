@@ -2,9 +2,9 @@ using Newtonsoft.Json;
 
 namespace LeaveControl.Domain.Types;
 
+[JsonConverter(typeof(ToStringJsonConverter))]
 public readonly struct Role
 {
-    [JsonProperty]
     private readonly string _role;
 
     [JsonConstructor]
@@ -19,6 +19,7 @@ public readonly struct Role
     public static Role User() => new("User");
 
     public static implicit operator string(Role role) => role.ToString();
+    public static explicit operator Role(string role) => new Role(role);
     
     public override string ToString() => _role;
 }
