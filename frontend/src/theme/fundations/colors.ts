@@ -34,4 +34,5 @@ export const colors = {
         900: '#803E26',
     },
     background: '#242731',
+    backgroundHoover: '#2C2E3B',
 };
