@@ -26,8 +26,9 @@ public class UserProjectionRepository : IUserProjectionRepository
     
     public async Task<UserId?> GetId(Email email)
     {
-        var result =  await _documentSession.
-            Query<UsersProjection>()
+        var result =  await _documentSession
+            .ForTenant("")
+            .Query<UsersProjection>()
             .Where(projection => projection.Email == email.ToString())
             .SingleOrDefaultAsync();
 

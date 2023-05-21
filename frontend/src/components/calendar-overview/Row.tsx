@@ -1,27 +1,29 @@
 import { Box, Td, Tr } from '@chakra-ui/react';
 import { Leave } from './CalendarOverview';
 import { useMemo } from 'react';
-import { RoundRobin } from '#utils';
+import * as dayjs from 'dayjs';
 
 interface Props {
     displayName: string;
     leaves: (Leave & { color: string })[];
-    colorPalette: RoundRobin<string>;
+    month: dayjs.Dayjs;
 }
 
-export function Row({ displayName, leaves }: Props) {
+export function Row({ displayName, leaves, month }: Props) {
     const calendar = useMemo(() => {
         const temp = new Array<{
             id: string;
             variant: 'left' | 'center' | 'right' | 'single';
-        } | null>(31).fill(null);
+        } | null>(dayjs(month).endOf('month').date()).fill(null);
 
         leaves.forEach((leave) =>
             leave.dates.forEach((date) => {
-                temp[date.getDate() - 1] = {
-                    id: leave.id,
-                    variant: 'center',
-                };
+                if (dayjs(date).isSame(dayjs(month), 'month')) {
+                    temp[date.getDate() - 1] = {
+                        id: leave.id,
+                        variant: 'center',
+                    };
+                }
             }),
         );
 
@@ -51,35 +53,30 @@ export function Row({ displayName, leaves }: Props) {
         }
 
         return temp;
-    }, [leaves]);
+    }, [leaves, month]);
 
     return (
-        <Tr _hover={{ backgroundColor: 'backgroundHoover' }} key={displayName}>
+        <Tr _hover={{ backgroundColor: 'backgroundHoover' }}>
             <Td borderStartRadius='lg' paddingY={3} paddingLeft={2} fontSize='sm'>
                 {displayName}
             </Td>
-            {calendar.map((type, index) => (
-                <>
-                    {!type && (
-                        <EmptyCell
-                            isWeekend={
-                                new Date(2023, 4, index + 1).getDay() === 0 ||
-                                new Date(2023, 4, index + 1).getDay() === 6
-                            }
-                        />
-                    )}
-                    {!!type && (
-                        <LeaveCell
-                            color={leaves.find((leave) => leave.id === type?.id)!.color}
-                            variant={type!.variant}
-                            isWeekend={
-                                new Date(2023, 4, index + 1).getDay() === 0 ||
-                                new Date(2023, 4, index + 1).getDay() === 6
-                            }
-                        />
-                    )}
-                </>
-            ))}
+            {calendar.map((type, index) => {
+                const day = dayjs(new Date(month.year(), month.month(), index + 1)).day();
+                const isWeekend = day === 0 || day === 6;
+                return (
+                    <>
+                        {!type && <EmptyCell key={index + 'empty'} isWeekend={isWeekend} />}
+                        {!!type && (
+                            <LeaveCell
+                                key={index + 'leave'}
+                                color={leaves.find((leave) => leave.id === type?.id)!.color}
+                                variant={type!.variant}
+                                isWeekend={isWeekend}
+                            />
+                        )}
+                    </>
+                );
+            })}
         </Tr>
     );
 }
@@ -90,7 +87,7 @@ function EmptyCell({ isWeekend }: { isWeekend: boolean }) {
             borderRight='1px solid rgba(228, 228, 228, 0.04)'
             _last={{ borderEndRadius: 'lg', border: 'none' }}
             paddingX={1}
-            backgroundColor={isWeekend ? '#232633' : 'unset'}
+            backgroundColor={isWeekend ? 'rgba(228, 228, 228, 0.04)' : 'unset'}
         />
     );
 }
@@ -122,7 +119,7 @@ function LeaveCell({
             paddingY={0}
             paddingLeft={variant === 'left' || variant === 'single' ? 1 : 0}
             paddingRight={variant === 'right' || variant === 'single' ? 1 : 0}
-            backgroundColor={isWeekend ? '#232633' : 'unset'}
+            backgroundColor={isWeekend ? 'rgba(228, 228, 228, 0.04)' : 'unset'}
         >
             <Box
                 {...variants[variant]}

@@ -37,10 +37,11 @@ public static class Module
                 options.Connection(martenConfig!.ConnectionString);
                 options.AutoCreateSchemaObjects = AutoCreate.CreateOrUpdate;
                 options.Events.TenancyStyle = TenancyStyle.Conjoined;
-                options.Schema.For<UserAggregate>().SingleTenanted();
                 options.Events.EnableGlobalProjectionsForConjoinedTenancy = true;
                 options.Policies.AllDocumentsAreMultiTenanted();
-                
+                options.Schema.For<UserAggregate>().SingleTenanted();
+                options.Schema.For<UsersProjection>().SingleTenanted();
+
                 options.Projections.Add<UsersProjectionSetup>(ProjectionLifecycle.Inline);
                 options.Projections.Add<LeaveProjectionSetup>(ProjectionLifecycle.Inline);
             })
