@@ -1,7 +1,9 @@
-import { Box, Td, Tr } from '@chakra-ui/react';
+import { Td, Tr } from '@chakra-ui/react';
 import { Leave } from './CalendarOverview';
 import { useMemo } from 'react';
 import * as dayjs from 'dayjs';
+import { LeaveCell } from './LeaveCell';
+import { EmptyCell } from './EmptyCell';
 
 interface Props {
     displayName: string;
@@ -78,55 +80,5 @@ export function Row({ displayName, leaves, month }: Props) {
                 );
             })}
         </Tr>
-    );
-}
-
-function EmptyCell({ isWeekend }: { isWeekend: boolean }) {
-    return (
-        <Td
-            borderRight='1px solid rgba(228, 228, 228, 0.04)'
-            _last={{ borderEndRadius: 'lg', border: 'none' }}
-            paddingX={1}
-            backgroundColor={isWeekend ? 'rgba(228, 228, 228, 0.04)' : 'unset'}
-        />
-    );
-}
-
-function LeaveCell({
-    color,
-    variant,
-    isWeekend,
-}: {
-    color: string;
-    variant: 'left' | 'center' | 'right' | 'single';
-    isWeekend: boolean;
-}) {
-    const variants: Record<
-        typeof variant,
-        { borderStartRadius: 'lg' | 'unset'; borderEndRadius: 'lg' | 'unset' }
-    > = {
-        center: { borderStartRadius: 'unset', borderEndRadius: 'unset' },
-        right: { borderStartRadius: 'unset', borderEndRadius: 'lg' },
-        single: { borderStartRadius: 'lg', borderEndRadius: 'lg' },
-        left: { borderStartRadius: 'lg', borderEndRadius: 'unset' },
-    };
-
-    return (
-        <Td
-            borderRight='1px solid rgba(228, 228, 228, 0.04)'
-            _last={{ borderEndRadius: 'lg', paddingRight: 2, border: 'none' }}
-            paddingX={0}
-            paddingY={0}
-            paddingLeft={variant === 'left' || variant === 'single' ? 1 : 0}
-            paddingRight={variant === 'right' || variant === 'single' ? 1 : 0}
-            backgroundColor={isWeekend ? 'rgba(228, 228, 228, 0.04)' : 'unset'}
-        >
-            <Box
-                {...variants[variant]}
-                backgroundColor={color}
-                width='calc(100% + 1px)'
-                height={5}
-            />
-        </Td>
     );
 }
