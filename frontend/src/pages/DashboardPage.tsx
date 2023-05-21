@@ -1,7 +1,7 @@
 import { useCalendar } from '#hooks';
 import { CalendarOverview } from '#components';
 import { useState } from 'react';
-import { Box, Button, HStack } from '@chakra-ui/react';
+import { Box, Button, Card, CardBody, CardHeader, Heading, HStack, VStack } from '@chakra-ui/react';
 import * as dayjs from 'dayjs';
 
 export function DashboardPage() {
@@ -9,7 +9,7 @@ export function DashboardPage() {
     useCalendar();
 
     return (
-        <div>
+        <VStack gap={5}>
             <HStack gap={5}>
                 <Box>{overviewMonth.format('MMMM')}</Box>
                 <Button onClick={() => setOverviewMonth((prev) => prev.add(-1, 'month'))}>
@@ -19,7 +19,14 @@ export function DashboardPage() {
                     Next
                 </Button>
             </HStack>
-            <CalendarOverview month={overviewMonth} />
-        </div>
+            <Card>
+                <CardHeader>
+                    <Heading size='xl'>Calendar</Heading>
+                </CardHeader>
+                <CardBody>
+                    <CalendarOverview month={overviewMonth} />
+                </CardBody>
+            </Card>
+        </VStack>
     );
 }
