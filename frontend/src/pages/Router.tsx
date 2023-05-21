@@ -6,6 +6,7 @@ import { Layout } from '#modules/layout';
 import { DashboardPage } from './DashboardPage';
 import { usePaths } from '#hooks';
 import { SetupAccountPage } from './SetupAccountPage';
+import { UsersPage } from './UsersPage';
 
 export function Router() {
     const paths = usePaths();
@@ -19,7 +20,7 @@ export function Router() {
             <Route element={<ProtectedRoute />}>
                 <Route element={<Layout />}>
                     <Route path={paths.dashboard} element={<DashboardPage />} />
-                    <Route path='/settings' element={<div>settings</div>} />
+                    <Route path={paths.users} element={<UsersPage />} />
                 </Route>
             </Route>
         </Routes>

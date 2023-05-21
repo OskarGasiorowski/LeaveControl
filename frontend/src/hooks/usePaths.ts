@@ -3,6 +3,7 @@ export function usePaths() {
         login: '/login',
         createAccount: '/create-account',
         dashboard: '/dashboard',
+        users: '/users',
         setupAccount: '/setup-account',
     };
 }

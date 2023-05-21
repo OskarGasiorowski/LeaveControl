@@ -6,9 +6,10 @@ import { useLocation } from 'react-router';
 interface Props {
     label: string;
     href: string;
+    icon: typeof TimeIcon;
 }
 
-export function NavLink({ label, href }: Props) {
+export function NavLink({ label, href, icon: Icon }: Props) {
     const location = useLocation();
     const isActive = location.pathname === href;
 
@@ -23,7 +24,7 @@ export function NavLink({ label, href }: Props) {
             borderRadius='xl'
             width='full'
         >
-            <TimeIcon />
+            <Icon />
             <LinkOverlay as={Link} to={href} marginInlineStart='0 !important'>
                 <Text fontSize='sm' fontWeight='semibold'>
                     {label}
