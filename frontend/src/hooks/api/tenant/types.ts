@@ -5,3 +5,9 @@ export interface CreateTenantRequest {
     adminFirstName: string;
     adminSurname: string;
 }
+
+export interface AddUserRequest {
+    firstName: string;
+    surname: string;
+    email: string;
+}

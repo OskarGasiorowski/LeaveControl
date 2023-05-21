@@ -1,6 +1,6 @@
 import ky from 'ky';
 import { createAccount, CreateAccountRequest, login, LoginRequest } from './auth';
-import { createTenant, CreateTenantRequest } from './tenant';
+import { addUser, AddUserRequest, createTenant, CreateTenantRequest } from './tenant';
 import { useAuth } from '#modules/auth';
 import { useMemo } from 'react';
 import { getCalendar } from './calendar';
@@ -23,6 +23,7 @@ export function useApi() {
         createAccount: (body: CreateAccountRequest) => createAccount(api, body),
         login: (body: LoginRequest) => login(api, body),
         setupAccount: (body: CreateTenantRequest) => createTenant(authenticatedApi, body),
+        addUser: (body: AddUserRequest) => addUser(authenticatedApi, body),
         getCalendar: () => getCalendar(authenticatedApi),
     };
 }
