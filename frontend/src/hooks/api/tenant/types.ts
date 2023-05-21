@@ -11,3 +11,10 @@ export interface AddUserRequest {
     surname: string;
     email: string;
 }
+
+export interface GetUserResponse {
+    id: string;
+    email: string;
+    firstName: string;
+    surname: string;
+}

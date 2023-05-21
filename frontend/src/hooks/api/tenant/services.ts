@@ -16,3 +16,7 @@ export function addUser(api: typeof ky, body: AddUserRequest): Promise<{ userId:
         })
         .json<{ userId: string }>();
 }
+
+export function getUsers(api: typeof ky): Promise<{ userId: string }> {
+    return api.get('tenant/current/users').json<{ userId: string }>();
+}
