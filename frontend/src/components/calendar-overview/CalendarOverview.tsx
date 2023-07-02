@@ -20,9 +20,10 @@ type UserEntry = {
 interface Props {
     userCalendars: UserEntry[];
     month: dayjs.Dayjs;
+    onClick: (userId: string) => void;
 }
 
-export function CalendarOverview({ userCalendars, month }: Props) {
+export function CalendarOverview({ userCalendars, month, onClick }: Props) {
     const end = useMemo(() => dayjs(month).endOf('month'), [month]);
     const colorPalette = useMemo(
         () =>
@@ -55,7 +56,7 @@ export function CalendarOverview({ userCalendars, month }: Props) {
                     </Tr>
                 </Thead>
                 <Tbody>
-                    {userCalendars?.map(({ displayName, leaves }) => (
+                    {userCalendars?.map(({ displayName, leaves, userId }) => (
                         <Row
                             key={displayName}
                             displayName={displayName}
@@ -64,6 +65,7 @@ export function CalendarOverview({ userCalendars, month }: Props) {
                                 color: colorPalette.next(),
                             }))}
                             month={month}
+                            onClick={() => onClick(userId)}
                         />
                     ))}
                 </Tbody>

@@ -7,6 +7,7 @@ import { DashboardPage } from './DashboardPage';
 import { usePaths } from '#hooks';
 import { SetupAccountPage } from './SetupAccountPage';
 import { UsersPage } from './UsersPage';
+import { UserCalendarPage } from './UserCalendarPage.tsx';
 
 export function Router() {
     const paths = usePaths();
@@ -21,6 +22,7 @@ export function Router() {
                 <Route element={<Layout />}>
                     <Route path={paths.dashboard} element={<DashboardPage />} />
                     <Route path={paths.users} element={<UsersPage />} />
+                    <Route path={paths.userCalendar.template} element={<UserCalendarPage />} />
                 </Route>
             </Route>
         </Routes>

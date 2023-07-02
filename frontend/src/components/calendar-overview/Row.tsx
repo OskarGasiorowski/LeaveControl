@@ -9,9 +9,10 @@ interface Props {
     displayName: string;
     leaves: (Leave & { color: string })[];
     month: dayjs.Dayjs;
+    onClick: () => void;
 }
 
-export function Row({ displayName, leaves, month }: Props) {
+export function Row({ displayName, leaves, month, onClick }: Props) {
     const calendar = useMemo(() => {
         const temp = new Array<{
             id: string;
@@ -58,7 +59,7 @@ export function Row({ displayName, leaves, month }: Props) {
     }, [leaves, month]);
 
     return (
-        <Tr _hover={{ backgroundColor: 'backgroundHoover' }}>
+        <Tr _hover={{ backgroundColor: 'backgroundHoover', cursor: 'pointer' }} onClick={onClick}>
             <Td borderStartRadius='lg' paddingY={3} paddingLeft={2} fontSize='sm'>
                 {displayName}
             </Td>
