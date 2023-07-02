@@ -6,6 +6,7 @@ namespace LeaveControl.Application.Command.Tenant.CreateTenant;
 public record CreateTenantCommand : IRequest<CreateTenantCommand.Response>
 {
     public UserId UserId { get; init; }
+    public TenantId TenantId { get; init; }
     
     public Allowance DefaultAllowance { get; init; }
     public bool AcceptanceRequired { get; init; }

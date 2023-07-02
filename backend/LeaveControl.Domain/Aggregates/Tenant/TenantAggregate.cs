@@ -25,8 +25,8 @@ public class TenantAggregate : AggregateRoot<Guid>
         Enqueue(@event, userAddedEvent);
     }
     
-    public static TenantAggregate Create(TenantSettings settings, UserId adminId) 
-        => new(TenantId.Generate(), settings, adminId);
+    public static TenantAggregate New(TenantId tenantId, TenantSettings settings, UserId adminId) 
+        => new(tenantId, settings, adminId);
 
     private void Apply(TenantCreatedEvent @event)
     {

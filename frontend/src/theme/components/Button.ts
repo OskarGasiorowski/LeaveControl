@@ -8,7 +8,17 @@ export const Button = defineStyleConfig({
         width: 'full',
         paddingY: 4,
     },
+    sizes: {
+        full: {
+            width: 'full',
+        },
+        content: {
+            width: 'fit-content',
+            paddingX: 5,
+        },
+    },
     defaultProps: {
         colorScheme: 'primary',
+        size: 'content',
     },
 });

@@ -31,7 +31,8 @@ public class CreateTenantCommandHandler : IRequestHandler<CreateTenantCommand, C
 
     public async Task<CreateTenantCommand.Response> Handle(CreateTenantCommand request, CancellationToken cancellationToken)
     {
-        var tenant = TenantAggregate.Create(
+        var tenant = TenantAggregate.New(
+            request.TenantId,
             new TenantSettings
             {
                 AcceptanceRequired = request.AcceptanceRequired,

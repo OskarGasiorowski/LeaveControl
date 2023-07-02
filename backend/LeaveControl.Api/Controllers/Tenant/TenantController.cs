@@ -22,8 +22,9 @@ public class TenantController : ControllerBase
 
     [HttpPost]
     [InjectUserId]
+    [InjectTenantId]
     [Authorize(Roles = "IncompleteAdmin")]
-    public async Task<IActionResult> Post([FromBody] CreateTenantRequest body, Guid userId)
+    public async Task<IActionResult> Post([FromBody] CreateTenantRequest body, Guid userId, Guid tenantId)
     {
         var result = await _mediator.Send(new CreateTenantCommand
         {
@@ -33,6 +34,7 @@ public class TenantController : ControllerBase
             AdminSurname = body.AdminSurname,
             AdminFirstName = body.AdminFirstName,
             UserId = userId,
+            TenantId = tenantId,
         });
 
         return Ok(result.Token.ToString());

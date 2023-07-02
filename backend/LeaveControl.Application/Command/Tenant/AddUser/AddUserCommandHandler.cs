@@ -43,7 +43,8 @@ public class AddUserCommandHandler : IRequestHandler<AddUserCommand, AddUserComm
         tenant!.AddUser(user.Id);
 
         // TODO notify user with access token
-        await Task.WhenAll(_tenantRepository.Update(tenant), _userRepository.Create(user));
+        await _tenantRepository.Update(tenant);
+        await _userRepository.Create(user);
 
         return new AddUserCommand.Response
         {
