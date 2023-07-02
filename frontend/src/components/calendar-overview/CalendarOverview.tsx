@@ -4,7 +4,6 @@ import { useMemo } from 'react';
 import { times } from 'lodash';
 import { Row } from './Row';
 import { RoundRobin } from '#utils';
-import { userCalendarsDefault } from './testData';
 
 export type Leave = {
     id: string;
@@ -13,16 +12,17 @@ export type Leave = {
 };
 
 type UserEntry = {
+    userId: string;
     displayName: string;
     leaves: Leave[];
 };
 
 interface Props {
-    userCalendars?: UserEntry[];
+    userCalendars: UserEntry[];
     month: dayjs.Dayjs;
 }
 
-export function CalendarOverview({ userCalendars = userCalendarsDefault, month }: Props) {
+export function CalendarOverview({ userCalendars, month }: Props) {
     const end = useMemo(() => dayjs(month).endOf('month'), [month]);
     const colorPalette = useMemo(
         () =>

@@ -1,12 +1,22 @@
 import { useCalendar } from '#hooks';
 import { CalendarOverview } from '#components';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { Box, Button, Card, CardBody, CardHeader, Heading, HStack, VStack } from '@chakra-ui/react';
 import * as dayjs from 'dayjs';
 
 export function DashboardPage() {
     const [overviewMonth, setOverviewMonth] = useState(dayjs(Date.now()));
-    useCalendar();
+    const { calendar } = useCalendar();
+
+    const calendarEntries = useMemo(
+        () =>
+            calendar.map(({ surname, firstName, userId, leaves }) => ({
+                displayName: firstName + ' ' + surname,
+                userId: userId,
+                leaves,
+            })),
+        [calendar],
+    );
 
     return (
         <VStack gap={5}>
@@ -24,7 +34,7 @@ export function DashboardPage() {
                     <Heading size='xl'>Calendar</Heading>
                 </CardHeader>
                 <CardBody>
-                    <CalendarOverview month={overviewMonth} />
+                    <CalendarOverview userCalendars={calendarEntries} month={overviewMonth} />
                 </CardBody>
             </Card>
         </VStack>
