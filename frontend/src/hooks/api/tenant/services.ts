@@ -1,5 +1,5 @@
 import ky from 'ky';
-import { AddUserRequest, CreateTenantRequest } from './types';
+import {AddUserRequest, CreateTenantRequest, GetUserResponse} from './types';
 
 export function createTenant(api: typeof ky, body: CreateTenantRequest): Promise<string> {
     return api
@@ -17,6 +17,6 @@ export function addUser(api: typeof ky, body: AddUserRequest): Promise<{ userId:
         .json<{ userId: string }>();
 }
 
-export function getUsers(api: typeof ky): Promise<{ userId: string }> {
-    return api.get('tenant/current/users').json<{ userId: string }>();
+export function getUsers(api: typeof ky): Promise<GetUserResponse> {
+    return api.get('tenant/current/users').json<GetUserResponse>();
 }

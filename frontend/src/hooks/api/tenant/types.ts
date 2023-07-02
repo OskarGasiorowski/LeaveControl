@@ -12,9 +12,9 @@ export interface AddUserRequest {
     email: string;
 }
 
-export interface GetUserResponse {
+export type GetUserResponse = {
     id: string;
     email: string;
     firstName: string;
     surname: string;
-}
+}[];
