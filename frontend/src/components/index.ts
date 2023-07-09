@@ -1,4 +1,4 @@
-export { BrandingContentLayout } from './branding-content-layout';
+export { BrandingContentLayout } from './BrandingContentLayout';
 export { Link } from './Link';
-export { CalendarOverview } from './calendar-overview';
+export { CalendarOverview } from './CalendarOverview';
 export { Calendar } from './Calendar';
