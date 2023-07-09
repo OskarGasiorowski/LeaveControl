@@ -1,14 +1,14 @@
 import { Nav } from '#modules/nav';
-import { Box, HStack } from '@chakra-ui/react';
+import { Box } from '@chakra-ui/react';
 import { Outlet } from 'react-router';
 
 export function Layout() {
     return (
-        <HStack minHeight='100vh' backgroundColor='background'>
+        <Box minHeight='100vh' backgroundColor='background'>
             <Nav />
-            <Box minHeight='100vh' width='full' paddingY={12} paddingX={16}>
+            <Box ml={60} minHeight='100vh' paddingY={12} paddingX={16}>
                 <Outlet />
             </Box>
-        </HStack>
+        </Box>
     );
 }

@@ -8,8 +8,9 @@ export function Nav() {
 
     return (
         <VStack
-            width={{ base: 'full', md: 60 }}
-            h='100vh'
+            width={60}
+            pos='fixed'
+            h='full'
             borderRight='1px'
             borderRightColor='rgba(228, 228, 228, 0.1)'
             paddingX={5}
