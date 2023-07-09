@@ -57,11 +57,12 @@ public class TenantController : ControllerBase
     }
     
     // TODO think if this is right place and if only admin should have access to it
+    [InjectTenantId]
     [Authorize(Roles = "Admin")]
     [HttpGet("current/users")]
-    public async Task<IActionResult> Get()
+    public async Task<IActionResult> Get(Guid tenantId)
     {
-        var response = await _mediator.Send(new UsersQuery());
+        var response = await _mediator.Send(new UsersQuery(tenantId));
         return new JsonResult(response);
     }
 }

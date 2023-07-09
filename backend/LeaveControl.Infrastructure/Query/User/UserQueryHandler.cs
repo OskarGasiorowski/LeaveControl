@@ -14,5 +14,5 @@ public class UserQueryHandler: IRequestHandler<UsersQuery, IReadOnlyList<UserPro
     }
 
     public Task<IReadOnlyList<UserProjectionDto>> Handle(UsersQuery request, CancellationToken cancellationToken) 
-        => _userProjectionRepository.Get();
+        => _userProjectionRepository.GetAllByTenant(request.TenantId);
 }

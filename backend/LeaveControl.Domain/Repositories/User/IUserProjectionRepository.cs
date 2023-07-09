@@ -8,4 +8,5 @@ public interface IUserProjectionRepository
     public Task<bool> Contains(Email email);
     Task<UserId?> GetId(Email email);
     Task<IReadOnlyList<UserProjectionDto>> Get();
+    Task<IReadOnlyList<UserProjectionDto>> GetAllByTenant(TenantId tenantId);
 }
