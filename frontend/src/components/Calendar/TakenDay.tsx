@@ -7,7 +7,7 @@ import { hoverLeaveIdAtom } from './atom.ts';
 interface Props {
     day: number;
     month: number;
-    leaveId: string
+    leaveId: string;
 }
 
 export function TakenDay({ day, leaveId }: Props) {

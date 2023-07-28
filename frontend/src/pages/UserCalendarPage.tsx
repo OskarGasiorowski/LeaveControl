@@ -2,14 +2,14 @@ import { Calendar, selectedDatesAtom } from '#components';
 import { RightSidebar } from '#modules/layout';
 import { Button, Card, CardBody, CardFooter, Text, Textarea, VStack } from '@chakra-ui/react';
 import { useParams } from 'react-router';
-import { useAtomValue } from 'jotai';
+import { useAtom } from 'jotai';
 import { useLeaveRequest } from '#hooks';
 
 export function UserCalendarPage() {
-    const { request, isPending } = useLeaveRequest();
-
     const { userId } = useParams<{ userId: string }>();
-    const selectedDates = useAtomValue(selectedDatesAtom);
+    const [selectedDates, setSelectedDates] = useAtom(selectedDatesAtom);
+
+    const { request, isPending } = useLeaveRequest(userId!, () => setSelectedDates([]));
 
     if (!userId) {
         // TODO not found page
