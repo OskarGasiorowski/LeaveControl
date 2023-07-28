@@ -3,7 +3,7 @@ import { useApi } from '../api';
 
 export function useUsers() {
     const { getUsers } = useApi();
-    const { data = [], isLoading } = useQuery(['users'], getUsers);
+    const { data = [], isLoading } = useQuery({ queryKey: ['users'], queryFn: getUsers });
 
     return {
         users: data,

@@ -24,7 +24,9 @@ export function useCreateAccount() {
         CreateAccountResponse,
         AppError,
         CreateAccountRequest
-    >(['create-account'], createAccount, {
+    >({
+        mutationKey: ['create-account'],
+        mutationFn: createAccount,
         onSuccess: (data) => {
             setToken(data.token);
             decodeToken(data.token);

@@ -12,9 +12,9 @@ public enum DayType
 
 public record LeaveDay
 {
-    [JsonProperty]
+    [JsonProperty("day")]
     private readonly DateTime _day;
-    [JsonProperty]
+    [JsonProperty("type")]
     private readonly DayType _type;
 
     [JsonConstructor]

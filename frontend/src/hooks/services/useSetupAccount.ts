@@ -12,11 +12,13 @@ export function useSetupAccount() {
     const { setToken } = useAuth();
     const { setupAccount } = useApi();
 
-    const { isLoading, mutate, error } = useMutation<
+    const { isPending, mutate, error } = useMutation<
         string,
         InternalServerError,
         CreateTenantRequest
-    >(['useSetupAccount'], setupAccount, {
+    >({
+        mutationKey: ['useSetupAccount'],
+        mutationFn: setupAccount,
         onSuccess: (token) => {
             setToken(token);
             navigate(paths.dashboard, { replace: true });
@@ -27,6 +29,6 @@ export function useSetupAccount() {
 
     return {
         setupAccount: mutate,
-        isLoading,
+        isLoading: isPending,
     };
 }

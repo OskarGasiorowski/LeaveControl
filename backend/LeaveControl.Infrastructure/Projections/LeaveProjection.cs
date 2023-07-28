@@ -20,7 +20,7 @@ public class LeaveProjection
 
     public void Apply(LeaveRequestedEvent @event)
     {
-        DeclinedLeaves.Add(new LeaveRequest
+        PendingLeaves.Add(new LeaveRequest
         {
             Id = @event.LeaveId,
             LeaveDays = @event.LeaveDays,
@@ -51,12 +51,12 @@ public class LeaveProjection
     
     private void ApproveLeave(LeaveId id)
     {
-        var leaveRequest = Leaves
+        var leaveRequest = PendingLeaves
             .Single(pending => pending.Id == id);
         
         Leaves.Add(leaveRequest);
         
-        Leaves = Leaves
+        PendingLeaves = PendingLeaves
             .Where(pending => pending.Id != id).ToList();
     }
 

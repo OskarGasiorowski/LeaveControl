@@ -65,8 +65,7 @@ public class CalendarController : ControllerBase
         return new JsonResult(result);
     }
     
-    [HttpGet("me")]
-    [InjectUserId]
+    [HttpGet("{userId}")]
     [Authorize(Roles = "Admin,User")]
     public async Task<IActionResult> Get(Guid userId)
     {

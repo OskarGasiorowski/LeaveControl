@@ -10,7 +10,9 @@ export function useAddUser(onSuccess?: () => void) {
         onSuccess?.();
     }
 
-    const { mutate, isLoading } = useMutation(['add-user'], addUser, {
+    const { mutate, isLoading } = useMutation({
+        mutationKey: ['add-user'],
+        mutationFn: addUser,
         onSuccess: handleOnSuccess,
     });
 

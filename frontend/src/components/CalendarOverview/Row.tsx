@@ -1,6 +1,6 @@
 import { Td, Tr } from '@chakra-ui/react';
 import { Leave } from './CalendarOverview';
-import { useMemo } from 'react';
+import { Fragment, useMemo } from "react";
 import * as dayjs from 'dayjs';
 import { LeaveCell } from './LeaveCell';
 import { EmptyCell } from './EmptyCell';
@@ -67,17 +67,16 @@ export function Row({ displayName, leaves, month, onClick }: Props) {
                 const day = dayjs(new Date(month.year(), month.month(), index + 1)).day();
                 const isWeekend = day === 0 || day === 6;
                 return (
-                    <>
-                        {!type && <EmptyCell key={index + 'empty'} isWeekend={isWeekend} />}
+                    <Fragment key={index + 'empty'}>
+                        {!type && <EmptyCell isWeekend={isWeekend} />}
                         {!!type && (
                             <LeaveCell
-                                key={index + 'leave'}
                                 color={leaves.find((leave) => leave.id === type?.id)!.color}
                                 variant={type!.variant}
                                 isWeekend={isWeekend}
                             />
                         )}
-                    </>
+                    </Fragment>
                 );
             })}
         </Tr>

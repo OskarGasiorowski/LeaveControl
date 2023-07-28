@@ -7,7 +7,7 @@ export function usePaths() {
         setupAccount: '/setup-account',
         // TODO think about smarter way of doing it
         userCalendar: {
-            template: '/user-calendar/:id',
+            template: '/user-calendar/:userId',
             generate: (userId: string) => `/user-calendar/${userId}`,
         },
     };

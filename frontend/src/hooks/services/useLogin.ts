@@ -22,35 +22,33 @@ export function useLogin() {
     const { login } = useApi();
     const { setToken } = useAuth();
 
-    const { mutate, isLoading, error } = useMutation<LoginResponse, AppError, LoginRequest>(
-        ['login'],
-        login,
-        {
-            onSuccess: (data) => {
-                setToken(data.token);
-                const { role } = decodeToken(data.token);
+    const { mutate, isPending, error } = useMutation<LoginResponse, AppError, LoginRequest>({
+        mutationKey: ['login'],
+        mutationFn: login,
+        onSuccess: (data) => {
+            setToken(data.token);
+            const { role } = decodeToken(data.token);
 
-                if (role === 'IncompleteAdmin') {
-                    navigate(paths.setupAccount, { replace: true });
-                    return;
-                }
+            if (role === 'IncompleteAdmin') {
+                navigate(paths.setupAccount, { replace: true });
+                return;
+            }
 
-                if (role === 'InvitedUser') {
-                    // TODO
-                    return;
-                }
+            if (role === 'InvitedUser') {
+                // TODO
+                return;
+            }
 
-                const redirectTo = location.state?.from?.pathname || paths.dashboard;
-                navigate(redirectTo, { replace: true });
-            },
+            const redirectTo = location.state?.from?.pathname || paths.dashboard;
+            navigate(redirectTo, { replace: true });
         },
-    );
+    });
 
     const errorToDisplay = useError<AppError>(error, 'InvalidCredentials');
 
     return {
         login: mutate,
-        isLoading,
+        isLoading: isPending,
         error: errorToDisplay,
     };
 }
