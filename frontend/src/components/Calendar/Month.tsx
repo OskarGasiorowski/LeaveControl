@@ -19,9 +19,11 @@ export function Month({ month, calendar }: Props) {
         const emptyDays = firstDay.day() === 0 ? 6 : firstDay.day() - 1;
 
         const leaves = calendar.leaves
-            .flatMap((leave) => leave?.leaveDays)
-            .map((leaveDays) => new Date(leaveDays.day))
-            .filter((day) => day.getMonth() === month && day.getFullYear() === 2023);
+            .map((leave) =>
+                leave.leaveDays.map(({ day }: any) => ({ day: new Date(day), leaveId: leave.id })),
+            )
+            .flatMap((leave) => leave)
+            .filter(({ day }) => day.getMonth() === month && day.getFullYear() === 2023);
 
         return (
             <>
@@ -29,13 +31,22 @@ export function Month({ month, calendar }: Props) {
                     <GridItem key={`empty-${index}`} />
                 ))}
 
-                {times(firstDay.daysInMonth()).map((dayIndex) =>
-                    leaves.some((day) => day.getDate() === dayIndex) ? (
-                        <TakenDay key={dayIndex} day={dayIndex + 1} month={month} />
-                    ) : (
-                        <FreeDay key={dayIndex} day={dayIndex + 1} month={month} />
-                    ),
-                )}
+                {times(firstDay.daysInMonth()).map((dayIndex) => {
+                    const takenDay = leaves.find(({ day }) => day.getDate() === dayIndex);
+
+                    if (takenDay) {
+                        return (
+                            <TakenDay
+                                key={dayIndex}
+                                day={dayIndex + 1}
+                                month={month}
+                                leaveId={takenDay.leaveId}
+                            />
+                        );
+                    }
+
+                    return <FreeDay key={dayIndex} day={dayIndex + 1} month={month} />;
+                })}
             </>
         );
     }, [month, calendar]);
