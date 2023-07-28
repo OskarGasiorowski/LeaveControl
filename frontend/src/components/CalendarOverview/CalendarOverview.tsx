@@ -8,7 +8,7 @@ import { RoundRobin } from '#utils';
 export type Leave = {
     id: string;
     reason: string;
-    dates: Date[];
+    leaveDays: Date[];
 };
 
 type UserEntry = {

@@ -1,6 +1,6 @@
 import { Td, Tr } from '@chakra-ui/react';
 import { Leave } from './CalendarOverview';
-import { Fragment, useMemo } from "react";
+import { Fragment, useMemo } from 'react';
 import * as dayjs from 'dayjs';
 import { LeaveCell } from './LeaveCell';
 import { EmptyCell } from './EmptyCell';
@@ -20,7 +20,7 @@ export function Row({ displayName, leaves, month, onClick }: Props) {
         } | null>(dayjs(month).endOf('month').date()).fill(null);
 
         leaves.forEach((leave) =>
-            leave.dates.forEach((date) => {
+            leave.leaveDays.forEach((date) => {
                 if (dayjs(date).isSame(dayjs(month), 'month')) {
                     temp[date.getDate() - 1] = {
                         id: leave.id,
