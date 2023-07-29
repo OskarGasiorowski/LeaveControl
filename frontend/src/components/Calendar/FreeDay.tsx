@@ -1,7 +1,7 @@
-import { useAtom, useAtomValue } from 'jotai';
+import { useAtom, useAtomValue, useSetAtom } from 'jotai';
 import { selectedDatesAtom } from '#components';
 import { Day } from './Day.tsx';
-import { editModeAtom, leaveEditingAtom } from './atom.ts';
+import { editModeAtom, leaveEditingAtom, selectedLeaveIdAtom } from './atom.ts';
 
 interface Props {
     day: number;
@@ -15,10 +15,15 @@ const colorSet: Record<'free' | 'selected', { base: string; hover: string }> = {
 
 export function FreeDay({ day, month }: Props) {
     const [selectedDates, setSelectedDates] = useAtom(selectedDatesAtom);
-    const [_, setLeaveEditing] = useAtom(leaveEditingAtom);
+    const setLeaveEditing = useSetAtom(leaveEditingAtom);
+    const setSelectedLeaveIdAtom = useSetAtom(selectedLeaveIdAtom);
     const editMode = useAtomValue(editModeAtom);
 
     function handleDayClick() {
+        if (!editMode) {
+            setSelectedLeaveIdAtom(null);
+        }
+
         const dateIsSelected = selectedDates.some(
             (date) => date.getMonth() === month && date.getDate() === day,
         );
