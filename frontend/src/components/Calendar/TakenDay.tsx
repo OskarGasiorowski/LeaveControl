@@ -5,12 +5,11 @@ import { editModeAtom, hoverLeaveIdAtom, leaveEditingAtom, selectedLeaveIdAtom }
 import * as dayjs from 'dayjs';
 
 interface Props {
-    day: number;
-    month: number;
+    date: Date;
     leaveId: string;
 }
 
-export function TakenDay({ day, month, leaveId }: Props) {
+export function TakenDay({ date, leaveId }: Props) {
     const selectedDates = useAtomValue(selectedDatesAtom);
     const [hoverLeaveId, setLeaveId] = useAtom(hoverLeaveIdAtom);
     const [selectedLeaveId, setSelectedLeaveIdAtom] = useAtom(selectedLeaveIdAtom);
@@ -26,8 +25,7 @@ export function TakenDay({ day, month, leaveId }: Props) {
             return {
                 ...prev,
                 leaveDays: prev.leaveDays.filter(
-                    ({ day: leaveDay }) =>
-                        !dayjs(leaveDay).isSame(new Date(2023, month, day), 'date'),
+                    ({ day: leaveDay }) => !dayjs(leaveDay).isSame(date, 'date'),
                 ),
             };
         });
@@ -35,7 +33,7 @@ export function TakenDay({ day, month, leaveId }: Props) {
 
     return (
         <Day
-            day={day}
+            day={date.getDate()}
             onClick={() => (editMode ? handleDayEdit() : setSelectedLeaveIdAtom(leaveId))}
             color={{ base: '#7FBA7A', hover: '#A0D7E7' }}
             disabled={selectedDates.length > 0 || (editMode && selectedLeaveId !== leaveId)}
