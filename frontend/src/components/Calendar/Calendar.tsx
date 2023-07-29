@@ -2,20 +2,13 @@ import { Month } from './Month.tsx';
 import { times } from 'lodash';
 import { Flex, Spacer } from '@chakra-ui/react';
 import { Fragment } from 'react';
-import { useUserCalendar } from '#hooks';
+import { GetUserCalendarResponse } from '../../hooks/api';
 
 interface Props {
-    userId: string;
+    calendar: GetUserCalendarResponse;
 }
 
-export function Calendar({ userId }: Props) {
-    const { calendar } = useUserCalendar(userId);
-
-    // TODO proper loading with skeleton
-    if (!calendar) {
-        return <h1>Loading</h1>;
-    }
-
+export function Calendar({ calendar }: Props) {
     return (
         <Flex height='full' flexWrap='wrap' rowGap={8}>
             {times(12).map((month) => (

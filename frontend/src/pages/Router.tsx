@@ -7,7 +7,7 @@ import { DashboardPage } from './DashboardPage';
 import { usePaths } from '#hooks';
 import { SetupAccountPage } from './SetupAccountPage';
 import { UsersPage } from './UsersPage';
-import { UserCalendarPage } from './UserCalendarPage.tsx';
+import { UserCalendarPage } from './UserCalendarPage';
 
 export function Router() {
     const paths = usePaths();

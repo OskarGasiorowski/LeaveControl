@@ -7,8 +7,19 @@ export type GetCalendarResponse = {
 }[];
 
 export type GetUserCalendarResponse = {
-    leaves: any[];
-    pendingLeaveRequests: any[];
+    leaves: Leave[];
+    pendingLeaveRequests: Leave[];
+};
+
+export type LeaveDay = {
+    day: Date;
+    type: 'Full';
+};
+
+export type Leave = {
+    id: string;
+    leaveDays: LeaveDay[];
+    reason: string;
 };
 
 export type PostLeaveRequest = {

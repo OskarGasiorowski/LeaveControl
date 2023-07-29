@@ -5,6 +5,8 @@ import { useMemo } from 'react';
 import { GetUserCalendarResponse } from '../../hooks/api';
 import { FreeDay } from './FreeDay.tsx';
 import { TakenDay } from './TakenDay.tsx';
+import { leaveEditingAtom } from './atom.ts';
+import { useAtomValue } from 'jotai';
 
 interface Props {
     calendar: GetUserCalendarResponse;
@@ -12,6 +14,7 @@ interface Props {
 }
 
 export function Month({ month, calendar }: Props) {
+    const leaveEditing = useAtomValue(leaveEditingAtom);
     const daysOfWeek = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'];
 
     const cells = useMemo(() => {
@@ -19,6 +22,8 @@ export function Month({ month, calendar }: Props) {
         const emptyDays = firstDay.day() === 0 ? 6 : firstDay.day() - 1;
 
         const leaves = calendar.leaves
+            .filter((leave) => leave.id !== leaveEditing?.id)
+            .concat(leaveEditing ? [leaveEditing] : [])
             .map((leave) =>
                 leave.leaveDays.map(({ day }: any) => ({ day: new Date(day), leaveId: leave.id })),
             )
@@ -32,7 +37,7 @@ export function Month({ month, calendar }: Props) {
                 ))}
 
                 {times(firstDay.daysInMonth()).map((dayIndex) => {
-                    const takenDay = leaves.find(({ day }) => day.getDate() === dayIndex);
+                    const takenDay = leaves.find(({ day }) => day.getDate() === dayIndex + 1);
 
                     if (takenDay) {
                         return (
@@ -49,7 +54,7 @@ export function Month({ month, calendar }: Props) {
                 })}
             </>
         );
-    }, [month, calendar]);
+    }, [month, calendar, leaveEditing]);
 
     return (
         <Grid templateColumns='repeat(7, 1fr)' justifyItems='center' gap={0} rowGap={1.5}>

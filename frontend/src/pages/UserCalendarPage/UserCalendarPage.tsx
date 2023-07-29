@@ -1,19 +1,35 @@
 import { Calendar, selectedDatesAtom } from '#components';
 import { RightSidebar } from '#modules/layout';
-import { Button, Card, CardBody, CardFooter, Text, Textarea, VStack } from '@chakra-ui/react';
+import {
+    Button,
+    Card,
+    CardBody,
+    CardFooter,
+    HStack,
+    Text,
+    Textarea,
+    VStack,
+} from '@chakra-ui/react';
 import { useParams } from 'react-router';
 import { useAtom } from 'jotai';
-import { useLeaveRequest } from '#hooks';
+import { useLeaveRequest, useUserCalendar } from '#hooks';
+import { EditLeaveCard } from './components';
 
 export function UserCalendarPage() {
     const { userId } = useParams<{ userId: string }>();
+    // TODO hide those inside hooks and export it from module
     const [selectedDates, setSelectedDates] = useAtom(selectedDatesAtom);
 
     const { request, isPending } = useLeaveRequest(userId!, () => setSelectedDates([]));
+    const { calendar } = useUserCalendar(userId);
 
     if (!userId) {
         // TODO not found page
         return <h1>not found</h1>;
+    }
+
+    if (!calendar) {
+        return <h1>loading</h1>;
     }
 
     function handleRequest() {
@@ -28,7 +44,7 @@ export function UserCalendarPage() {
 
     return (
         <>
-            <Calendar userId={userId} />
+            <Calendar calendar={calendar} />
             <RightSidebar>
                 {!!selectedDates.length && (
                     <Card>
@@ -36,13 +52,22 @@ export function UserCalendarPage() {
                             <Text>Take: {selectedDates.length} days</Text>
                             <Textarea placeholder='Reason...' size='sm' />
                         </CardBody>
-                        <CardFooter>
+                        <CardFooter as={HStack} gap={1}>
                             <Button size='full' isLoading={isPending} onClick={handleRequest}>
                                 Request
+                            </Button>
+                            <Button
+                                size='full'
+                                disabled={isPending}
+                                onClick={() => setSelectedDates([])}
+                            >
+                                Clear
                             </Button>
                         </CardFooter>
                     </Card>
                 )}
+
+                <EditLeaveCard calendar={calendar} />
             </RightSidebar>
         </>
     );
