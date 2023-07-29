@@ -148,4 +148,36 @@ public class UserCalendarAggregate : AggregateRoot<Guid>
         PendingLeaveRequests = PendingLeaveRequests
             .Where(pending => pending.Id != id).ToList();
     }
+
+    public void UpdateLeave(LeaveRequest leaveRequest)
+    {
+        var leave = LeaveRequests.SingleOrDefault(l => l.Id == leaveRequest.Id);
+        if (leave == null)
+        {
+            throw AppException.LeaveRequestNotFounded();
+        }
+        
+        // TODO check overlaps and extending - after merging leaves into one entity
+        var @event = new LeaveUpdatedEvent
+        {
+            LeaveDays = leaveRequest.LeaveDays,
+            Reason = leaveRequest.Reason,
+            LeaveId = leaveRequest.Id,
+            UserId = Id,
+        };
+        Enqueue(@event);
+        Apply(@event);
+    }
+    
+    private void Apply(LeaveUpdatedEvent @event)
+    {
+        LeaveRequests = LeaveRequests.Where(leave => leave.Id != @event.LeaveId).ToList();
+        
+        LeaveRequests.Add(new()
+        {
+            Id = @event.LeaveId,
+            Reason = @event.Reason,
+            LeaveDays = @event.LeaveDays,
+        });
+    }
 }

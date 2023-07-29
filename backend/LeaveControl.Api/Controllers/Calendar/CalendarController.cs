@@ -3,6 +3,7 @@ using LeaveControl.Api.Controllers.Calendar.Requests;
 using LeaveControl.Application.Command.Calendar.AcceptLeave;
 using LeaveControl.Application.Command.Calendar.AddLeave;
 using LeaveControl.Application.Command.Calendar.DeclineLeave;
+using LeaveControl.Application.Command.Calendar.UpdateLeave;
 using LeaveControl.Infrastructure.Query.Calendar;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -30,6 +31,20 @@ public class CalendarController : ControllerBase
         {
             Reason = body.Reason,
             UserId = userId,
+            LeaveDays = body.Entry.Select(LeaveDayMapper.Map).ToArray(),
+        });
+    }
+    
+    [InjectUserId]
+    [HttpPut("me/leave/{leaveId}")]
+    [Authorize(Roles = "Admin,User")]
+    public Task UpdateLeave([FromBody] UpdateLeaveRequest body, Guid userId, Guid leaveId)
+    {
+        return _mediator.Send(new UpdateLeaveCommand
+        {
+            Reason = body.Reason,
+            UserId = userId,
+            LeaveId = leaveId,
             LeaveDays = body.Entry.Select(LeaveDayMapper.Map).ToArray(),
         });
     }

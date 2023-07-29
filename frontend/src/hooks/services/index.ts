@@ -6,3 +6,4 @@ export { useUserCalendar } from './useUserCalendar.ts';
 export { useAddUser } from './useAddUser';
 export { useUsers } from './useUsers';
 export { useLeaveRequest } from './useLeaveRequest.ts';
+export { useUpdateLeaveRequest } from './useUpdateLeaveRequest.ts';

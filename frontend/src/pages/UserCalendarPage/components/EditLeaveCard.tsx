@@ -8,24 +8,28 @@ import {
     Textarea,
     VStack,
 } from '@chakra-ui/react';
-import { useAtom, useSetAtom } from 'jotai';
+import { useAtom } from 'jotai';
 import {
     editModeAtom,
     leaveEditingAtom,
     selectedLeaveIdAtom,
 } from '../../../components/Calendar/atom.ts';
 import { GetUserCalendarResponse } from '../../../hooks/api';
+import { useUpdateLeaveRequest } from '#hooks';
 
 interface Props {
+    userId: string;
     calendar: GetUserCalendarResponse;
 }
 
-export function EditLeaveCard({ calendar }: Props) {
+export function EditLeaveCard({ calendar, userId }: Props) {
     const [editMode, setEditMode] = useAtom(editModeAtom);
-    const setLeaveEditing = useSetAtom(leaveEditingAtom);
+    const [leaveEditing, setLeaveEditing] = useAtom(leaveEditingAtom);
     const [selectedLeaveId] = useAtom(selectedLeaveIdAtom);
 
     const selectedLeave = calendar?.leaves.find((leave) => leave.id === selectedLeaveId);
+
+    const { request, isPending } = useUpdateLeaveRequest(userId, selectedLeaveId);
 
     function handleEdit() {
         setLeaveEditing(calendar?.leaves.find((leave) => leave.id === selectedLeaveId) || null);
@@ -39,6 +43,13 @@ export function EditLeaveCard({ calendar }: Props) {
 
     if (!selectedLeave) {
         return null;
+    }
+
+    function handleUpdate() {
+        request({
+            entry: leaveEditing?.leaveDays || [],
+            reason: '',
+        });
     }
 
     return (
@@ -55,10 +66,10 @@ export function EditLeaveCard({ calendar }: Props) {
                 )}
                 {editMode && (
                     <>
-                        <Button size='full' onClick={handleCancel}>
+                        <Button isLoading={isPending} size='full' onClick={handleUpdate}>
                             Save
                         </Button>
-                        <Button size='full' onClick={handleCancel}>
+                        <Button disabled={isPending} size='full' onClick={handleCancel}>
                             Cancel
                         </Button>
                     </>

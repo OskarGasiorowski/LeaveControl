@@ -1,2 +1,2 @@
-export { getCalendar, getUserCalendar, postLeaveRequest } from './services';
+export { getCalendar, getUserCalendar, postLeaveRequest, updateLeaveRequest } from './services';
 export * from './types.ts';

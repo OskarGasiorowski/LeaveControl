@@ -3,7 +3,7 @@ import { createAccount, CreateAccountRequest, login, LoginRequest } from './auth
 import { addUser, AddUserRequest, createTenant, CreateTenantRequest, getUsers } from './tenant';
 import { useAuth } from '#modules/auth';
 import { useMemo } from 'react';
-import { getCalendar, getUserCalendar, postLeaveRequest } from './calendar';
+import { getCalendar, getUserCalendar, postLeaveRequest, UpdateLeaveRequest, updateLeaveRequest } from './calendar';
 import { PostLeaveRequest } from './calendar/types.ts';
 
 export function useApi() {
@@ -29,5 +29,7 @@ export function useApi() {
         getCalendar: () => getCalendar(authenticatedApi),
         getUserCalendar: (userId: string) => getUserCalendar(authenticatedApi, userId),
         postLeaveRequest: (body: PostLeaveRequest) => postLeaveRequest(authenticatedApi, body),
+        updateLeave: (leaveId: string, body: UpdateLeaveRequest) =>
+            updateLeaveRequest(authenticatedApi, leaveId, body),
     };
 }

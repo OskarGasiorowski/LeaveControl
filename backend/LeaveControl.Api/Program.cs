@@ -30,7 +30,7 @@ builder.Services
     .AddMediatR(cfg => cfg.RegisterServicesFromAssemblyContaining<AddLeaveCommand>())
     .AddApplication()
     .AddInfrastructure(builder.Configuration)
-    .AddValidatorsFromAssemblyContaining<PatchLeaveRequestValidator>()
+    .AddValidatorsFromAssemblyContaining<PostLeaveRequestValidator>()
     .AddFluentValidationAutoValidation()
     .Configure<JwtSettings>(builder.Configuration.GetSection("Jwt"))
     .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)

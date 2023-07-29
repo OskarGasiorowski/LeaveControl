@@ -1,13 +1,18 @@
-import { useApi } from '../api';
+import { UpdateLeaveRequest, useApi } from '../api';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-export function useLeaveRequest(userId: string, onSuccess?: () => void) {
-    const { postLeaveRequest } = useApi();
+export function useUpdateLeaveRequest(
+    userId: string,
+    leaveId: string | null,
+    onSuccess?: () => void,
+) {
+    const { updateLeave } = useApi();
     const { invalidateQueries } = useQueryClient();
 
     const { mutate, isPending } = useMutation({
         mutationKey: ['leave-request'],
-        mutationFn: postLeaveRequest,
+        mutationFn: (body: UpdateLeaveRequest) =>
+            leaveId ? updateLeave(leaveId, body) : Promise.resolve(),
         onSuccess: async () => {
             await invalidateQueries({ queryKey: ['calendar', userId] });
             onSuccess?.();
@@ -19,4 +24,3 @@ export function useLeaveRequest(userId: string, onSuccess?: () => void) {
         isPending,
     };
 }
-

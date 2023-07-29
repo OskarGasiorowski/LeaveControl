@@ -26,3 +26,8 @@ export type PostLeaveRequest = {
     entry: { date: Date; type: 'Full' | 'FirstHalf' | 'SecondHalf' }[];
     reason: string;
 };
+
+export type UpdateLeaveRequest = {
+    entry: LeaveDay[];
+    reason: string;
+};

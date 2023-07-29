@@ -67,7 +67,7 @@ export function UserCalendarPage() {
                     </Card>
                 )}
 
-                <EditLeaveCard calendar={calendar} />
+                <EditLeaveCard userId={userId} calendar={calendar} />
             </RightSidebar>
         </>
     );

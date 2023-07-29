@@ -2,7 +2,6 @@ using LeaveControl.Domain.Aggregates.User.Events;
 using LeaveControl.Domain.Aggregates.UserCalendar.Events;
 using LeaveControl.Domain.Aggregates.UserCalendar.Models;
 using LeaveControl.Domain.Types;
-using Marten.Events.Aggregation;
 using Marten.Events.Projections;
 using Marten.Schema;
 
@@ -79,6 +78,18 @@ public class LeaveProjection
         FirstName = @event.FirstName;
         Surname = @event.Surname;
     }
+
+    public void Apply(LeaveUpdatedEvent @event)
+    {
+        Leaves = Leaves.Where(leave => leave.Id != @event.LeaveId).ToList();
+        
+        Leaves.Add(new LeaveRequest
+        {
+            Id = @event.LeaveId,
+            LeaveDays = @event.LeaveDays,
+            Reason = @event.Reason,
+        });
+    }
 }
 
 public class LeaveProjectionSetup : MultiStreamProjection<LeaveProjection, Guid>
@@ -94,5 +105,6 @@ public class LeaveProjectionSetup : MultiStreamProjection<LeaveProjection, Guid>
         ProjectEvent<UserCalendarCreatedEvent>((item, @event) => item.Apply(@event));
         ProjectEvent<UserCreatedEvent>((item, @event) => item.Apply(@event));
         ProjectEvent<UserDataUpdatedEvent>((item, @event) => item.Apply(@event));
+        ProjectEvent<LeaveUpdatedEvent>((item, @event) => item.Apply(@event));
     }
 }
