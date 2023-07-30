@@ -154,14 +154,29 @@ public class UserCalendarAggregate : AggregateRoot<Guid>
             throw AppException.LeaveRequestNotFounded();
         }
         
-        // TODO check overlaps and extending - after merging leaves into one entity
+        var leaveDays = Leaves
+            .Where(l => l.Id != leaveRequest.Id)
+            .SelectMany(l => l.LeaveDays)
+            .ToArray();
+        
+        if (leaveDays.Overlaps(leaveRequest.LeaveDays))
+        {
+            throw AppException.LeaveDaysOverlaps();
+        }
+        
+        var leaveDaysWithinLimit = leaveRequest.LeaveDays.WithinLimit(leaveDays, Settings.Allowance);
+        if (!leaveDaysWithinLimit && !Settings.AllowanceOverflowAllowed)
+        {
+            throw AppException.LeaveDaysExceeded(Settings.Allowance);
+        }
+        
         var @event = new LeaveUpdatedEvent
         {
             LeaveDays = leaveRequest.LeaveDays,
             Reason = leaveRequest.Reason,
             LeaveId = leaveRequest.Id,
             UserId = Id,
-            LeaveStatus = leaveRequest.LeaveStatus,
+            LeaveStatus = LeaveStatus.Pending()
         };
         Enqueue(@event);
         Apply(@event);

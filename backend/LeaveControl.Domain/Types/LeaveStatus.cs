@@ -13,12 +13,13 @@ public readonly struct LeaveStatus
         _leaveStatus = leaveStatus;
     }
 
-    public static LeaveStatus Pending() => new LeaveStatus("pending");
-    public static LeaveStatus Accepted() => new LeaveStatus("accepted");
+    public static LeaveStatus Pending() => new("pending");
+    public static LeaveStatus Accepted() => new("accepted");
     
     public static bool operator ==(LeaveStatus left, LeaveStatus right) => left._leaveStatus == right._leaveStatus;
     public static bool operator !=(LeaveStatus left, LeaveStatus right) => !(left == right);
     public static implicit operator LeaveStatus(string leaveStatus) => new(leaveStatus);
+    public static implicit operator string(LeaveStatus leaveStatus) => leaveStatus.ToString();
 
     public bool IsPending => this == Pending();
 
