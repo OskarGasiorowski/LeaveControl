@@ -34,15 +34,7 @@ public class CalendarQueryHandler : IRequestHandler<CalendarQuery, IReadOnlyList
                     Reason = leave.Reason,
                     LeaveDays = leave.LeaveDays,
                 }).ToList(),
-            
-            PendingLeaveRequests = calendar.PendingLeaves
-                .Map(leave => new LeaveRequest
-                {
-                    Id = leave.Id,
-                    Reason = leave.Reason,
-                    LeaveDays = leave.LeaveDays,
-                }).ToList(),
-            
+
         }).ToList();
     }
 }

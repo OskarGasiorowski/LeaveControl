@@ -13,17 +13,17 @@ public class LeaveProjection
     public Guid Id { get; set; }
     public FirstName FirstName { get; set; }
     public Surname Surname { get; set; }
-    public IList<LeaveRequest> PendingLeaves { get; set; } = new List<LeaveRequest>();
     public IList<LeaveRequest> Leaves { get; set; } = new List<LeaveRequest>();
     public IList<LeaveRequest> DeclinedLeaves { get; set; } = new List<LeaveRequest>();
 
     public void Apply(LeaveRequestedEvent @event)
     {
-        PendingLeaves.Add(new LeaveRequest
+        Leaves.Add(new LeaveRequest
         {
             Id = @event.LeaveId,
             LeaveDays = @event.LeaveDays,
             Reason = @event.Reason,
+            LeaveStatus = LeaveStatus.Pending(),
         });
     }
     
@@ -50,20 +50,16 @@ public class LeaveProjection
     
     private void ApproveLeave(LeaveId id)
     {
-        var leaveRequest = PendingLeaves
+        var leaveRequest = Leaves
             .Single(pending => pending.Id == id);
         
-        Leaves.Add(leaveRequest);
-        
-        PendingLeaves = PendingLeaves
-            .Where(pending => pending.Id != id).ToList();
+        leaveRequest.LeaveStatus = LeaveStatus.Accepted();
     }
 
     public void Apply(UserCalendarCreatedEvent @event)
     {
         Id = @event.UserId;
         DeclinedLeaves = new List<LeaveRequest>();
-        PendingLeaves = new List<LeaveRequest>();
         Leaves = new List<LeaveRequest>();
     }
 

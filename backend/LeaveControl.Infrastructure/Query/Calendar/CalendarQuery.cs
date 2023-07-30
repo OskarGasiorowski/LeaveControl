@@ -12,6 +12,5 @@ public record CalendarQuery : IRequest<IReadOnlyList<CalendarQuery.Response>>
         public FirstName FirstName { get; init; }
         public Surname Surname { get; init; }
         public IList<LeaveRequest> Leaves { get; init; } = new List<LeaveRequest>();
-        public IList<LeaveRequest> PendingLeaveRequests { get; init; } = new List<LeaveRequest>();
     }
 }

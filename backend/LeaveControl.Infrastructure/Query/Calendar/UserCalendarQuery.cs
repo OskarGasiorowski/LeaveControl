@@ -6,5 +6,5 @@ namespace LeaveControl.Infrastructure.Query.Calendar;
 
 public record UserCalendarQuery(UserId UserId) : IRequest<UserCalendarQuery.Response>
 {
-    public record Response(IList<LeaveRequest> Leaves, IList<LeaveRequest> PendingLeaveRequests);
+    public record Response(IList<LeaveRequest> Leaves);
 };

@@ -50,7 +50,9 @@ export function Month({ month, year, calendar }: Props) {
                         );
                     }
 
-                    return <FreeDay key={dayIndex} date={new Date(year, month, dayIndex + 1, 12)} />;
+                    return (
+                        <FreeDay key={dayIndex} date={new Date(year, month, dayIndex + 1, 12)} />
+                    );
                 })}
             </>
         );

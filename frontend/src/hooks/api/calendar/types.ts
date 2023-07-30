@@ -1,14 +1,12 @@
 export type GetCalendarResponse = {
     firstName: string;
     leaves: any[];
-    pendingLeaveRequests: any[];
     surname: string;
     userId: string;
 }[];
 
 export type GetUserCalendarResponse = {
     leaves: Leave[];
-    pendingLeaveRequests: Leave[];
 };
 
 export type LeaveDay = {

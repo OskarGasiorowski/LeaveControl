@@ -6,8 +6,7 @@ namespace LeaveControl.Domain.Aggregates.UserCalendar;
 
 public class UserCalendarAggregate : AggregateRoot<Guid>
 {
-    public IList<LeaveRequest> LeaveRequests { get; private set; } = new List<LeaveRequest>();
-    public IList<LeaveRequest> PendingLeaveRequests { get; private set; } = new List<LeaveRequest>();
+    public IList<LeaveRequest> Leaves { get; private set; } = new List<LeaveRequest>();
     public IList<LeaveRequest> DeclinedLeaveRequests { get; private set; } = new List<LeaveRequest>();
     
     public CalendarSettings Settings { get; private set; }
@@ -37,7 +36,7 @@ public class UserCalendarAggregate : AggregateRoot<Guid>
     public void RequestLeave(LeaveRequest leaveRequest)
     {
         leaveRequest.Id = LeaveId.Generate();
-        var leaveDays = LeaveRequests.SelectMany(r => r.LeaveDays).ToArray();
+        var leaveDays = Leaves.SelectMany(r => r.LeaveDays).ToArray();
         
         if (leaveDays.Overlaps(leaveRequest.LeaveDays))
         {
@@ -77,17 +76,18 @@ public class UserCalendarAggregate : AggregateRoot<Guid>
 
     private void Apply(LeaveRequestedEvent @event)
     {
-        PendingLeaveRequests.Add(new()
+        Leaves.Add(new()
         {
             Id = @event.LeaveId,
             Reason = @event.Reason,
             LeaveDays = @event.LeaveDays,
+            LeaveStatus = LeaveStatus.Pending(),
         });
     }
 
     public void ApproveLeaveRequest(LeaveId id)
     {
-        var leaveRequest = PendingLeaveRequests.SingleOrDefault(pending => pending.Id == id);
+        var leaveRequest = Leaves.SingleOrDefault(pending => pending.Id == id && pending.LeaveStatus.IsPending);
         if (leaveRequest == null)
         {
             throw AppException.LeaveRequestNotFounded();
@@ -110,7 +110,7 @@ public class UserCalendarAggregate : AggregateRoot<Guid>
     
     public void DeclineLeaveRequest(LeaveId id, Reason reason)
     {
-        var leaveRequest = PendingLeaveRequests.SingleOrDefault(pending => pending.Id == id);
+        var leaveRequest = Leaves.SingleOrDefault(leave => leave.Id == id && leave.LeaveStatus.IsPending);
         if (leaveRequest == null)
         {
             throw AppException.LeaveRequestNotFounded();
@@ -129,29 +129,26 @@ public class UserCalendarAggregate : AggregateRoot<Guid>
 
     private void Apply(LeaveDeclinedEvent @event)
     {
-        var leaveRequest = PendingLeaveRequests
+        var leaveRequest = Leaves
             .Single(pending => pending.Id == @event.LeaveId);
         
         DeclinedLeaveRequests.Add(leaveRequest);
         
-        PendingLeaveRequests = PendingLeaveRequests
+        Leaves = Leaves
             .Where(pending => pending.Id != @event.LeaveId).ToList();
     }
 
     private void ApproveLeave(LeaveId id)
     {
-        var leaveRequest = PendingLeaveRequests
-            .SingleOrDefault(pending => pending.Id == id);
+        var leaveRequest = Leaves
+            .Single(pending => pending.Id == id);
         
-        LeaveRequests.Add(leaveRequest);
-        
-        PendingLeaveRequests = PendingLeaveRequests
-            .Where(pending => pending.Id != id).ToList();
+        leaveRequest.LeaveStatus = LeaveStatus.Accepted();
     }
 
     public void UpdateLeave(LeaveRequest leaveRequest)
     {
-        var leave = LeaveRequests.SingleOrDefault(l => l.Id == leaveRequest.Id);
+        var leave = Leaves.SingleOrDefault(l => l.Id == leaveRequest.Id);
         if (leave == null)
         {
             throw AppException.LeaveRequestNotFounded();
@@ -171,9 +168,9 @@ public class UserCalendarAggregate : AggregateRoot<Guid>
     
     private void Apply(LeaveUpdatedEvent @event)
     {
-        LeaveRequests = LeaveRequests.Where(leave => leave.Id != @event.LeaveId).ToList();
+        Leaves = Leaves.Where(leave => leave.Id != @event.LeaveId).ToList();
         
-        LeaveRequests.Add(new()
+        Leaves.Add(new()
         {
             Id = @event.LeaveId,
             Reason = @event.Reason,

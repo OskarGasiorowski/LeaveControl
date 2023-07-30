@@ -7,6 +7,7 @@ public sealed record LeaveRequest
     public LeaveId Id { get; set; }
     public HashSet<LeaveDay> LeaveDays { get; set; } = new();
     public Reason Reason { get; set; }
+    public LeaveStatus LeaveStatus { get; set; }
 
     public bool Equals(LeaveRequest other)
     {

@@ -40,8 +40,8 @@ public class UserCalendarRepositoryTests : IAsyncLifetime
         
         Assert.NotNull(dbAggregate);
         Assert.Equal(aggregate.Id, dbAggregate.Id);
-        Assert.Equal(aggregate.LeaveRequests.Count, dbAggregate.LeaveRequests.Count);
-        var leaveRequestEqual = aggregate.LeaveRequests.SequenceEqual(dbAggregate.LeaveRequests);
+        Assert.Equal(aggregate.Leaves.Count, dbAggregate.Leaves.Count);
+        var leaveRequestEqual = aggregate.Leaves.SequenceEqual(dbAggregate.Leaves);
         Assert.True(leaveRequestEqual);
     }
 
