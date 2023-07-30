@@ -23,7 +23,7 @@ public class LeaveProjection
             Id = @event.LeaveId,
             LeaveDays = @event.LeaveDays,
             Reason = @event.Reason,
-            LeaveStatus = LeaveStatus.Pending(),
+            LeaveStatus = @event.LeaveStatus,
         });
     }
     

@@ -13,15 +13,15 @@ public enum DayType
 public record LeaveDay
 {
     [JsonProperty("day")]
-    private readonly DateTime _day;
+    public DateTime Day { get; private set; }
     [JsonProperty("type")]
-    private readonly DayType _type;
+    public DayType Type { get; private set; }
 
     [JsonConstructor]
     private LeaveDay(DateTime day, DayType type)
     {
-        _day = day.Date;
-        _type = type;
+        Day = day.Date;
+        Type = type;
     }
 
     public static LeaveDay Full(DateTime day) => new(day, DayType.Full);
@@ -30,14 +30,14 @@ public record LeaveDay
 
     public bool Overlaps(LeaveDay other)
     {
-        if (_day != other._day)
+        if (Day != other.Day)
         {
             return false;
         }
 
         var overlapWithFullDay =
-            _type == DayType.Full && other._type.In(DayType.FirstHalf, DayType.SecondHalf, DayType.Full);
-        var sameDayTyp = _type == other._type;
+            Type == DayType.Full && other.Type.In(DayType.FirstHalf, DayType.SecondHalf, DayType.Full);
+        var sameDayTyp = Type == other.Type;
 
         return overlapWithFullDay || sameDayTyp;
     }
@@ -48,5 +48,16 @@ public static class LeaveDayExtension
     public static bool Overlaps(this IEnumerable<LeaveDay> first, IEnumerable<LeaveDay> second)
     {
         return first.Any(f => second.Any(f.Overlaps));
+    }
+    
+    public static bool WithinLimit(this IEnumerable<LeaveDay> first, IEnumerable<LeaveDay> second, int limit)
+    {
+        return first
+            .GroupBy(leaveDay => leaveDay.Day.Year)
+            .All(g =>
+            {
+                var numberOfDaysTakenInGivenYear = g.Count();
+                return numberOfDaysTakenInGivenYear + second.Count(l => l.Day.Year == g.Key) <= limit;
+            });;
     }
 }

@@ -42,10 +42,9 @@ public class UserCalendarAggregate : AggregateRoot<Guid>
         {
             throw AppException.LeaveDaysOverlaps();
         }
-
-        // TODO this is not right, we should calculate allowance only for requested year!
-        var leaveDaysTaken = leaveDays.Length + leaveRequest.LeaveDays.Count;
-        if (leaveDaysTaken + leaveRequest.LeaveDays.Count > Settings.Allowance && !Settings.AllowanceOverflowAllowed)
+        
+        var leaveDaysWithinLimit = leaveRequest.LeaveDays.WithinLimit(leaveDays, Settings.Allowance);
+        if (!leaveDaysWithinLimit && !Settings.AllowanceOverflowAllowed)
         {
             throw AppException.LeaveDaysExceeded(Settings.Allowance);
         }
@@ -55,7 +54,8 @@ public class UserCalendarAggregate : AggregateRoot<Guid>
             UserId = Id,
             LeaveId = leaveRequest.Id, 
             LeaveDays = leaveRequest.LeaveDays, 
-            Reason = leaveRequest.Reason
+            Reason = leaveRequest.Reason,
+            LeaveStatus = LeaveStatus.Pending()
         };
 
         Enqueue(@event);
@@ -81,7 +81,7 @@ public class UserCalendarAggregate : AggregateRoot<Guid>
             Id = @event.LeaveId,
             Reason = @event.Reason,
             LeaveDays = @event.LeaveDays,
-            LeaveStatus = LeaveStatus.Pending(),
+            LeaveStatus = @event.LeaveStatus,
         });
     }
 

@@ -8,8 +8,9 @@ public record LeaveRequestedEvent : IUserEvent
     public LeaveId LeaveId { get; init; }
     public HashSet<LeaveDay> LeaveDays { get; init; } = new();
     public Reason Reason { get; init; }
+    public LeaveStatus LeaveStatus { get; init; }
 
-    public static LeaveRequestedEvent Create(UserId userId, Guid leaveId, HashSet<LeaveDay> leaveDays, Reason reason)
+    public static LeaveRequestedEvent Create(UserId userId, Guid leaveId, HashSet<LeaveDay> leaveDays, Reason reason, LeaveStatus leaveStatus)
     {
         return new LeaveRequestedEvent
         {
@@ -17,6 +18,7 @@ public record LeaveRequestedEvent : IUserEvent
             LeaveId = leaveId,
             LeaveDays = leaveDays,
             Reason = reason,
+            LeaveStatus = leaveStatus
         };
     }
 }
