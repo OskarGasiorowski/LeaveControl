@@ -161,6 +161,7 @@ public class UserCalendarAggregate : AggregateRoot<Guid>
             Reason = leaveRequest.Reason,
             LeaveId = leaveRequest.Id,
             UserId = Id,
+            LeaveStatus = leaveRequest.LeaveStatus,
         };
         Enqueue(@event);
         Apply(@event);
@@ -175,6 +176,19 @@ public class UserCalendarAggregate : AggregateRoot<Guid>
             Id = @event.LeaveId,
             Reason = @event.Reason,
             LeaveDays = @event.LeaveDays,
+            LeaveStatus = @event.LeaveStatus,
         });
+    }
+
+    public void DeleteLeaveRequest(LeaveId leaveId)
+    {
+        var @event = new LeaveDeletedEvent(Id, leaveId);
+        Enqueue(@event);
+        Apply(@event);
+    }
+
+    private void Apply(LeaveDeletedEvent @event)
+    {
+        Leaves = Leaves.Where(leave => leave.Id != @event.LeaveId).ToList();
     }
 }

@@ -7,7 +7,7 @@ export function useUpdateLeaveRequest(
     onSuccess?: () => void,
 ) {
     const { updateLeave } = useApi();
-    const { invalidateQueries } = useQueryClient();
+    const queryClient = useQueryClient();
 
     const { mutate, isPending } = useMutation({
         mutationKey: ['leave-request'],
@@ -15,7 +15,7 @@ export function useUpdateLeaveRequest(
             leaveId ? updateLeave(leaveId, body) : Promise.resolve(),
         onSuccess: () => {
             onSuccess?.();
-            return invalidateQueries({ queryKey: ['calendar', userId] });
+            return queryClient.invalidateQueries({ queryKey: ['calendar', userId] });
         },
     });
 

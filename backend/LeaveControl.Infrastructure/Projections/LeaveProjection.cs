@@ -84,7 +84,13 @@ public class LeaveProjection
             Id = @event.LeaveId,
             LeaveDays = @event.LeaveDays,
             Reason = @event.Reason,
+            LeaveStatus = @event.LeaveStatus
         });
+    }
+    
+    public void Apply(LeaveDeletedEvent @event)
+    {
+        Leaves = Leaves.Where(leave => leave.Id != @event.LeaveId).ToList();
     }
 }
 
@@ -102,5 +108,6 @@ public class LeaveProjectionSetup : MultiStreamProjection<LeaveProjection, Guid>
         ProjectEvent<UserCreatedEvent>((item, @event) => item.Apply(@event));
         ProjectEvent<UserDataUpdatedEvent>((item, @event) => item.Apply(@event));
         ProjectEvent<LeaveUpdatedEvent>((item, @event) => item.Apply(@event));
+        ProjectEvent<LeaveDeletedEvent>((item, @event) => item.Apply(@event));
     }
 }

@@ -7,9 +7,10 @@ import * as dayjs from 'dayjs';
 interface Props {
     date: Date;
     leaveId: string;
+    isPending: boolean;
 }
 
-export function TakenDay({ date, leaveId }: Props) {
+export function TakenDay({ date, leaveId, isPending }: Props) {
     const selectedDates = useAtomValue(selectedDatesAtom);
     const [hoverLeaveId, setLeaveId] = useAtom(hoverLeaveIdAtom);
     const [selectedLeaveId, setSelectedLeaveIdAtom] = useAtom(selectedLeaveIdAtom);
@@ -31,11 +32,15 @@ export function TakenDay({ date, leaveId }: Props) {
         });
     }
 
+    const color = isPending
+        ? { base: '#FFCE73', hover: '#A0D7E7' }
+        : { base: '#7FBA7A', hover: '#A0D7E7' };
+
     return (
         <Day
             day={date.getDate()}
             onClick={() => (editMode ? handleDayEdit() : setSelectedLeaveIdAtom(leaveId))}
-            color={{ base: '#7FBA7A', hover: '#A0D7E7' }}
+            color={color}
             disabled={selectedDates.length > 0 || (editMode && selectedLeaveId !== leaveId)}
             onMouseOver={() => setLeaveId(leaveId)}
             onMouseOut={() => setLeaveId(null)}

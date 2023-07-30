@@ -25,3 +25,7 @@ export async function updateLeaveRequest(
 ): Promise<void> {
     await api.put(`calendar/me/leave/${leaveId}`, { json: body });
 }
+
+export async function deleteLeaveRequest(api: typeof ky, leaveId: string): Promise<void> {
+    await api.delete(`calendar/me/leave/${leaveId}`);
+}

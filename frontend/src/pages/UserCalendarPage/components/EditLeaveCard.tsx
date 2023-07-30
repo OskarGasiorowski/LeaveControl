@@ -1,13 +1,4 @@
-import {
-    Button,
-    Card,
-    CardBody,
-    CardFooter,
-    HStack,
-    Text,
-    Textarea,
-    VStack,
-} from '@chakra-ui/react';
+import { Button, Card, CardBody, CardFooter, Text, Textarea, VStack } from '@chakra-ui/react';
 import { useAtom } from 'jotai';
 import {
     editModeAtom,
@@ -16,6 +7,7 @@ import {
 } from '../../../components/Calendar/atom.ts';
 import { GetUserCalendarResponse } from '../../../hooks/api';
 import { useUpdateLeaveRequest } from '#hooks';
+import { useDeleteLeaveRequest } from '../../../hooks/services/useDeleteLeaveRequest.ts';
 
 interface Props {
     userId: string;
@@ -25,12 +17,18 @@ interface Props {
 export function EditLeaveCard({ calendar, userId }: Props) {
     const [editMode, setEditMode] = useAtom(editModeAtom);
     const [leaveEditing, setLeaveEditing] = useAtom(leaveEditingAtom);
-    const [selectedLeaveId] = useAtom(selectedLeaveIdAtom);
+    const [selectedLeaveId, setSelectedLeaveId] = useAtom(selectedLeaveIdAtom);
 
     const selectedLeave = calendar?.leaves.find((leave) => leave.id === selectedLeaveId);
 
     const { request, isPending } = useUpdateLeaveRequest(userId, selectedLeaveId, () => {
         setEditMode(false);
+    });
+
+    const { deleteLeave, isPending: isDeletePending } = useDeleteLeaveRequest(userId, () => {
+        setEditMode(false);
+        setSelectedLeaveId(null);
+        setLeaveEditing(null);
     });
 
     function handleEdit() {
@@ -64,7 +62,7 @@ export function EditLeaveCard({ calendar, userId }: Props) {
                 <Text>Taken: {selectedLeave.leaveDays.length} days</Text>
                 <Textarea placeholder='Reason...' size='sm' />
             </CardBody>
-            <CardFooter as={HStack} gap={1}>
+            <CardFooter as={VStack} gap={1}>
                 {!editMode && (
                     <Button size='full' onClick={handleEdit}>
                         Edit
@@ -72,11 +70,28 @@ export function EditLeaveCard({ calendar, userId }: Props) {
                 )}
                 {editMode && (
                     <>
-                        <Button isLoading={isPending} size='full' onClick={handleUpdate}>
+                        <Button
+                            disabled={isDeletePending || isPending}
+                            size='full'
+                            onClick={handleCancel}
+                        >
+                            Cancel
+                        </Button>
+                        <Button
+                            isLoading={isPending}
+                            disabled={isDeletePending}
+                            size='full'
+                            onClick={handleUpdate}
+                        >
                             Save
                         </Button>
-                        <Button disabled={isPending} size='full' onClick={handleCancel}>
-                            Cancel
+                        <Button
+                            isLoading={isDeletePending}
+                            disabled={isPending}
+                            size='full'
+                            onClick={() => deleteLeave(selectedLeaveId!)}
+                        >
+                            Delete
                         </Button>
                     </>
                 )}

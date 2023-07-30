@@ -3,6 +3,7 @@ using LeaveControl.Api.Controllers.Calendar.Requests;
 using LeaveControl.Application.Command.Calendar.AcceptLeave;
 using LeaveControl.Application.Command.Calendar.AddLeave;
 using LeaveControl.Application.Command.Calendar.DeclineLeave;
+using LeaveControl.Application.Command.Calendar.DeleteLeave;
 using LeaveControl.Application.Command.Calendar.UpdateLeave;
 using LeaveControl.Infrastructure.Query.Calendar;
 using MediatR;
@@ -47,6 +48,14 @@ public class CalendarController : ControllerBase
             LeaveId = leaveId,
             LeaveDays = body.Entry.Select(LeaveDayMapper.Map).ToArray(),
         });
+    }
+    
+    [InjectUserId]
+    [HttpDelete("me/leave/{leaveId}")]
+    [Authorize(Roles = "Admin,User")]
+    public Task DeleteLeave(Guid userId, Guid leaveId)
+    {
+        return _mediator.Send(new DeleteLeaveCommand(userId, leaveId));
     }
     
     [Authorize(Roles = "Admin")]

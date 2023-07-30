@@ -18,6 +18,7 @@ public readonly struct LeaveStatus
     
     public static bool operator ==(LeaveStatus left, LeaveStatus right) => left._leaveStatus == right._leaveStatus;
     public static bool operator !=(LeaveStatus left, LeaveStatus right) => !(left == right);
+    public static implicit operator LeaveStatus(string leaveStatus) => new(leaveStatus);
 
     public bool IsPending => this == Pending();
 

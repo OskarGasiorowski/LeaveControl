@@ -3,8 +3,15 @@ import { createAccount, CreateAccountRequest, login, LoginRequest } from './auth
 import { addUser, AddUserRequest, createTenant, CreateTenantRequest, getUsers } from './tenant';
 import { useAuth } from '#modules/auth';
 import { useMemo } from 'react';
-import { getCalendar, getUserCalendar, postLeaveRequest, UpdateLeaveRequest, updateLeaveRequest } from './calendar';
-import { PostLeaveRequest } from './calendar/types.ts';
+import {
+    deleteLeaveRequest,
+    getCalendar,
+    getUserCalendar,
+    postLeaveRequest,
+    UpdateLeaveRequest,
+    PostLeaveRequest,
+    updateLeaveRequest,
+} from './calendar';
 
 export function useApi() {
     const { token } = useAuth();
@@ -31,5 +38,6 @@ export function useApi() {
         postLeaveRequest: (body: PostLeaveRequest) => postLeaveRequest(authenticatedApi, body),
         updateLeave: (leaveId: string, body: UpdateLeaveRequest) =>
             updateLeaveRequest(authenticatedApi, leaveId, body),
+        deleteLeave: (leaveId: string) => deleteLeaveRequest(authenticatedApi, leaveId),
     };
 }

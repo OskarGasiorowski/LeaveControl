@@ -18,6 +18,7 @@ export type Leave = {
     id: string;
     leaveDays: LeaveDay[];
     reason: string;
+    leaveStatus: 'pending' | 'accepted';
 };
 
 export type PostLeaveRequest = {

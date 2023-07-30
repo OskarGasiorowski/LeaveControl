@@ -26,7 +26,7 @@ export function Month({ month, year, calendar }: Props) {
             .filter((leave) => leave.id !== leaveEditing?.id)
             .concat(leaveEditing ? [leaveEditing] : [])
             .map((leave) =>
-                leave.leaveDays.map(({ day }) => ({ day: new Date(day), leaveId: leave.id })),
+                leave.leaveDays.map(({ day }) => ({ day: new Date(day), leaveId: leave.id, status: leave.leaveStatus })),
             )
             .flatMap((leave) => leave)
             .filter(({ day }) => day.getMonth() === month && day.getFullYear() === year);
@@ -46,6 +46,7 @@ export function Month({ month, year, calendar }: Props) {
                                 key={dayIndex}
                                 date={new Date(year, month, dayIndex + 1, 12)}
                                 leaveId={takenDay.leaveId}
+                                isPending={takenDay.status === 'pending'}
                             />
                         );
                     }
