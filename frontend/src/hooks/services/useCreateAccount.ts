@@ -20,7 +20,7 @@ export function useCreateAccount() {
     const { createAccount } = useApi();
     const { setToken } = useAuth();
 
-    const { mutate, isLoading, error } = useMutation<
+    const { mutate, isPending, error } = useMutation<
         CreateAccountResponse,
         AppError,
         CreateAccountRequest
@@ -39,7 +39,7 @@ export function useCreateAccount() {
 
     return {
         createAccount: mutate,
-        isLoading,
+        isLoading: isPending,
         error: errorToDisplay,
     };
 }

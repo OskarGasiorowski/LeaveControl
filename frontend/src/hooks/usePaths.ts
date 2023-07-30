@@ -10,5 +10,6 @@ export function usePaths() {
             template: '/user-calendar/:userId',
             generate: (userId: string) => `/user-calendar/${userId}`,
         },
+        leaveRequests: 'requests',
     };
 }

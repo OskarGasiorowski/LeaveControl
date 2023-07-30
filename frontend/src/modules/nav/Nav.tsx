@@ -1,7 +1,8 @@
 import { VStack } from '@chakra-ui/react';
 import { NavLink } from './NavLink';
 import { usePaths } from '#hooks';
-import { InfoOutlineIcon, TimeIcon } from '@chakra-ui/icons';
+import { InfoOutlineIcon, SunIcon, TimeIcon } from '@chakra-ui/icons';
+import { AdminProtected } from '#modules/auth';
 
 export function Nav() {
     const paths = usePaths();
@@ -19,6 +20,9 @@ export function Nav() {
         >
             <NavLink href={paths.dashboard} label='Dashboard' icon={InfoOutlineIcon} />
             <NavLink href={paths.users} label='Users' icon={TimeIcon} />
+            <AdminProtected>
+                <NavLink href={paths.leaveRequests} label='Requests' icon={SunIcon} />
+            </AdminProtected>
         </VStack>
     );
 }
