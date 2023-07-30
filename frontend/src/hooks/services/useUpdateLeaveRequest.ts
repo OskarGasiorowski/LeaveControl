@@ -13,9 +13,9 @@ export function useUpdateLeaveRequest(
         mutationKey: ['leave-request'],
         mutationFn: (body: UpdateLeaveRequest) =>
             leaveId ? updateLeave(leaveId, body) : Promise.resolve(),
-        onSuccess: async () => {
-            await invalidateQueries({ queryKey: ['calendar', userId] });
+        onSuccess: () => {
             onSuccess?.();
+            return invalidateQueries({ queryKey: ['calendar', userId] });
         },
     });
 

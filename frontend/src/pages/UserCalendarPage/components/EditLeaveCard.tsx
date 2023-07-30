@@ -29,7 +29,9 @@ export function EditLeaveCard({ calendar, userId }: Props) {
 
     const selectedLeave = calendar?.leaves.find((leave) => leave.id === selectedLeaveId);
 
-    const { request, isPending } = useUpdateLeaveRequest(userId, selectedLeaveId);
+    const { request, isPending } = useUpdateLeaveRequest(userId, selectedLeaveId, () => {
+        setEditMode(false);
+    });
 
     function handleEdit() {
         setLeaveEditing(calendar?.leaves.find((leave) => leave.id === selectedLeaveId) || null);
@@ -47,7 +49,11 @@ export function EditLeaveCard({ calendar, userId }: Props) {
 
     function handleUpdate() {
         request({
-            entry: leaveEditing?.leaveDays || [],
+            entry:
+                leaveEditing?.leaveDays.map((leave) => ({
+                    date: leave.day,
+                    type: 'Full',
+                })) || [],
             reason: '',
         });
     }

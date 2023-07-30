@@ -19,14 +19,14 @@ export function Month({ month, year, calendar }: Props) {
     const daysOfWeek = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'];
 
     const cells = useMemo(() => {
-        const firstDay = dayjs(new Date(year, month, 1));
+        const firstDay = dayjs(new Date(year, month, 1, 12));
         const emptyDays = firstDay.day() === 0 ? 6 : firstDay.day() - 1;
 
         const leaves = calendar.leaves
             .filter((leave) => leave.id !== leaveEditing?.id)
             .concat(leaveEditing ? [leaveEditing] : [])
             .map((leave) =>
-                leave.leaveDays.map(({ day }: any) => ({ day: new Date(day), leaveId: leave.id })),
+                leave.leaveDays.map(({ day }) => ({ day: new Date(day), leaveId: leave.id })),
             )
             .flatMap((leave) => leave)
             .filter(({ day }) => day.getMonth() === month && day.getFullYear() === year);
@@ -44,13 +44,13 @@ export function Month({ month, year, calendar }: Props) {
                         return (
                             <TakenDay
                                 key={dayIndex}
-                                date={new Date(year, month, dayIndex + 1)}
+                                date={new Date(year, month, dayIndex + 1, 12)}
                                 leaveId={takenDay.leaveId}
                             />
                         );
                     }
 
-                    return <FreeDay key={dayIndex} date={new Date(year, month, dayIndex + 1)} />;
+                    return <FreeDay key={dayIndex} date={new Date(year, month, dayIndex + 1, 12)} />;
                 })}
             </>
         );

@@ -30,8 +30,11 @@ dependencies:
     specifier: ^3.1.0
     version: 3.1.0(react-hook-form@7.43.9)
   '@tanstack/react-query':
-    specifier: 5.0.0-alpha.71
-    version: 5.0.0-alpha.71(react-dom@18.2.0)(react@18.2.0)
+    specifier: 5.0.0-beta.7
+    version: 5.0.0-beta.7(react-dom@18.2.0)(react@18.2.0)
+  '@tanstack/react-query-devtools':
+    specifier: 5.0.0-beta.7
+    version: 5.0.0-beta.7(@tanstack/react-query@5.0.0-beta.7)(react-dom@18.2.0)(react@18.2.0)
   '@types/lodash':
     specifier: ^4.14.194
     version: 4.14.194
@@ -1963,12 +1966,29 @@ packages:
     engines: {node: '>=14'}
     dev: false
 
-  /@tanstack/query-core@5.0.0-alpha.70:
-    resolution: {integrity: sha512-JOq9ciu8647Au8rX0O9737kJ1IBAupLcI77eFc9RaubiZPr6DIurOtI2Lc4hoaJNHIofNBQUnEyifzDIHORsdA==}
+  /@tanstack/query-core@5.0.0-beta.6:
+    resolution: {integrity: sha512-PVVvvIaXAyGE93bxS2ygVSbYsvvNxkO7ADmfxO70lPQFovYGd/ZYg3NnZuAlcYg8ipDy1gTH4yDhp7uXJLtg5g==}
     dev: false
 
-  /@tanstack/react-query@5.0.0-alpha.71(react-dom@18.2.0)(react@18.2.0):
-    resolution: {integrity: sha512-QwP90/rqxYucCIJ/QAfBpg4ODF4ozKZIp145CElZCBkvvONGxY2Y6Z1mBPQXrync9Nb1fB4DEEVfpxEDcktogg==}
+  /@tanstack/query-devtools@5.0.0-beta.1:
+    resolution: {integrity: sha512-n+UFgL4C/OWNpmVR8v/cj4WIMw5xapGLsZS0qHXgGrpXqNTp2IPWzeU848KHpL7BqBQZeuKDj20BuID+1FsmgA==}
+    dev: false
+
+  /@tanstack/react-query-devtools@5.0.0-beta.7(@tanstack/react-query@5.0.0-beta.7)(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-9ELUGpVWPi/ICjXNduSbExGY5lpcmxhsaqpPWuvfug9jc+bd4P7bwNfrCRTJYDL0mPuD0+bdzFY6bfXYecSuOg==}
+    peerDependencies:
+      '@tanstack/react-query': 5.0.0-beta.7
+      react: ^18.0.0
+      react-dom: ^18.0.0
+    dependencies:
+      '@tanstack/query-devtools': 5.0.0-beta.1
+      '@tanstack/react-query': 5.0.0-beta.7(react-dom@18.2.0)(react@18.2.0)
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
+    dev: false
+
+  /@tanstack/react-query@5.0.0-beta.7(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-wCpGMDreaaEnu7gdYp5Qu7qcl0ap+oDwaJEauavf53gmUkYXY1NW5xxWrbGDKfLLuhp/k5fi7eGSj0fK/kzV6Q==}
     peerDependencies:
       react: ^18.0.0
       react-dom: ^18.0.0
@@ -1979,7 +1999,7 @@ packages:
       react-native:
         optional: true
     dependencies:
-      '@tanstack/query-core': 5.0.0-alpha.70
+      '@tanstack/query-core': 5.0.0-beta.6
       client-only: 0.0.1
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
