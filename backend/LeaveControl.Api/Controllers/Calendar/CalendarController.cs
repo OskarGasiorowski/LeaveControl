@@ -96,4 +96,12 @@ public class CalendarController : ControllerBase
         var result = await _mediator.Send(new UserCalendarQuery(userId));
         return new JsonResult(result);
     }
+    
+    [HttpGet("requests")]
+    [Authorize(Roles = "Admin")]
+    public async Task<IActionResult> GetRequests()
+    {
+        var result = await _mediator.Send(new LeaveRequestsListQuery());
+        return new JsonResult(result);
+    }
 }

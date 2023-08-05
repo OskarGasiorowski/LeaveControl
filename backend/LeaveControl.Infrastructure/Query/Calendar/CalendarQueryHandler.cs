@@ -2,7 +2,6 @@ using JasperFx.Core;
 using LeaveControl.Domain.Aggregates.UserCalendar.Models;
 using LeaveControl.Infrastructure.Projections;
 using Marten;
-using Marten.Linq;
 using MediatR;
 
 namespace LeaveControl.Infrastructure.Query.Calendar;
