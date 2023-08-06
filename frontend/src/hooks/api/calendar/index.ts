@@ -4,5 +4,6 @@ export {
     postLeaveRequest,
     updateLeaveRequest,
     deleteLeaveRequest,
+    getPendingRequests,
 } from './services';
 export * from './types.ts';

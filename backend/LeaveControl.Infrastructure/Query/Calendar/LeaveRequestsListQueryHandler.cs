@@ -1,3 +1,4 @@
+using LeaveControl.Domain.Types;
 using LeaveControl.Infrastructure.Projections;
 using LeaveControl.Utils;
 using Marten;
@@ -14,11 +15,12 @@ public class LeaveRequestsListQueryHandler : IRequestHandler<LeaveRequestsListQu
         _documentSession = documentSession;
     }
 
-    public Task<LeaveRequestsListQuery.ResponseItem[]> Handle(LeaveRequestsListQuery request, CancellationToken cancellationToken)
+    public async Task<LeaveRequestsListQuery.ResponseItem[]> Handle(LeaveRequestsListQuery request, CancellationToken cancellationToken)
     {
-        return _documentSession
+        return (await _documentSession
             .Query<LeaveProjection>()
-            .Select(leave => new LeaveRequestsListQuery.ResponseItem(leave.Id, leave.FirstName, leave.Surname, leave.Leaves.Where(l => !l.LeaveStatus.IsPending).ToList()))
-            .ToArrayAsync(token: cancellationToken);
+            .ToArrayAsync(token: cancellationToken))
+            .Select(leave => new LeaveRequestsListQuery.ResponseItem(leave.Id, leave.FirstName, leave.Surname, leave.Leaves.Where(l => l.LeaveStatus == LeaveStatus.Pending()).ToList()))
+            .ToArray();
     }
 }

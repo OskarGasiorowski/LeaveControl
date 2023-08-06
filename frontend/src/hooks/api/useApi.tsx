@@ -10,7 +10,7 @@ import {
     postLeaveRequest,
     UpdateLeaveRequest,
     PostLeaveRequest,
-    updateLeaveRequest,
+    updateLeaveRequest, getPendingRequests,
 } from './calendar';
 
 export function useApi() {
@@ -39,5 +39,6 @@ export function useApi() {
         updateLeave: (leaveId: string, body: UpdateLeaveRequest) =>
             updateLeaveRequest(authenticatedApi, leaveId, body),
         deleteLeave: (leaveId: string) => deleteLeaveRequest(authenticatedApi, leaveId),
+        getPendingRequests: () => getPendingRequests(authenticatedApi),
     };
 }

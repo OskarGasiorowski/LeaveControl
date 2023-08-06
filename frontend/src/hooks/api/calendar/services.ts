@@ -1,6 +1,7 @@
 import ky from 'ky';
 import {
     GetCalendarResponse,
+    GetPendingLeaveRequests,
     GetUserCalendarResponse,
     PostLeaveRequest,
     UpdateLeaveRequest,
@@ -28,4 +29,8 @@ export async function updateLeaveRequest(
 
 export async function deleteLeaveRequest(api: typeof ky, leaveId: string): Promise<void> {
     await api.delete(`calendar/me/leave/${leaveId}`);
+}
+
+export function getPendingRequests(api: typeof ky) {
+    return api.get('calendar/requests').json<GetPendingLeaveRequests>();
 }

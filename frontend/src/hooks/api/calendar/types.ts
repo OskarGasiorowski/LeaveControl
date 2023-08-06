@@ -30,3 +30,10 @@ export type UpdateLeaveRequest = {
     entry: { date: Date; type: 'Full' | 'FirstHalf' | 'SecondHalf' }[];
     reason: string;
 };
+
+export type GetPendingLeaveRequests = {
+    userId: string;
+    firstName: string;
+    surname: string;
+    leaves: Leave[];
+}[];
