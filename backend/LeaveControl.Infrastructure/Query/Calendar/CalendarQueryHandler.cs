@@ -32,6 +32,7 @@ public class CalendarQueryHandler : IRequestHandler<CalendarQuery, IReadOnlyList
                     Id = leave.Id,
                     Reason = leave.Reason,
                     LeaveDays = leave.LeaveDays,
+                    LeaveStatus = leave.LeaveStatus,
                 }).ToList(),
 
         }).ToList();

@@ -1,4 +1,5 @@
-import { Box, Td } from '@chakra-ui/react';
+import { Box, TableCell, useTheme } from '@mui/material';
+import { alpha } from '@mui/material/styles';
 
 interface Props {
     color: string;
@@ -7,32 +8,36 @@ interface Props {
 }
 
 export function LeaveCell({ color, variant, isWeekend }: Props) {
-    const variants: Record<
-        typeof variant,
-        { borderStartRadius: 'lg' | 'unset'; borderEndRadius: 'lg' | 'unset' }
-    > = {
-        center: { borderStartRadius: 'unset', borderEndRadius: 'unset' },
-        right: { borderStartRadius: 'unset', borderEndRadius: 'lg' },
-        single: { borderStartRadius: 'lg', borderEndRadius: 'lg' },
-        left: { borderStartRadius: 'lg', borderEndRadius: 'unset' },
+    const theme = useTheme();
+
+    const variants: Record<typeof variant, { borderRadius: string | 'unset' }> = {
+        center: { borderRadius: 'unset' },
+        right: { borderRadius: '0px 4px 4px 0px' },
+        single: { borderRadius: '4px 4px 4px 4px' },
+        left: { borderRadius: '4px 0px 0px 4px' },
     };
 
     return (
-        <Td
-            borderRight='1px solid rgba(228, 228, 228, 0.04)'
-            _last={{ borderEndRadius: 'lg', paddingRight: 2, border: 'none' }}
-            paddingX={0}
-            paddingY={0}
-            paddingLeft={variant === 'left' || variant === 'single' ? 1 : 0}
-            paddingRight={variant === 'right' || variant === 'single' ? 1 : 0}
-            backgroundColor={isWeekend ? 'rgba(228, 228, 228, 0.04)' : 'unset'}
+        <TableCell
+            sx={{
+                borderRight: `1px dashed ${alpha(theme.palette.grey[500], 0.3)} !important`,
+                padding: 0,
+                paddingLeft: variant === 'left' || variant === 'single' ? 1 : 0,
+                paddingRight: variant === 'right' || variant === 'single' ? 1 : 0,
+                backgroundColor: isWeekend ? 'rgba(228, 228, 228, 0.04)' : 'unset',
+                ':last-child': { border: 'none !important' },
+            }}
         >
             <Box
-                {...variants[variant]}
-                backgroundColor={color}
+                sx={{
+                    position: 'relative',
+                    zIndex: 100,
+                    backgroundColor: color,
+                    ...variants[variant],
+                }}
                 width='calc(100% + 1px)'
-                height={5}
+                height={18}
             />
-        </Td>
+        </TableCell>
     );
 }

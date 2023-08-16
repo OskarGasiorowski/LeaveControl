@@ -1,14 +1,14 @@
-import { Table, TableContainer, Tbody, Th, Thead, Tr } from '@chakra-ui/react';
 import * as dayjs from 'dayjs';
 import { useMemo } from 'react';
 import { times } from 'lodash';
 import { Row } from './Row';
 import { RoundRobin } from '#utils';
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
 
 export type Leave = {
     id: string;
     reason: string;
-    leaveDays: Date[];
+    leaveDays: { day: Date; type: 'Full' }[];
 };
 
 type UserEntry = {
@@ -42,20 +42,28 @@ export function CalendarOverview({ userCalendars, month, onClick }: Props) {
 
     return (
         <TableContainer>
-            <Table variant='unstyled' layout='fixed'>
-                <Thead>
-                    <Tr>
-                        <Th paddingLeft={2} width={40}>
+            <Table sx={{ tableLayout: 'fixed' }}>
+                <TableHead>
+                    <TableRow sx={{ backgroundColor: 'inherit' }}>
+                        <TableCell sx={{ paddingLeft: 2, paddingY: 1 }} width={140}>
                             Users
-                        </Th>
+                        </TableCell>
                         {times(end.date()).map((day) => (
-                            <Th textAlign='center' paddingX={1} key={day}>
+                            <TableCell
+                                align='center'
+                                sx={{
+                                    paddingX: 0.5,
+                                    paddingY: 1,
+                                    ':last-child': { paddingRight: 1 },
+                                }}
+                                key={day}
+                            >
                                 {day + 1}
-                            </Th>
+                            </TableCell>
                         ))}
-                    </Tr>
-                </Thead>
-                <Tbody>
+                    </TableRow>
+                </TableHead>
+                <TableBody>
                     {userCalendars?.map(({ displayName, leaves, userId }) => (
                         <Row
                             key={displayName}
@@ -68,7 +76,7 @@ export function CalendarOverview({ userCalendars, month, onClick }: Props) {
                             onClick={() => onClick(userId)}
                         />
                     ))}
-                </Tbody>
+                </TableBody>
             </Table>
         </TableContainer>
     );

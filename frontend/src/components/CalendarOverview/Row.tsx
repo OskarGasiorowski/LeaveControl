@@ -1,9 +1,9 @@
-import { Td, Tr } from '@chakra-ui/react';
 import { Leave } from './CalendarOverview';
 import { Fragment, useMemo } from 'react';
 import * as dayjs from 'dayjs';
 import { LeaveCell } from './LeaveCell';
 import { EmptyCell } from './EmptyCell';
+import { TableCell, TableRow, useTheme } from '@mui/material';
 
 interface Props {
     displayName: string;
@@ -13,6 +13,8 @@ interface Props {
 }
 
 export function Row({ displayName, leaves, month, onClick }: Props) {
+    const theme = useTheme();
+
     const calendar = useMemo(() => {
         const temp = new Array<{
             id: string;
@@ -21,14 +23,17 @@ export function Row({ displayName, leaves, month, onClick }: Props) {
 
         leaves.forEach((leave) =>
             leave.leaveDays.forEach((date) => {
-                if (dayjs(date).isSame(dayjs(month), 'month')) {
-                    temp[date.getDate() - 1] = {
+                if (dayjs(new Date(date.day)).isSame(dayjs(month), 'month')) {
+                    console.log(date.day);
+                    temp[new Date(date.day).getDate() - 1] = {
                         id: leave.id,
                         variant: 'center',
                     };
                 }
             }),
         );
+
+        console.log(temp);
 
         let lastId: string | null = null;
 
@@ -59,10 +64,20 @@ export function Row({ displayName, leaves, month, onClick }: Props) {
     }, [leaves, month]);
 
     return (
-        <Tr _hover={{ backgroundColor: 'backgroundHoover', cursor: 'pointer' }} onClick={onClick}>
-            <Td borderStartRadius='lg' paddingY={3} paddingLeft={2} fontSize='sm'>
+        <TableRow
+            sx={{ ':hover': { backgroundColor: theme.palette.action.hover, cursor: 'pointer' } }}
+            onClick={onClick}
+        >
+            <TableCell
+                sx={{
+                    borderStartStartRadius: 4,
+                    borderBottomLeftRadius: 4,
+                    paddingY: 1,
+                    paddingLeft: 2,
+                }}
+            >
                 {displayName}
-            </Td>
+            </TableCell>
             {calendar.map((type, index) => {
                 const day = dayjs(new Date(month.year(), month.month(), index + 1)).day();
                 const isWeekend = day === 0 || day === 6;
@@ -79,6 +94,6 @@ export function Row({ displayName, leaves, month, onClick }: Props) {
                     </Fragment>
                 );
             })}
-        </Tr>
+        </TableRow>
     );
 }

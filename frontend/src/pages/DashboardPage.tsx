@@ -1,9 +1,9 @@
 import { useCalendar, usePaths } from '#hooks';
-import { CalendarOverview } from '#components';
+import { CalendarOverview, CarouselArrows } from '#components';
 import { useMemo, useState } from 'react';
-import { Box, Button, Card, CardBody, CardHeader, Heading, HStack, VStack } from '@chakra-ui/react';
 import * as dayjs from 'dayjs';
 import { useNavigate } from 'react-router';
+import { Box, Card, CardHeader, Container } from '@mui/material';
 
 export function DashboardPage() {
     const navigate = useNavigate();
@@ -22,28 +22,29 @@ export function DashboardPage() {
     );
 
     return (
-        <VStack gap={5}>
-            <HStack gap={5}>
-                <Box>{overviewMonth.format('MMMM')}</Box>
-                <Button onClick={() => setOverviewMonth((prev) => prev.add(-1, 'month'))}>
-                    Prev
-                </Button>
-                <Button onClick={() => setOverviewMonth((prev) => prev.add(1, 'month'))}>
-                    Next
-                </Button>
-            </HStack>
+        <Container maxWidth='xl' sx={{}}>
             <Card>
-                <CardHeader>
-                    <Heading size='xl'>Calendar</Heading>
-                </CardHeader>
-                <CardBody>
+                <CardHeader
+                    title='Calendar'
+                    subheader='Leaves in your team'
+                    action={
+                        <CarouselArrows
+                            onNext={() => setOverviewMonth((prev) => prev.add(1, 'month'))}
+                            onPrev={() => setOverviewMonth((prev) => prev.add(-1, 'month'))}
+                        >
+                            {overviewMonth.format('MMMM')}
+                        </CarouselArrows>
+                    }
+                />
+
+                <Box sx={{ my: 3, mx: 3 }}>
                     <CalendarOverview
                         userCalendars={calendarEntries}
                         month={overviewMonth}
                         onClick={(userId) => navigate(paths.userCalendar.generate(userId))}
                     />
-                </CardBody>
+                </Box>
             </Card>
-        </VStack>
+        </Container>
     );
 }

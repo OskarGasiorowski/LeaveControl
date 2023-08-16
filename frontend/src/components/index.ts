@@ -6,3 +6,4 @@ export * from './Calendar';
 export { Iconify } from './Iconify';
 export * from './Form';
 export { Scrollbar } from './Scrollbar';
+export { CarouselArrows } from './CarouselArrows';
