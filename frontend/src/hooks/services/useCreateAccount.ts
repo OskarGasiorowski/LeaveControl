@@ -31,7 +31,7 @@ export function useCreateAccount() {
             setToken(data.token);
             decodeToken(data.token);
 
-            navigate(paths.dashboard, { replace: true });
+            navigate(paths.setupWorkspace, { replace: true });
         },
     });
 

@@ -12,7 +12,7 @@ export function ProtectedRoute() {
     }
 
     if (role === 'IncompleteAdmin') {
-        return <Navigate to={paths.setupAccount} state={{ from: location }} />;
+        return <Navigate to={paths.setupWorkspace} state={{ from: location }} />;
     }
 
     return <Outlet />;

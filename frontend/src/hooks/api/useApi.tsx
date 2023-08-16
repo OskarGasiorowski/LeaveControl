@@ -30,7 +30,7 @@ export function useApi() {
     return {
         createAccount: (body: CreateAccountRequest) => createAccount(api, body),
         login: (body: LoginRequest) => login(api, body),
-        setupAccount: (body: CreateTenantRequest) => createTenant(authenticatedApi, body),
+        setupWorkspace: (body: CreateTenantRequest) => createTenant(authenticatedApi, body),
         addUser: (body: AddUserRequest) => addUser(authenticatedApi, body),
         getUsers: () => getUsers(authenticatedApi),
         getCalendar: () => getCalendar(authenticatedApi),

@@ -30,7 +30,7 @@ export function useLogin() {
             const { role } = decodeToken(data.token);
 
             if (role === 'IncompleteAdmin') {
-                navigate(paths.setupAccount, { replace: true });
+                navigate(paths.setupWorkspace, { replace: true });
                 return;
             }
 

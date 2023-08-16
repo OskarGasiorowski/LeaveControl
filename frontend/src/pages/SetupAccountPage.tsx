@@ -1,24 +1,13 @@
-import { BrandingContentLayout } from '#components';
+import { Iconify, Link, TextField } from '#components';
 import { useAuth } from '#modules/auth';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router';
 import { usePaths, useSetupAccount } from '#hooks';
-import {
-    Box,
-    Button,
-    Checkbox,
-    Divider,
-    Flex,
-    FormControl,
-    FormErrorMessage,
-    FormLabel,
-    Heading,
-    Input,
-    Link,
-    Spacer,
-    Stack,
-} from '@chakra-ui/react';
-import { useForm } from 'react-hook-form';
+import { FormProvider, useForm } from 'react-hook-form';
+import { AuthLayout } from '#modules/layouts';
+import { Stack, Typography } from '@mui/material';
+import { LoadingButton } from '@mui/lab';
+import { LoginBigImage } from '#illustrations';
 
 type Form = {
     defaultAllowance: number;
@@ -33,11 +22,7 @@ export function SetupAccountPage() {
     const navigate = useNavigate();
     const { role, logout } = useAuth();
     const { setupAccount, isLoading } = useSetupAccount();
-    const {
-        handleSubmit,
-        register,
-        formState: { errors },
-    } = useForm<Form>({ defaultValues: { defaultAllowance: 25 } });
+    const methods = useForm<Form>({ defaultValues: { defaultAllowance: 25 } });
 
     useEffect(() => {
         if (role !== 'IncompleteAdmin') {
@@ -52,82 +37,127 @@ export function SetupAccountPage() {
     }
 
     return (
-        <BrandingContentLayout>
-            <BrandingContentLayout.BrandingSide />
+        <AuthLayout image={LoginBigImage}>
+            <Stack spacing={2} sx={{ mb: 5 }}>
+                <Typography variant='h4'>Setup account.</Typography>
 
-            <BrandingContentLayout.ContentSide>
-                <Flex
-                    gap={3}
-                    height='full'
-                    justifyContent='center'
-                    alignContent='center'
-                    flexDirection='column'
-                    width='full'
-                >
-                    <Box width='fit-content' alignSelf='flex-end' marginTop={20}>
-                        <Link onClick={logout} size='xs'>
-                            Logout
-                        </Link>
-                    </Box>
-                    <Spacer />
-                    <Heading color='white' textAlign='center'>
-                        Setup account
-                    </Heading>
-                    <Stack
-                        as='form'
-                        spacing={7}
-                        maxWidth={380}
-                        width='full'
-                        alignSelf='center'
-                        onSubmit={handleSubmit(onFormSubmitted)}
+                <Stack direction='row' spacing={0.5}>
+                    <Typography variant='body2'>Wrong account?</Typography>
+                    <Link
+                        onClick={(event) => {
+                            event.preventDefault();
+                            logout();
+                        }}
+                        variant='subtitle2'
+                        to={paths.login}
                     >
-                        <Stack spacing={5}>
-                            <FormControl isInvalid={!!errors.adminSurname}>
-                                <FormLabel htmlFor='adminFirstName'>First name</FormLabel>
-                                <Input {...register('adminFirstName')} id='adminFirstName' />
-                                <FormErrorMessage>
-                                    {errors.adminFirstName?.message}
-                                </FormErrorMessage>
-                            </FormControl>
+                        Logout
+                    </Link>
+                </Stack>
+            </Stack>
 
-                            <FormControl isInvalid={!!errors.adminSurname}>
-                                <FormLabel htmlFor='adminSurname'>Surname</FormLabel>
-                                <Input {...register('adminSurname')} id='adminSurname' />
-                                <FormErrorMessage>{errors.adminSurname?.message}</FormErrorMessage>
-                            </FormControl>
+            <FormProvider {...methods}>
+                <form onSubmit={methods.handleSubmit(onFormSubmitted)}>
+                    <Stack spacing={2.5}>
+                        <TextField name='adminFirstName' label='First name' />
+                        <TextField name='adminSurname' label='Surname' />
+                        <TextField type='number' name='defaultAllowance' label='defaultAllowance' />
 
-                            <Divider marginY={8} />
-
-                            <FormControl isInvalid={!!errors.defaultAllowance}>
-                                <FormLabel htmlFor='defaultAllowance'>Allowance</FormLabel>
-                                <Input
-                                    {...register('defaultAllowance')}
-                                    id='defaultAllowance'
-                                    type='number'
-                                />
-                                <FormErrorMessage>
-                                    {errors.defaultAllowance?.message}
-                                </FormErrorMessage>
-                            </FormControl>
-
-                            <Checkbox {...register('acceptanceRequired')} id='acceptanceRequired'>
-                                Leave request has to be accepted.
-                            </Checkbox>
-                            <Checkbox
-                                {...register('allowanceOverflowAllowed')}
-                                id='allowanceOverflowAllowed'
-                            >
-                                Employee can exceed allowance limit.
-                            </Checkbox>
-                        </Stack>
-
-                        <Button size='lg' type='submit' isLoading={isLoading}>
+                        <LoadingButton
+                            fullWidth
+                            color='inherit'
+                            size='large'
+                            type='submit'
+                            variant='contained'
+                            loading={isLoading}
+                            endIcon={<Iconify icon='eva:arrow-ios-forward-fill' />}
+                            sx={{ justifyContent: 'space-between', pl: 2, pr: 1.5 }}
+                        >
                             Setup
-                        </Button>
+                        </LoadingButton>
                     </Stack>
-                    <Spacer />
-                </Flex>
-            </BrandingContentLayout.ContentSide>
-        </BrandingContentLayout>
+                </form>
+            </FormProvider>
+        </AuthLayout>
     );
+
+    // return (
+    //     <BrandingContentLayout>
+    //         <BrandingContentLayout.BrandingSide />
+    //
+    //         <BrandingContentLayout.ContentSide>
+    //             <Flex
+    //                 gap={3}
+    //                 height='full'
+    //                 justifyContent='center'
+    //                 alignContent='center'
+    //                 flexDirection='column'
+    //                 width='full'
+    //             >
+    //                 <Box width='fit-content' alignSelf='flex-end' marginTop={20}>
+    //                     <Link onClick={logout} size='xs'>
+    //                         Logout
+    //                     </Link>
+    //                 </Box>
+    //                 <Spacer />
+    //                 <Heading color='white' textAlign='center'>
+    //                     Setup account
+    //                 </Heading>
+    //                 <Stack
+    //                     as='form'
+    //                     spacing={7}
+    //                     maxWidth={380}
+    //                     width='full'
+    //                     alignSelf='center'
+    //                     onSubmit={handleSubmit(onFormSubmitted)}
+    //                 >
+    //                     <Stack spacing={5}>
+    //                         <FormControl isInvalid={!!errors.adminSurname}>
+    //                             <FormLabel htmlFor='adminFirstName'>First name</FormLabel>
+    //                             <Input {...register('adminFirstName')} id='adminFirstName' />
+    //                             <FormErrorMessage>
+    //                                 {errors.adminFirstName?.message}
+    //                             </FormErrorMessage>
+    //                         </FormControl>
+    //
+    //                         <FormControl isInvalid={!!errors.adminSurname}>
+    //                             <FormLabel htmlFor='adminSurname'>Surname</FormLabel>
+    //                             <Input {...register('adminSurname')} id='adminSurname' />
+    //                             <FormErrorMessage>{errors.adminSurname?.message}</FormErrorMessage>
+    //                         </FormControl>
+    //
+    //                         <Divider marginY={8} />
+    //
+    //                         <FormControl isInvalid={!!errors.defaultAllowance}>
+    //                             <FormLabel htmlFor='defaultAllowance'>Allowance</FormLabel>
+    //                             <Input
+    //                                 {...register('defaultAllowance')}
+    //                                 id='defaultAllowance'
+    //                                 type='number'
+    //                             />
+    //                             <FormErrorMessage>
+    //                                 {errors.defaultAllowance?.message}
+    //                             </FormErrorMessage>
+    //                         </FormControl>
+    //
+    //                         <Checkbox {...register('acceptanceRequired')} id='acceptanceRequired'>
+    //                             Leave request has to be accepted.
+    //                         </Checkbox>
+    //                         <Checkbox
+    //                             {...register('allowanceOverflowAllowed')}
+    //                             id='allowanceOverflowAllowed'
+    //                         >
+    //                             Employee can exceed allowance limit.
+    //                         </Checkbox>
+    //                     </Stack>
+    //
+    //                     <Button size='lg' type='submit' isLoading={isLoading}>
+    //                         Setup
+    //                     </Button>
+    //                 </Stack>
+    //                 <Spacer />
+    //             </Flex>
+    //         </BrandingContentLayout.ContentSide>
+    //     </BrandingContentLayout>
+    // );
 }

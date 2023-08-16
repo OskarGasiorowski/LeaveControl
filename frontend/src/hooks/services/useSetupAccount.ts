@@ -10,7 +10,7 @@ export function useSetupAccount() {
     const paths = usePaths();
     const navigate = useNavigate();
     const { setToken } = useAuth();
-    const { setupAccount } = useApi();
+    const { setupWorkspace } = useApi();
 
     const { isPending, mutate, error } = useMutation<
         string,
@@ -18,7 +18,7 @@ export function useSetupAccount() {
         CreateTenantRequest
     >({
         mutationKey: ['useSetupAccount'],
-        mutationFn: setupAccount,
+        mutationFn: setupWorkspace,
         onSuccess: (token) => {
             setToken(token);
             navigate(paths.dashboard, { replace: true });

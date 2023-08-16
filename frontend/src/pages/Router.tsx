@@ -1,14 +1,14 @@
 import { Navigate, Route, Routes } from 'react-router';
-import { CreateAccountPage } from './CreateAccountPage';
 import { LoginPage } from './LoginPage';
-import { AdminProtectedRoute, ProtectedRoute } from '#modules/auth';
-import { Layout } from '#modules/layout';
-import { DashboardPage } from './DashboardPage';
 import { usePaths } from '#hooks';
+import { CreateWorkspacePage } from './CreateWorkspacePage';
 import { SetupAccountPage } from './SetupAccountPage';
+import { AdminProtectedRoute, ProtectedRoute } from '#modules/auth';
+import { DashboardPage } from './DashboardPage';
 import { UsersPage } from './UsersPage';
 import { UserCalendarPage } from './UserCalendarPage';
-import { LeaveRequestPage } from './LeaveRequestPage.tsx';
+import { LeaveRequestPage } from './LeaveRequestPage';
+import { DashboardLayout } from '#modules/layouts';
 
 export function Router() {
     const paths = usePaths();
@@ -16,11 +16,11 @@ export function Router() {
     return (
         <Routes>
             <Route path='/' element={<Navigate to={paths.login} />} />
-            <Route path={paths.createAccount} element={<CreateAccountPage />} />
-            <Route path={paths.setupAccount} element={<SetupAccountPage />} />
+            <Route path={paths.createAccount} element={<CreateWorkspacePage />} />
+            <Route path={paths.setupWorkspace} element={<SetupAccountPage />} />
             <Route path={paths.login} element={<LoginPage />} />
             <Route element={<ProtectedRoute />}>
-                <Route element={<Layout />}>
+                <Route element={<DashboardLayout />}>
                     <Route path={paths.dashboard} element={<DashboardPage />} />
                     <Route path={paths.users} element={<UsersPage />} />
                     <Route path={paths.userCalendar.template} element={<UserCalendarPage />} />

@@ -1,10 +1,10 @@
 export function usePaths() {
     return {
         login: '/login',
-        createAccount: '/create-account',
+        createAccount: '/create-workspace',
         dashboard: '/dashboard',
         users: '/users',
-        setupAccount: '/setup-account',
+        setupWorkspace: '/setup-workspace',
         // TODO think about smarter way of doing it
         userCalendar: {
             template: '/user-calendar/:userId',

@@ -1,7 +1,6 @@
-import { ChakraProvider } from '@chakra-ui/react';
 import { Router } from './pages';
 import { AuthProvider } from '#modules/auth';
-import { theme } from './theme';
+import { ThemeProvider } from './theme';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
@@ -9,7 +8,7 @@ const queryClient = new QueryClient();
 
 export function App() {
     return (
-        <ChakraProvider theme={theme}>
+        <ThemeProvider>
             <QueryClientProvider client={queryClient}>
                 <ReactQueryDevtools initialIsOpen={false} />
 
@@ -17,6 +16,6 @@ export function App() {
                     <Router />
                 </AuthProvider>
             </QueryClientProvider>
-        </ChakraProvider>
+        </ThemeProvider>
     );
 }
