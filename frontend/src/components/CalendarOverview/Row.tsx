@@ -24,7 +24,6 @@ export function Row({ displayName, leaves, month, onClick }: Props) {
         leaves.forEach((leave) =>
             leave.leaveDays.forEach((date) => {
                 if (dayjs(new Date(date.day)).isSame(dayjs(month), 'month')) {
-                    console.log(date.day);
                     temp[new Date(date.day).getDate() - 1] = {
                         id: leave.id,
                         variant: 'center',
@@ -32,8 +31,6 @@ export function Row({ displayName, leaves, month, onClick }: Props) {
                 }
             }),
         );
-
-        console.log(temp);
 
         let lastId: string | null = null;
 

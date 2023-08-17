@@ -1,11 +1,11 @@
-import { Iconify, Link, TextField } from '#components';
+import { Checkbox, Iconify, Link, TextField } from '#components';
 import { useAuth } from '#modules/auth';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router';
 import { usePaths, useSetupAccount } from '#hooks';
 import { FormProvider, useForm } from 'react-hook-form';
 import { AuthLayout } from '#modules/layouts';
-import { Stack, Typography } from '@mui/material';
+import { Divider, Stack, Typography } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 import { LoginBigImage } from '#illustrations';
 
@@ -61,7 +61,26 @@ export function SetupAccountPage() {
                     <Stack spacing={2.5}>
                         <TextField name='adminFirstName' label='First name' />
                         <TextField name='adminSurname' label='Surname' />
-                        <TextField type='number' name='defaultAllowance' label='defaultAllowance' />
+
+                        <Divider />
+
+                        <Stack>
+                            <TextField
+                                type='number'
+                                name='defaultAllowance'
+                                label='Default Allowance'
+                                sx={{ mb: 1 }}
+                            />
+
+                            <Checkbox
+                                name='acceptanceRequired'
+                                label='Leave request has to be accepted.'
+                            />
+                            <Checkbox
+                                name='allowanceOverflowAllowed'
+                                label='Employee can exceed allowance limit.'
+                            />
+                        </Stack>
 
                         <LoadingButton
                             fullWidth
