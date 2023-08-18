@@ -7,7 +7,7 @@ import { AdminProtectedRoute, ProtectedRoute } from '#modules/auth';
 import { DashboardPage } from './DashboardPage';
 import { UsersPage } from './UsersPage';
 import { UserCalendarPage } from './UserCalendarPage';
-import { LeaveRequestPage } from './LeaveRequestPage';
+import { LeaveRequestPage } from './LeaveRequestPage/LeaveRequestPage.tsx';
 import { DashboardLayout } from '#modules/layouts';
 
 export function Router() {

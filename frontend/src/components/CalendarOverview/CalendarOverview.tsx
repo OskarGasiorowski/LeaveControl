@@ -45,7 +45,7 @@ export function CalendarOverview({ userCalendars, month, onClick }: Props) {
             <Table sx={{ tableLayout: 'fixed' }}>
                 <TableHead>
                     <TableRow sx={{ backgroundColor: 'inherit' }}>
-                        <TableCell sx={{ paddingLeft: 2, paddingY: 1 }} width={140}>
+                        <TableCell sx={{ paddingLeft: 2, paddingY: 1 }} width={180}>
                             Users
                         </TableCell>
                         {times(end.date()).map((day) => (

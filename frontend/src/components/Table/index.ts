@@ -1,0 +1,1 @@
+export { TableHeadCustom } from './TableHeadCustom';

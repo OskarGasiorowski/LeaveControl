@@ -22,7 +22,7 @@ export function DashboardPage() {
     );
 
     return (
-        <Container maxWidth='xl' sx={{}}>
+        <Container maxWidth='xl'>
             <Card>
                 <CardHeader
                     title='Calendar'

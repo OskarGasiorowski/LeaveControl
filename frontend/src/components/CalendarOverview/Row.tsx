@@ -3,7 +3,7 @@ import { Fragment, useMemo } from 'react';
 import * as dayjs from 'dayjs';
 import { LeaveCell } from './LeaveCell';
 import { EmptyCell } from './EmptyCell';
-import { TableCell, TableRow, useTheme } from '@mui/material';
+import { TableCell, TableRow, Typography } from '@mui/material';
 
 interface Props {
     displayName: string;
@@ -13,8 +13,6 @@ interface Props {
 }
 
 export function Row({ displayName, leaves, month, onClick }: Props) {
-    const theme = useTheme();
-
     const calendar = useMemo(() => {
         const temp = new Array<{
             id: string;
@@ -61,19 +59,19 @@ export function Row({ displayName, leaves, month, onClick }: Props) {
     }, [leaves, month]);
 
     return (
-        <TableRow
-            sx={{ ':hover': { backgroundColor: theme.palette.action.hover, cursor: 'pointer' } }}
-            onClick={onClick}
-        >
+        <TableRow hover sx={{ cursor: 'pointer' }} onClick={onClick}>
             <TableCell
                 sx={{
                     borderStartStartRadius: 4,
                     borderBottomLeftRadius: 4,
                     paddingY: 1,
                     paddingLeft: 2,
+                    width: '100px',
                 }}
             >
-                {displayName}
+                <Typography typography='body2' noWrap>
+                    {displayName}
+                </Typography>
             </TableCell>
             {calendar.map((type, index) => {
                 const day = dayjs(new Date(month.year(), month.month(), index + 1)).day();
