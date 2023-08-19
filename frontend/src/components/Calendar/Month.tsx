@@ -1,4 +1,3 @@
-import { Grid, GridItem, Text, VStack } from '@chakra-ui/react';
 import * as dayjs from 'dayjs';
 import { times } from 'lodash';
 import { useMemo } from 'react';
@@ -7,6 +6,7 @@ import { FreeDay } from './FreeDay.tsx';
 import { TakenDay } from './TakenDay.tsx';
 import { leaveEditingAtom } from './atom.ts';
 import { useAtomValue } from 'jotai';
+import { Box, Grid, Typography } from '@mui/material';
 
 interface Props {
     calendar: GetUserCalendarResponse;
@@ -38,7 +38,9 @@ export function Month({ month, year, calendar }: Props) {
         return (
             <>
                 {times(emptyDays).map((index) => (
-                    <GridItem key={`empty-${index}`} />
+                    <Grid item key={`empty-${index}`} xs={1}>
+                        <Box width='100%' height='100%' />
+                    </Grid>
                 ))}
 
                 {times(firstDay.daysInMonth()).map((dayIndex) => {
@@ -64,27 +66,22 @@ export function Month({ month, year, calendar }: Props) {
     }, [month, calendar, leaveEditing, year]);
 
     return (
-        <VStack>
-            <Text>{dayjs(new Date(year, month, 1)).format('MMMM')}</Text>
-            <Grid templateColumns='repeat(7, 1fr)' justifyItems='center' gap={0} rowGap={1.5}>
+        <Grid item sm={12} md={6} lg={4} xl={3} width='100%'>
+            <Typography variant='subtitle1' textAlign='center'>
+                {dayjs(new Date(year, month, 1)).format('MMMM')}
+            </Typography>
+            <Grid container columns={7} spacing={1}>
                 {daysOfWeek.map((day) => (
-                    <GridItem
-                        key={day}
-                        width='full'
-                        paddingX={1}
-                        paddingY={1}
-                        borderBottom='1px solid white'
-                        marginBottom={1}
-                        height='fit-content'
-                    >
-                        <Text fontSize='xs' textAlign='center'>
-                            {day}
-                        </Text>
-                    </GridItem>
+                    <Grid item key={day} xs={1}>
+                        <Box width='full' sx={{ borderBottom: '1px solid white', marginBottom: 1 }}>
+                            <Typography sx={{ textAlign: 'center' }} variant='body2'>
+                                {day}
+                            </Typography>
+                        </Box>
+                    </Grid>
                 ))}
-
                 {cells}
             </Grid>
-        </VStack>
+        </Grid>
     );
 }

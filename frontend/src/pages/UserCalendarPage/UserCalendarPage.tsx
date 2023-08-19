@@ -14,6 +14,7 @@ import { useParams } from 'react-router';
 import { useAtom } from 'jotai';
 import { useLeaveRequest, useUserCalendar } from '#hooks';
 import { EditLeaveCard } from './components';
+import { Container } from '@mui/material';
 
 export function UserCalendarPage() {
     const { userId } = useParams<{ userId: string }>();
@@ -43,7 +44,7 @@ export function UserCalendarPage() {
     }
 
     return (
-        <>
+        <Container maxWidth='xl'>
             <Calendar calendar={calendar} />
             <RightSidebar>
                 {!!selectedDates.length && (
@@ -69,6 +70,6 @@ export function UserCalendarPage() {
 
                 <EditLeaveCard userId={userId} calendar={calendar} />
             </RightSidebar>
-        </>
+        </Container>
     );
 }

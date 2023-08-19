@@ -3,6 +3,7 @@ import { selectedDatesAtom } from '#components';
 import { useAtom, useAtomValue, useSetAtom } from 'jotai';
 import { editModeAtom, hoverLeaveIdAtom, leaveEditingAtom, selectedLeaveIdAtom } from './atom.ts';
 import * as dayjs from 'dayjs';
+import { useTheme } from '@mui/material';
 
 interface Props {
     date: Date;
@@ -11,6 +12,8 @@ interface Props {
 }
 
 export function TakenDay({ date, leaveId, isPending }: Props) {
+    const theme = useTheme();
+
     const selectedDates = useAtomValue(selectedDatesAtom);
     const [hoverLeaveId, setLeaveId] = useAtom(hoverLeaveIdAtom);
     const [selectedLeaveId, setSelectedLeaveIdAtom] = useAtom(selectedLeaveIdAtom);
@@ -33,8 +36,8 @@ export function TakenDay({ date, leaveId, isPending }: Props) {
     }
 
     const color = isPending
-        ? { base: '#FFCE73', hover: '#A0D7E7' }
-        : { base: '#7FBA7A', hover: '#A0D7E7' };
+        ? { base: theme.palette.warning.main, hover: theme.palette.warning.light }
+        : { base: theme.palette.primary.main, hover: theme.palette.primary.light };
 
     return (
         <Day

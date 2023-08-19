@@ -1,12 +1,14 @@
-import { GridItem, Text } from '@chakra-ui/react';
-import { ComponentProps } from 'react';
 import { noop } from 'lodash';
+import { Box, Grid, Typography, useTheme } from '@mui/material';
 
-type Props = Pick<ComponentProps<typeof GridItem>, 'onClick' | 'onMouseOver' | 'onMouseOut'> & {
+type Props = {
     day: number;
     color: { base: string; hover: string };
     disabled?: boolean;
     highlighted?: boolean;
+    onClick: () => void;
+    onMouseOver?: () => void;
+    onMouseOut?: () => void;
 };
 
 export function Day({
@@ -15,25 +17,33 @@ export function Day({
     disabled = false,
     highlighted = false,
     onClick,
-    ...props
+    onMouseOver,
+    onMouseOut,
 }: Props) {
-    const color = disabled ? { base: 'grey.200', hover: 'grey.200' } : chosenColor;
+    const theme = useTheme();
+    const color = disabled
+        ? { base: theme.palette.grey[200], hover: theme.palette.grey[200] }
+        : chosenColor;
 
     return (
-        <GridItem
-            key={day}
-            backgroundColor={highlighted ? color.hover : color.base}
-            width={8}
-            height={7}
-            textAlign='center'
-            alignItems='center'
-            _hover={{ backgroundColor: color.hover, cursor: disabled ? 'not-allowed' : 'pointer' }}
-            onClick={disabled ? noop : onClick}
-            {...props}
-        >
-            <Text as='span' fontSize='xs' textAlign='center'>
-                {day}
-            </Text>
-        </GridItem>
+        <Grid item xs={1}>
+            <Box
+                sx={{
+                    width: '100%',
+                    backgroundColor: highlighted ? color.hover : color.base,
+                    textAlign: 'center',
+                    ':hover': {
+                        backgroundColor: color.hover,
+                        cursor: disabled ? 'not-allowed' : 'pointer',
+                    },
+                    paddingY: 0.75,
+                }}
+                onClick={disabled ? noop: onClick}
+                onMouseOver={onMouseOver}
+                onMouseOut={onMouseOut}
+            >
+                <Typography variant='body2'>{day}</Typography>
+            </Box>
+        </Grid>
     );
 }
