@@ -1,4 +1,3 @@
-using LeaveControl.Application.Command.Calendar.AcceptLeave;
 using LeaveControl.Domain;
 using LeaveControl.Domain.Aggregates.UserCalendar;
 using LeaveControl.Domain.Repositories;

@@ -34,3 +34,11 @@ export async function deleteLeaveRequest(api: typeof ky, leaveId: string): Promi
 export function getPendingRequests(api: typeof ky) {
     return api.get('calendar/requests').json<GetPendingLeaveRequests>();
 }
+
+export async function approvePendingRequests(api: typeof ky, userId: string, leaveId: string) {
+    await api.post(`calendar/${userId}/leave/${leaveId}/approve`);
+}
+
+export async function declinePendingRequests(api: typeof ky, userId: string, leaveId: string) {
+    await api.post(`calendar/${userId}/leave/${leaveId}/decline`, { json: { reason: '' } });
+}

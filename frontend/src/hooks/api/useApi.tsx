@@ -10,8 +10,10 @@ import {
     postLeaveRequest,
     UpdateLeaveRequest,
     PostLeaveRequest,
-    updateLeaveRequest, getPendingRequests,
+    updateLeaveRequest,
+    getPendingRequests,
 } from './calendar';
+import { approvePendingRequests, declinePendingRequests } from './calendar/services.ts';
 
 export function useApi() {
     const { token } = useAuth();
@@ -40,5 +42,9 @@ export function useApi() {
             updateLeaveRequest(authenticatedApi, leaveId, body),
         deleteLeave: (leaveId: string) => deleteLeaveRequest(authenticatedApi, leaveId),
         getPendingRequests: () => getPendingRequests(authenticatedApi),
+        approvePendingRequests: (userId: string, leaveId: string) =>
+            approvePendingRequests(authenticatedApi, userId, leaveId),
+        declinePendingRequests: (userId: string, leaveId: string) =>
+            declinePendingRequests(authenticatedApi, userId, leaveId),
     };
 }

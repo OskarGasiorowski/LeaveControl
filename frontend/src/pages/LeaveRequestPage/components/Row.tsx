@@ -1,5 +1,4 @@
 import {
-    Button,
     Collapse,
     IconButton,
     ListItemText,
@@ -13,6 +12,8 @@ import { Leave } from 'hooks/api';
 import { KeyboardArrowUp, KeyboardArrowDown } from '@mui/icons-material';
 import { useState } from 'react';
 import dayjs from 'dayjs';
+import { useApprovePendingRequest, useRejectPendingRequest } from '#hooks';
+import { LoadingButton } from '@mui/lab';
 
 interface Props {
     startsAt: string;
@@ -23,7 +24,10 @@ interface Props {
     leave: Leave;
 }
 
-export function Row({ startsAt, endsAt, firstName, surname, leave }: Props) {
+export function Row({ startsAt, endsAt, firstName, surname, leave, userId }: Props) {
+    const { approve, isApprovePending } = useApprovePendingRequest(userId, leave.id);
+    const { reject, isRejectPending } = useRejectPendingRequest(userId, leave.id);
+
     const [open, setOpen] = useState(false);
 
     return (
@@ -76,12 +80,24 @@ export function Row({ startsAt, endsAt, firstName, surname, leave }: Props) {
                 </TableCell>
                 <TableCell>
                     <Stack justifyContent='flex-end' direction='row' gap={1}>
-                        <Button variant='soft' color='error'>
+                        <LoadingButton
+                            variant='soft'
+                            color='error'
+                            loading={isRejectPending}
+                            onClick={() => reject()}
+                            disabled={isApprovePending}
+                        >
                             Reject
-                        </Button>
-                        <Button variant='soft' color='success'>
+                        </LoadingButton>
+                        <LoadingButton
+                            variant='soft'
+                            color='success'
+                            disabled={isRejectPending}
+                            onClick={() => approve()}
+                            loading={isApprovePending}
+                        >
                             Approve
-                        </Button>
+                        </LoadingButton>
                     </Stack>
                 </TableCell>
             </TableRow>

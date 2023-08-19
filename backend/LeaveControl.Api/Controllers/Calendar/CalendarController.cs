@@ -1,7 +1,7 @@
 using LeaveControl.Api.ActionFilters;
 using LeaveControl.Api.Controllers.Calendar.Requests;
-using LeaveControl.Application.Command.Calendar.AcceptLeave;
 using LeaveControl.Application.Command.Calendar.AddLeave;
+using LeaveControl.Application.Command.Calendar.ApproveLeave;
 using LeaveControl.Application.Command.Calendar.DeclineLeave;
 using LeaveControl.Application.Command.Calendar.DeleteLeave;
 using LeaveControl.Application.Command.Calendar.UpdateLeave;

@@ -8,3 +8,5 @@ export { useUsers } from './useUsers';
 export { useLeaveRequest } from './useLeaveRequest.ts';
 export { useUpdateLeaveRequest } from './useUpdateLeaveRequest.ts';
 export { usePendingRequests } from './usePendingRequests.ts';
+export { useApprovePendingRequest } from './useApprovePendingRequest.ts';
+export { useRejectPendingRequest } from './useRejectPendingRequest.ts';

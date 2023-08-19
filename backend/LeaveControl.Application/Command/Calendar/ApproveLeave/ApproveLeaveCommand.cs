@@ -1,7 +1,7 @@
 using LeaveControl.Domain.Types;
 using MediatR;
 
-namespace LeaveControl.Application.Command.Calendar.AcceptLeave;
+namespace LeaveControl.Application.Command.Calendar.ApproveLeave;
 
 public record ApproveLeaveCommand : IRequest
 {
