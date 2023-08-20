@@ -36,9 +36,10 @@ export function Day({
                         backgroundColor: color.hover,
                         cursor: disabled ? 'not-allowed' : 'pointer',
                     },
-                    paddingY: 0.75,
+                    paddingY: 0.5,
+                    borderRadius: 0.5,
                 }}
-                onClick={disabled ? noop: onClick}
+                onClick={disabled ? noop : onClick}
                 onMouseOver={onMouseOver}
                 onMouseOut={onMouseOut}
             >

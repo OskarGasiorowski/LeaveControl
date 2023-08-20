@@ -33,7 +33,7 @@ export function LoginPage() {
         mode: 'onBlur',
     });
 
-    function handleOnSubmit(form: LoginPassword.Type) {
+    function handleOnSubmit(form: Form) {
         login({ ...form });
     }
 

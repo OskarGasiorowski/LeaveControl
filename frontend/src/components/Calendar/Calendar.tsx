@@ -25,7 +25,7 @@ export function Calendar({ calendar }: Props) {
                     </Typography>
                 </CarouselArrows>
             </Stack>
-            <Grid container spacing={4} rowGap={3}>
+            <Grid container spacing={4} rowGap={2}>
                 {times(12).map((month) => (
                     <Month key={`${year}-${month}`} month={month} year={year} calendar={calendar} />
                 ))}

@@ -66,7 +66,7 @@ export function Month({ month, year, calendar }: Props) {
     }, [month, calendar, leaveEditing, year]);
 
     return (
-        <Grid item sm={12} md={6} lg={4} xl={3} width='100%'>
+        <Grid item sm={12} md={6} lg={4} width='100%'>
             <Typography variant='subtitle1' textAlign='center'>
                 {dayjs(new Date(year, month, 1)).format('MMMM')}
             </Typography>
