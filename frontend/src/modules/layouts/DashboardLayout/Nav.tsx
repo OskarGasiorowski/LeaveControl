@@ -61,7 +61,13 @@ export function Nav({ openNav, onCloseNav }: Props) {
                     label='Dashboard'
                     icon={<Iconify icon='ic:outline-dashboard' />}
                 />
-                <NavLink href={paths.users} label='Users' icon={<Iconify icon='ph:users-bold' />} />
+                <AdminProtected>
+                    <NavLink
+                        href={paths.users}
+                        label='Users'
+                        icon={<Iconify icon='ph:users-bold' />}
+                    />
+                </AdminProtected>
                 <AdminProtected>
                     <NavLink
                         href={paths.leaveRequests}

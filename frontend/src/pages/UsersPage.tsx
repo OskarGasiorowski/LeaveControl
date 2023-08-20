@@ -1,4 +1,4 @@
-import { useUsers } from '#hooks';
+import { useBoolean, usePaths, useUsers } from '#hooks';
 import {
     Button,
     Card,
@@ -12,10 +12,12 @@ import {
     Typography,
 } from '@mui/material';
 import { Iconify, TableHeadCustom } from '#components';
-import { Link } from 'react-router-dom';
+import { CreateUserModal } from '#modules/user-data';
 
 export function UsersPage() {
     const { users } = useUsers();
+
+    const newUserModal = useBoolean();
 
     return (
         <Container>
@@ -24,8 +26,7 @@ export function UsersPage() {
                     Users
                 </Typography>
                 <Button
-                    component={Link}
-                    to=''
+                    onClick={newUserModal.onToggle}
                     variant='contained'
                     startIcon={<Iconify icon='mingcute:add-line' />}
                 >
@@ -55,39 +56,12 @@ export function UsersPage() {
                     </Table>
                 </TableContainer>
             </Card>
+
+            <CreateUserModal
+                isOpen={newUserModal.value}
+                onClose={newUserModal.onToggle}
+                defaults={{ allowance: 25 }}
+            />
         </Container>
     );
-
-    // return (
-    //     <>
-    //         <Card>
-    //             <CardHeader>
-    //                 <HStack>
-    //                     <Heading color='white' size='md'>
-    //                         Users
-    //                     </Heading>
-    //                     <Spacer />
-    //                     <Button onClick={onOpen}>Add user</Button>
-    //                 </HStack>
-    //             </CardHeader>
-    //             <CardBody>
-    //                 <TableContainer>
-    //                     <Table variant='simple'>
-    //                         <Tbody>
-    //                             {users.map(({ id, firstName, surname, email }) => (
-    //                                 <Tr key={id}>
-    //                                     <Td>
-    //                                         {firstName} {surname}
-    //                                     </Td>
-    //                                     <Td>{email}</Td>
-    //                                 </Tr>
-    //                             ))}
-    //                         </Tbody>
-    //                     </Table>
-    //                 </TableContainer>
-    //             </CardBody>
-    //         </Card>
-    //         <CreateUserModal isOpen={isOpen} onClose={onClose} />
-    //     </>
-    // );
 }

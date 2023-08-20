@@ -7,8 +7,8 @@ import { AdminProtectedRoute, ProtectedRoute } from '#modules/auth';
 import { DashboardPage } from './DashboardPage';
 import { UsersPage } from './UsersPage';
 import { UserCalendarPage } from './UserCalendarPage';
-import { LeaveRequestPage } from './LeaveRequestPage/LeaveRequestPage.tsx';
 import { DashboardLayout } from '#modules/layouts';
+import { LeaveRequestPage } from './LeaveRequestPage';
 
 export function Router() {
     const paths = usePaths();
@@ -22,10 +22,10 @@ export function Router() {
             <Route element={<ProtectedRoute />}>
                 <Route element={<DashboardLayout />}>
                     <Route path={paths.dashboard} element={<DashboardPage />} />
-                    <Route path={paths.users} element={<UsersPage />} />
                     <Route path={paths.userCalendar.template} element={<UserCalendarPage />} />
 
                     <Route element={<AdminProtectedRoute />}>
+                        <Route path={paths.users} element={<UsersPage />} />
                         <Route path={paths.leaveRequests} element={<LeaveRequestPage />} />
                     </Route>
                 </Route>

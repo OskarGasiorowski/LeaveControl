@@ -8,5 +8,9 @@ export function useToast() {
             enqueueSnackbar(message, {
                 variant: 'error',
             }),
+        successToast: (message: string) =>
+            enqueueSnackbar(message, {
+                variant: 'success',
+            }),
     };
 }
