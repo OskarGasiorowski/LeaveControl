@@ -22,7 +22,7 @@ export function Day({
 }: Props) {
     const theme = useTheme();
     const color = disabled
-        ? { base: theme.palette.grey[200], hover: theme.palette.grey[200] }
+        ? { base: theme.palette.grey[400], hover: theme.palette.grey[400] }
         : chosenColor;
 
     return (

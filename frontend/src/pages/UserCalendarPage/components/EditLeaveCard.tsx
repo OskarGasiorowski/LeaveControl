@@ -1,4 +1,3 @@
-import { Button, Card, CardBody, CardFooter, Text, Textarea, VStack } from '@chakra-ui/react';
 import { useAtom } from 'jotai';
 import {
     editModeAtom,
@@ -8,6 +7,9 @@ import {
 import { GetUserCalendarResponse } from '../../../hooks/api';
 import { useUpdateLeaveRequest } from '#hooks';
 import { useDeleteLeaveRequest } from '../../../hooks/services/useDeleteLeaveRequest.ts';
+import { Button, Stack } from '@mui/material';
+import { LoadingButton } from '@mui/lab';
+import { LeaveCard } from './LeaveCard.tsx';
 
 interface Props {
     userId: string;
@@ -56,46 +58,49 @@ export function EditLeaveCard({ calendar, userId }: Props) {
         });
     }
 
+    const overview = (
+        <Button variant='contained' fullWidth onClick={handleEdit}>
+            Edit
+        </Button>
+    );
+
+    const editButtons = (
+        <>
+            <Stack direction='row' spacing={1.5}>
+                <Button disabled={isPending} fullWidth variant='contained' onClick={handleCancel}>
+                    Cancel
+                </Button>
+                <LoadingButton
+                    loading={isPending}
+                    disabled={isDeletePending}
+                    fullWidth
+                    variant='contained'
+                    color='primary'
+                    onClick={handleUpdate}
+                >
+                    Save
+                </LoadingButton>
+            </Stack>
+            <LoadingButton
+                loading={isDeletePending}
+                disabled={isPending}
+                fullWidth
+                variant='contained'
+                color='error'
+                onClick={() => deleteLeave(selectedLeaveId!)}
+            >
+                Delete
+            </LoadingButton>
+        </>
+    );
+
     return (
-        <Card>
-            <CardBody as={VStack} gap={2} alignItems='flex-start'>
-                <Text>Taken: {selectedLeave.leaveDays.length} days</Text>
-                <Textarea placeholder='Reason...' size='sm' />
-            </CardBody>
-            <CardFooter as={VStack} gap={1}>
-                {!editMode && (
-                    <Button size='full' onClick={handleEdit}>
-                        Edit
-                    </Button>
-                )}
-                {editMode && (
-                    <>
-                        <Button
-                            disabled={isDeletePending || isPending}
-                            size='full'
-                            onClick={handleCancel}
-                        >
-                            Cancel
-                        </Button>
-                        <Button
-                            isLoading={isPending}
-                            disabled={isDeletePending}
-                            size='full'
-                            onClick={handleUpdate}
-                        >
-                            Save
-                        </Button>
-                        <Button
-                            isLoading={isDeletePending}
-                            disabled={isPending}
-                            size='full'
-                            onClick={() => deleteLeave(selectedLeaveId!)}
-                        >
-                            Delete
-                        </Button>
-                    </>
-                )}
-            </CardFooter>
-        </Card>
+        <LeaveCard
+            title='Book a leave'
+            days={selectedLeave.leaveDays.length}
+            reason={selectedLeave.reason}
+            onReasonChange={(reason) => setLeaveEditing({ ...selectedLeave, reason })}
+            actions={editMode ? editButtons : overview}
+        />
     );
 }
