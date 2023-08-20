@@ -53,8 +53,8 @@ export function FreeDay({ date }: Props) {
     );
 
     const colorSet: Record<'free' | 'selected', { base: string; hover: string }> = {
-        free: { base: theme.palette.grey[700], hover: theme.palette.grey[600] },
-        selected: { base: theme.palette.secondary.main, hover: theme.palette.secondary.light },
+        free: { base: theme.palette.grey[700], hover: theme.palette.action.hover },
+        selected: { base: theme.palette.secondary.main, hover: theme.palette.secondary.dark },
     };
     const color = colorSet[dateIsSelected ? 'selected' : 'free'];
 

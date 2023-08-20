@@ -36,8 +36,8 @@ export function TakenDay({ date, leaveId, isPending }: Props) {
     }
 
     const color = isPending
-        ? { base: theme.palette.warning.main, hover: theme.palette.warning.light }
-        : { base: theme.palette.primary.main, hover: theme.palette.primary.light };
+        ? { base: theme.palette.warning.main, hover: theme.palette.warning.dark }
+        : { base: theme.palette.primary.main, hover: theme.palette.primary.dark };
 
     return (
         <Day

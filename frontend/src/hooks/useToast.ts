@@ -1,10 +1,12 @@
-import { useToast as useChakraToast } from '@chakra-ui/react';
+import { useSnackbar } from 'notistack';
 
 export function useToast() {
-    const toast = useChakraToast();
+    const { enqueueSnackbar } = useSnackbar();
 
     return {
         errorToast: (message: string) =>
-            toast({ title: message, status: 'error', duration: 10000, isClosable: true }),
+            enqueueSnackbar(message, {
+                variant: 'error',
+            }),
     };
 }

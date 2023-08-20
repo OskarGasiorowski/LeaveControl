@@ -3,14 +3,14 @@ import { useApi } from '../api';
 
 export function useAddUser(onSuccess?: () => void) {
     const { addUser } = useApi();
-    const { invalidateQueries } = useQueryClient();
+    const queryClient = useQueryClient();
 
     function handleOnSuccess() {
-        invalidateQueries(['users']);
         onSuccess?.();
+        return queryClient.invalidateQueries({ queryKey: ['users'] });
     }
 
-    const { mutate, isLoading } = useMutation({
+    const { mutate, isPending } = useMutation({
         mutationKey: ['add-user'],
         mutationFn: addUser,
         onSuccess: handleOnSuccess,
@@ -18,6 +18,6 @@ export function useAddUser(onSuccess?: () => void) {
 
     return {
         addUser: mutate,
-        isLoading,
+        isLoading: isPending,
     };
 }

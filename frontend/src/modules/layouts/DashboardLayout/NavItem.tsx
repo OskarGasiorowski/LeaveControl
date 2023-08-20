@@ -13,7 +13,7 @@ type Props = NavItemProps & {
 };
 
 export function NavItem({ item, open, depth, active, config, externalLink, ...other }: Props) {
-    const { title, path, icon, info, children, disabled, caption, roles } = item;
+    const { title, path, icon, info, children, disabled, caption } = item;
 
     const subItem = depth !== 1;
 
