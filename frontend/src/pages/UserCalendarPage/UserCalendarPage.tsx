@@ -1,14 +1,13 @@
 import { Calendar, Chart } from '#components';
-import { useParams } from 'react-router';
 import { useChart, useUserCalendar } from '#hooks';
 import { Card, Container, Grid, Stack, Typography, useTheme } from '@mui/material';
 import { AddLeaveCard, EditLeaveCard } from './components';
+import { useAuth } from '#modules/auth';
 
 export function UserCalendarPage() {
     const theme = useTheme();
-    const { userId } = useParams<{ userId: string }>();
-
-    const { calendar } = useUserCalendar(userId);
+    const { userId } = useAuth();
+    const { calendar } = useUserCalendar();
 
     const chartOptions = useChart({
         legend: {
@@ -44,11 +43,6 @@ export function UserCalendarPage() {
             },
         },
     });
-
-    if (!userId) {
-        // TODO not found page
-        return <h1>not found</h1>;
-    }
 
     if (!calendar) {
         return <h1>loading</h1>;

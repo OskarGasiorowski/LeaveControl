@@ -9,6 +9,7 @@ type Props = {
     onClick: () => void;
     onMouseOver?: () => void;
     onMouseOut?: () => void;
+    readonly: boolean;
 };
 
 export function Day({
@@ -19,11 +20,12 @@ export function Day({
     onClick,
     onMouseOver,
     onMouseOut,
+    readonly,
 }: Props) {
     const theme = useTheme();
     const color = disabled
         ? { base: theme.palette.grey[400], hover: theme.palette.grey[400] }
-        : chosenColor;
+        : { ...chosenColor, hover: readonly ? chosenColor.base : chosenColor.hover };
 
     return (
         <Grid item xs={1}>
@@ -34,16 +36,18 @@ export function Day({
                     textAlign: 'center',
                     ':hover': {
                         backgroundColor: color.hover,
-                        cursor: disabled ? 'not-allowed' : 'pointer',
+                        cursor: disabled ? 'not-allowed' : readonly ? 'unset' : 'pointer',
                     },
                     paddingY: 0.5,
                     borderRadius: 0.5,
                 }}
-                onClick={disabled ? noop : onClick}
+                onClick={disabled || readonly ? noop : onClick}
                 onMouseOver={onMouseOver}
                 onMouseOut={onMouseOut}
             >
-                <Typography variant='body2'>{day}</Typography>
+                <Typography variant='body2' sx={{ userSelect: 'none' }}>
+                    {day}
+                </Typography>
             </Box>
         </Grid>
     );

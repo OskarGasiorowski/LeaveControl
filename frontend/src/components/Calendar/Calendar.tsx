@@ -7,10 +7,11 @@ import { Card, Grid, Stack, Typography } from '@mui/material';
 import { CarouselArrows } from '../CarouselArrows.tsx';
 
 interface Props {
+    readonly?: boolean;
     calendar: GetUserCalendarResponse;
 }
 
-export function Calendar({ calendar }: Props) {
+export function Calendar({ calendar, readonly = false }: Props) {
     const [year, setYear] = useState(dayjs(Date.now()).year());
 
     return (
@@ -27,7 +28,13 @@ export function Calendar({ calendar }: Props) {
             </Stack>
             <Grid container spacing={4} rowGap={2}>
                 {times(12).map((month) => (
-                    <Month key={`${year}-${month}`} month={month} year={year} calendar={calendar} />
+                    <Month
+                        readonly={readonly}
+                        key={`${year}-${month}`}
+                        month={month}
+                        year={year}
+                        calendar={calendar}
+                    />
                 ))}
             </Grid>
         </Card>

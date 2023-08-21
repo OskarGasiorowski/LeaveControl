@@ -30,7 +30,7 @@ export function CreateUserModal({ isOpen, onClose, defaults }: Props) {
         addUser({
             email: form.email,
             surname: form.surname,
-            firstName: form.surname,
+            firstName: form.firstName,
         });
     }
 

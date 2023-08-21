@@ -2,6 +2,7 @@ export { useCreateAccount } from './useCreateAccount';
 export { useLogin } from './useLogin';
 export { useSetupAccount } from './useSetupAccount';
 export { useCalendar } from './useCalendar';
+export { useUserCalendarOverview } from './useUserCalendarOverview.ts';
 export { useUserCalendar } from './useUserCalendar.ts';
 export { useAddUser } from './useAddUser';
 export { useUsers } from './useUsers';

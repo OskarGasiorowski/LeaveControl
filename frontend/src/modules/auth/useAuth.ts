@@ -3,6 +3,7 @@ import { AuthContext } from './AuthContext';
 import { decodeToken } from '#utils';
 import { usePaths } from '#hooks';
 import { useNavigate } from 'react-router';
+import jwtDecode from 'jwt-decode';
 
 export function useAuth() {
     const paths = usePaths();
@@ -15,9 +16,12 @@ export function useAuth() {
         navigate(paths.login, { replace: true });
     }
 
+    const userId = useMemo(() => jwtDecode<{ sub: string }>(token || '').sub || '', [token]);
+
     return {
         isAuthenticated: !!token,
         token,
+        userId: userId,
         role,
         setToken,
         logout: handleLogout,

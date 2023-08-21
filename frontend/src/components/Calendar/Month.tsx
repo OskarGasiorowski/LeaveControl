@@ -12,9 +12,10 @@ interface Props {
     calendar: GetUserCalendarResponse;
     month: number;
     year: number;
+    readonly: boolean;
 }
 
-export function Month({ month, year, calendar }: Props) {
+export function Month({ month, year, calendar, readonly }: Props) {
     const leaveEditing = useAtomValue(leaveEditingAtom);
     const daysOfWeek = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'];
 
@@ -58,7 +59,7 @@ export function Month({ month, year, calendar }: Props) {
                     }
 
                     return (
-                        <FreeDay key={dayIndex} date={new Date(year, month, dayIndex + 1, 12)} />
+                        <FreeDay readonly={readonly} key={dayIndex} date={new Date(year, month, dayIndex + 1, 12)} />
                     );
                 })}
             </>

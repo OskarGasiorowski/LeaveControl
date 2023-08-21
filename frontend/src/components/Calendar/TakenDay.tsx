@@ -9,9 +9,10 @@ interface Props {
     date: Date;
     leaveId: string;
     isPending: boolean;
+    readonly: boolean;
 }
 
-export function TakenDay({ date, leaveId, isPending }: Props) {
+export function TakenDay({ date, leaveId, isPending, readonly }: Props) {
     const theme = useTheme();
 
     const selectedDates = useAtomValue(selectedDatesAtom);
@@ -41,6 +42,7 @@ export function TakenDay({ date, leaveId, isPending }: Props) {
 
     return (
         <Day
+            readonly={readonly}
             day={date.getDate()}
             onClick={() => (editMode ? handleDayEdit() : setSelectedLeaveIdAtom(leaveId))}
             color={color}

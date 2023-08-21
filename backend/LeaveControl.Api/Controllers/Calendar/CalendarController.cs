@@ -93,6 +93,15 @@ public class CalendarController : ControllerBase
     [Authorize(Roles = "Admin,User")]
     public async Task<IActionResult> Get(Guid userId)
     {
+        var result = await _mediator.Send(new UserCalendarOverviewQuery(userId));
+        return new JsonResult(result);
+    }
+    
+    [HttpGet("me")]
+    [Authorize(Roles = "Admin,User")]
+    [InjectUserId]
+    public async Task<IActionResult> GetMe(Guid userId)
+    {
         var result = await _mediator.Send(new UserCalendarQuery(userId));
         return new JsonResult(result);
     }

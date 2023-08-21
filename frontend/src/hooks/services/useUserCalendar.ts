@@ -1,14 +1,16 @@
-import { GetCalendarResponse, useApi } from '../api';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { GetCalendarResponse, useApi } from '../api';
 import { useMemo } from 'react';
+import { useAuth } from '#modules/auth';
 
-export function useUserCalendar(userId?: string) {
+export function useUserCalendar() {
     const queryClient = useQueryClient();
-    const { getUserCalendar } = useApi();
+    const { getMyCalendar } = useApi();
+    const { userId } = useAuth();
 
     const { data } = useQuery({
-        queryKey: ['calendar', userId],
-        queryFn: () => getUserCalendar(userId!),
+        queryKey: ['calendar', 'me'],
+        queryFn: () => getMyCalendar(),
         initialData: () => {
             const defaultData = queryClient
                 .getQueryData<GetCalendarResponse>(['calendar'])
@@ -18,7 +20,6 @@ export function useUserCalendar(userId?: string) {
 
             return { ...defaultData, allowance: 0 };
         },
-        enabled: !!userId,
     });
 
     const deductibleLeaveDaysCount = useMemo(
@@ -30,7 +31,6 @@ export function useUserCalendar(userId?: string) {
         () => (!data ? undefined : { ...data, deductibleLeaveDaysCount }),
         [data, deductibleLeaveDaysCount],
     );
-    console.log(deductibleLeaveDaysCount);
 
     return {
         calendar,

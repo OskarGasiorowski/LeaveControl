@@ -4,8 +4,10 @@ import { useMemo, useState } from 'react';
 import * as dayjs from 'dayjs';
 import { useNavigate } from 'react-router';
 import { Box, Card, CardHeader, Container } from '@mui/material';
+import { useAuth } from '#modules/auth';
 
 export function DashboardPage() {
+    const { userId } = useAuth();
     const navigate = useNavigate();
     const paths = usePaths();
     const [overviewMonth, setOverviewMonth] = useState(dayjs(Date.now()));
@@ -20,6 +22,12 @@ export function DashboardPage() {
             })),
         [calendar],
     );
+
+    function handleOnClick(clickedUserId: string) {
+        const isAuthenticatedUser = clickedUserId === userId;
+        const path = isAuthenticatedUser ? paths.myCalendar : paths.userCalendar.generate(userId);
+        navigate(path);
+    }
 
     return (
         <Container maxWidth='xl'>
@@ -41,7 +49,7 @@ export function DashboardPage() {
                     <CalendarOverview
                         userCalendars={calendarEntries}
                         month={overviewMonth}
-                        onClick={(userId) => navigate(paths.userCalendar.generate(userId))}
+                        onClick={handleOnClick}
                     />
                 </Box>
             </Card>

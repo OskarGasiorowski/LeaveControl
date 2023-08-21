@@ -9,6 +9,7 @@ import { UsersPage } from './UsersPage';
 import { UserCalendarPage } from './UserCalendarPage';
 import { DashboardLayout } from '#modules/layouts';
 import { LeaveRequestPage } from './LeaveRequestPage';
+import { UserCalendarOverviewPage } from './UserCalendarOverviewPage.tsx';
 
 export function Router() {
     const paths = usePaths();
@@ -22,7 +23,11 @@ export function Router() {
             <Route element={<ProtectedRoute />}>
                 <Route element={<DashboardLayout />}>
                     <Route path={paths.dashboard} element={<DashboardPage />} />
-                    <Route path={paths.userCalendar.template} element={<UserCalendarPage />} />
+                    <Route
+                        path={paths.userCalendar.template}
+                        element={<UserCalendarOverviewPage />}
+                    />
+                    <Route path={paths.myCalendar} element={<UserCalendarPage />} />
 
                     <Route element={<AdminProtectedRoute />}>
                         <Route path={paths.users} element={<UsersPage />} />

@@ -7,9 +7,10 @@ import { useTheme } from '@mui/material';
 
 interface Props {
     date: Date;
+    readonly: boolean;
 }
 
-export function FreeDay({ date }: Props) {
+export function FreeDay({ date, readonly }: Props) {
     const theme = useTheme();
     const [selectedDates, setSelectedDates] = useAtom(selectedDatesAtom);
     const setLeaveEditing = useSetAtom(leaveEditingAtom);
@@ -60,6 +61,7 @@ export function FreeDay({ date }: Props) {
 
     return (
         <Day
+            readonly={readonly}
             day={date.getDate()}
             color={color}
             onClick={() => (editMode ? handleDayEdit() : handleDayClick())}

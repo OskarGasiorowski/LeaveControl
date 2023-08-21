@@ -11,8 +11,15 @@ export function getCalendar(api: typeof ky): Promise<GetCalendarResponse> {
     return api.get('calendar').json<GetCalendarResponse>();
 }
 
-export function getUserCalendar(api: typeof ky, userId: string): Promise<GetUserCalendarResponse> {
-    return api.get(`calendar/${userId}`).json<GetUserCalendarResponse>();
+export function getUserCalendarOverview(
+    api: typeof ky,
+    userId: string,
+): Promise<GetUserCalendarResponse> {
+    return api.get(`calendar/${userId}`).json();
+}
+
+export function getMyCalendar(api: typeof ky): Promise<GetUserCalendarResponse> {
+    return api.get(`calendar/me`).json<GetUserCalendarResponse>();
 }
 
 export async function postLeaveRequest(api: typeof ky, body: PostLeaveRequest): Promise<void> {

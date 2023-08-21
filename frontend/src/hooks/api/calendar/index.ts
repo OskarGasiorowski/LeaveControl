@@ -1,6 +1,6 @@
 export {
     getCalendar,
-    getUserCalendar,
+    getUserCalendarOverview,
     postLeaveRequest,
     updateLeaveRequest,
     deleteLeaveRequest,
