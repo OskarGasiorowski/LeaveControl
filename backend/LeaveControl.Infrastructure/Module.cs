@@ -5,6 +5,7 @@ using LeaveControl.Infrastructure.Projections;
 using LeaveControl.Infrastructure.Query.Calendar;
 using LeaveControl.Infrastructure.Repositories;
 using Marten;
+using Marten.Events.Daemon.Resiliency;
 using Marten.Events.Projections;
 using Marten.Storage;
 using Microsoft.Extensions.DependencyInjection;
@@ -45,6 +46,7 @@ public static class Module
                 options.Projections.Add<UsersProjectionSetup>(ProjectionLifecycle.Inline);
                 options.Projections.Add<LeaveProjectionSetup>(ProjectionLifecycle.Inline);
             })
+            .AddAsyncDaemon(DaemonMode.Solo)
             .BuildSessionsWith<CustomSessionFactory>()
             .ApplyAllDatabaseChangesOnStartup();
 

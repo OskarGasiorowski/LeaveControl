@@ -13,8 +13,11 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
+using Oakton;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Host.ApplyOaktonExtensions();
 
 builder.Services.AddControllers()
     .AddNewtonsoftJson(options =>
@@ -66,6 +69,6 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();
 
-app.Run();
+await app.RunOaktonCommands(args);
 
 public partial class Program { }

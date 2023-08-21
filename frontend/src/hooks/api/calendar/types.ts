@@ -7,6 +7,9 @@ export type GetCalendarResponse = {
 
 export type GetUserCalendarResponse = {
     leaves: Leave[];
+    allowance: number;
+    firstName: string;
+    surname: string;
 };
 
 export type LeaveDay = {

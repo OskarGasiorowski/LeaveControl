@@ -15,6 +15,7 @@ public class LeaveProjection
     public Surname Surname { get; set; }
     public IList<LeaveRequest> Leaves { get; set; } = new List<LeaveRequest>();
     public IList<LeaveRequest> DeclinedLeaves { get; set; } = new List<LeaveRequest>();
+    public int Allowance { get; set; }
 
     public void Apply(LeaveRequestedEvent @event)
     {
@@ -61,6 +62,7 @@ public class LeaveProjection
         Id = @event.UserId;
         DeclinedLeaves = new List<LeaveRequest>();
         Leaves = new List<LeaveRequest>();
+        Allowance = @event.Settings.Allowance;
     }
 
     public void Apply(UserCreatedEvent @event)

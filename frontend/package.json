@@ -30,7 +30,9 @@
     "ky": "^0.33.3",
     "lodash": "^4.17.21",
     "notistack": "^3.0.1",
+    "numeral": "^2.0.6",
     "react": "^18.2.0",
+    "react-apexcharts": "^1.4.1",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.43.9",
     "react-router": "^6.11.1",
@@ -42,6 +44,7 @@
   "devDependencies": {
     "@hookform/devtools": "^4.3.1",
     "@types/node": "^20.1.0",
+    "@types/numeral": "^2.0.2",
     "@types/react": "^18.0.28",
     "@types/react-dom": "^18.0.11",
     "@typescript-eslint/eslint-plugin": "^5.59.2",

@@ -7,3 +7,4 @@ export * from './Form';
 export { Scrollbar } from './Scrollbar';
 export { CarouselArrows } from './CarouselArrows';
 export * from './Table';
+export { Chart } from './Chart.tsx';

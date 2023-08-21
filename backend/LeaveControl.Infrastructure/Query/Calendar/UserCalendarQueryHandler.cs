@@ -19,6 +19,6 @@ public class UserCalendarQueryHandler : IRequestHandler<UserCalendarQuery, UserC
             .Query<LeaveProjection>()
             .SingleAsync(projection => projection.Id == request.UserId, token: cancellationToken);
 
-        return new UserCalendarQuery.Response(calendar.Leaves);
+        return new UserCalendarQuery.Response(calendar.Leaves, calendar.Allowance, calendar.FirstName, calendar.Surname);
     }
 }

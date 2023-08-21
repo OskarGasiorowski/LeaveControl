@@ -1,4 +1,4 @@
-import { useBoolean, usePaths, useUsers } from '#hooks';
+import { useBoolean, useUsers } from '#hooks';
 import {
     Button,
     Card,
