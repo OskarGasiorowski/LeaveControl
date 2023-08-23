@@ -41,8 +41,7 @@ public class AddUserCommandHandler : IRequestHandler<AddUserCommand, AddUserComm
         
         var tenant = await _tenantRepository.Get(request.TenantId);
         tenant!.AddUser(user.Id);
-
-        // TODO notify user with access token
+        
         await _tenantRepository.Update(tenant);
         await _userRepository.Create(user);
 

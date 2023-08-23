@@ -10,6 +10,7 @@ import { UserCalendarPage } from './UserCalendarPage';
 import { DashboardLayout } from '#modules/layouts';
 import { LeaveRequestPage } from './LeaveRequestPage';
 import { UserCalendarOverviewPage } from './UserCalendarOverviewPage.tsx';
+import { SetupInvitedUserPage } from './SetupInvitedUserPage.tsx';
 
 export function Router() {
     const paths = usePaths();
@@ -20,6 +21,7 @@ export function Router() {
             <Route path={paths.createAccount} element={<CreateWorkspacePage />} />
             <Route path={paths.setupWorkspace} element={<SetupAccountPage />} />
             <Route path={paths.login} element={<LoginPage />} />
+            <Route path={paths.setupInvitedUser} element={<SetupInvitedUserPage />} />
             <Route element={<ProtectedRoute />}>
                 <Route element={<DashboardLayout />}>
                     <Route path={paths.dashboard} element={<DashboardPage />} />

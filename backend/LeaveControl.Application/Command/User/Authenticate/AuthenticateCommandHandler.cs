@@ -1,4 +1,5 @@
 using LeaveControl.Application.Services;
+using LeaveControl.Application.Services.Models;
 using LeaveControl.Domain;
 using LeaveControl.Domain.Repositories;
 using LeaveControl.Domain.Repositories.User;
@@ -35,7 +36,11 @@ public class AuthenticateCommandHandler : IRequestHandler<AuthenticateCommand, A
 
         return new AuthenticateCommand.Response
         {
-            Token = _jwtService.Create(user),
+            Token = _jwtService.Create(new CreateTokenModel(
+                user.Id, 
+                user.Email, 
+                user.Role,
+                user.TenantId)),
             TenantId = user.TenantId,
             UserId = user.Id,
         };

@@ -1,5 +1,6 @@
 using LeaveControl.Domain.Aggregates.UserCalendar.Models;
 using LeaveControl.Domain.Types;
+using MediatR;
 
 namespace LeaveControl.Domain.Aggregates.UserCalendar.Events;
 

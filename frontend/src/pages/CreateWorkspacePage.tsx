@@ -4,7 +4,7 @@ import { AuthLayout } from '#modules/layouts';
 import { FormProvider, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Alert, IconButton, InputAdornment, Stack, Typography } from '@mui/material';
-import { Iconify, Link, TextField } from '#components';
+import { Iconify, Link, TermsAndCondition, TextField } from '#components';
 import { LoadingButton } from '@mui/lab';
 import * as Yup from 'yup';
 
@@ -94,6 +94,7 @@ export function CreateWorkspacePage() {
             >
                 Create workspace
             </LoadingButton>
+            <TermsAndCondition />
         </Stack>
     );
 
@@ -106,25 +107,6 @@ export function CreateWorkspacePage() {
                     {renderForm}
                 </form>
             </FormProvider>
-            <Typography
-                component='div'
-                sx={{
-                    color: 'text.secondary',
-                    mt: 2.5,
-                    typography: 'caption',
-                    textAlign: 'center',
-                }}
-            >
-                {'By signing up, I agree to '}
-                <Link to={paths.createAccount} underline='always' color='text.primary'>
-                    Terms of Service
-                </Link>
-                {' and '}
-                <Link to={paths.createAccount} underline='always' color='text.primary'>
-                    Privacy Policy
-                </Link>
-                .
-            </Typography>
         </AuthLayout>
     );
 }

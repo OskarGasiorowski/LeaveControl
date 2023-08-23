@@ -11,7 +11,7 @@ namespace LeaveControl.Application.Services;
 
 public interface IJwtService
 {
-    public JwtToken Create(UserAggregate user);
+    public JwtToken Create(CreateTokenModel model);
 }
 
 public class JwtService : IJwtService
@@ -23,18 +23,18 @@ public class JwtService : IJwtService
         _settings = settings.Value;
     }
 
-    public JwtToken Create(UserAggregate user)
+    public JwtToken Create(CreateTokenModel model)
     {
         var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_settings.Key));
         var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
 
         var claims = new[]
         {
-            new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
-            new Claim(JwtRegisteredClaimNames.Email, user.Email.ToString()),
-            new Claim(ClaimTypes.Role, user.Role.ToString()),
-            new Claim("role", user.Role.ToString()),
-            new Claim("tenant_id", user.TenantId.ToString()),
+            new Claim(JwtRegisteredClaimNames.Sub, model.UserId.ToString()),
+            new Claim(JwtRegisteredClaimNames.Email, model.Email.ToString()),
+            new Claim(ClaimTypes.Role, model.Role.ToString()),
+            new Claim("role", model.Role.ToString()),
+            new Claim("tenant_id", model.TenantId.ToString()),
             new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
         };
 

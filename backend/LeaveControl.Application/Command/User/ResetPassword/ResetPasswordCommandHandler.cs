@@ -1,4 +1,5 @@
 using LeaveControl.Application.Services;
+using LeaveControl.Application.Services.Models;
 using LeaveControl.Domain.Repositories;
 using LeaveControl.Domain.Types;
 using MediatR;
@@ -23,6 +24,10 @@ public class ResetPasswordCommandHandler: IRequestHandler<ResetPasswordCommand, 
         user.MakeStandard();
         await _userRepository.Update(user);
 
-        return _jwtService.Create(user);
+        return _jwtService.Create(new CreateTokenModel(
+            user.Id, 
+            user.Email, 
+            user.Role,
+            user.TenantId));
     }
 }

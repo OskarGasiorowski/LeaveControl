@@ -51,8 +51,7 @@ public class UserAggregate : AggregateRoot<Guid>
             createUser.Password,
             createUser.FirstName,
             createUser.Surname,
-            //TODO change it back after implementing invitation link
-            Role.User(),
+            Role.InvitedUser(),
             tenantId
         );
     }

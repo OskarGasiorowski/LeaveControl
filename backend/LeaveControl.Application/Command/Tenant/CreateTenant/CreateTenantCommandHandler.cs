@@ -1,4 +1,5 @@
 using LeaveControl.Application.Services;
+using LeaveControl.Application.Services.Models;
 using LeaveControl.Domain.Aggregates.Tenant;
 using LeaveControl.Domain.Aggregates.Tenant.Models;
 using LeaveControl.Domain.Aggregates.User;
@@ -59,6 +60,12 @@ public class CreateTenantCommandHandler : IRequestHandler<CreateTenantCommand, C
         );
         await _userCalendarRepository.Create(calendar);
 
-        return new() { Token = _jwtService.Create(user) };
+        return new() {
+            Token = _jwtService.Create(new CreateTokenModel(
+                user.Id, 
+                user.Email, 
+                user.Role,
+                user.TenantId)) 
+        };
     }
 }

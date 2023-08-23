@@ -1,16 +1,19 @@
 using LeaveControl.Domain.Aggregates.User;
 using LeaveControl.Domain.Repositories;
 using Marten;
+using MediatR;
 
 namespace LeaveControl.Infrastructure.Repositories;
 
 public class UserRepository : IUserRepository
 {
     private readonly IDocumentSession _documentSession;
+    private readonly IMediator _mediator;
 
-    public UserRepository(IDocumentSession documentSession)
+    public UserRepository(IDocumentSession documentSession, IMediator mediator)
     {
         _documentSession = documentSession;
+        _mediator = mediator;
     }
 
     public async Task Create(UserAggregate aggregate)
@@ -21,6 +24,12 @@ public class UserRepository : IUserRepository
             aggregate.Id,
             events
         );
+        var tasks = events
+            .Where(e => e is INotification)
+            .Select(e => _mediator.Publish(e))
+            .ToArray();
+        await Task.WhenAll(tasks);
+        
         await _documentSession.SaveChangesAsync();
     }
 
@@ -40,6 +49,12 @@ public class UserRepository : IUserRepository
             nextVersion,
             events
         );
+        
+        var tasks = events
+            .Where(e => e is INotification)
+            .Select(e => _mediator.Publish(e))
+            .ToArray();
+        await Task.WhenAll(tasks);
 
         await _documentSession.SaveChangesAsync();
     }
