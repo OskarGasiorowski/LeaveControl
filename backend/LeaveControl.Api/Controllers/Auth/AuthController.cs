@@ -1,4 +1,5 @@
 using System.Net;
+using LeaveControl.Api.ActionFilters;
 using LeaveControl.Api.Controllers.Auth.Requests;
 using LeaveControl.Application.Command.User.Authenticate;
 using LeaveControl.Application.Command.User.CreateUser;
@@ -58,8 +59,9 @@ public class AuthController : ControllerBase
         };
     }
 
+    [InjectUserId]
     [Authorize(Roles = "InvitedUser")]
-    [HttpPatch("me/reset-password")]
+    [HttpPost("me/change-password")]
     public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordRequest body, Guid userId)
     {
         var token = await _mediator.Send(new ResetPasswordCommand

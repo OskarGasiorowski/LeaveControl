@@ -11,3 +11,4 @@ export { useUpdateLeaveRequest } from './useUpdateLeaveRequest.ts';
 export { usePendingRequests } from './usePendingRequests.ts';
 export { useApprovePendingRequest } from './useApprovePendingRequest.ts';
 export { useRejectPendingRequest } from './useRejectPendingRequest.ts';
+export { useChangePassword } from './useChangePassword.ts';

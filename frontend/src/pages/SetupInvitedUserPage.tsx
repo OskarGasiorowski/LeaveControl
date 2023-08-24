@@ -1,19 +1,45 @@
-import { useParams } from 'react-router';
+import { Navigate, useNavigate } from 'react-router';
 import { AuthCompactLayout } from '#modules/layouts';
 import { IconButton, InputAdornment, Stack, Typography } from '@mui/material';
 import { Iconify, Link, TermsAndCondition, TextField } from '#components';
-import { useBoolean, usePaths } from '#hooks';
+import { useBoolean, useChangePassword, usePaths } from '#hooks';
 import { LoadingButton } from '@mui/lab';
 import { FormProvider, useForm } from 'react-hook-form';
+import { useAuth } from '#modules/auth';
+import * as Yup from 'yup';
+import { yupResolver } from '@hookform/resolvers/yup';
+
+type Form = {
+    password: string;
+};
+const validator = Yup.object<Form>().shape({
+    password: Yup.string()
+        .required('Password is required.')
+        .min(8, 'Password must be at least 8 characters long.'),
+});
 
 export function SetupInvitedUserPage() {
     const visiblePassword = useBoolean();
-    const { jwt } = useParams<{ jwt: string }>();
     const paths = usePaths();
+    const auth = useAuth();
+    const navigate = useNavigate();
+    const { changePassword, isChangePasswordPending } = useChangePassword(() =>
+        navigate(paths.dashboard, { replace: true }),
+    );
 
-    const methods = useForm<{ password: string }>({
-        mode: 'onChange',
+    const methods = useForm<Form>({
+        resolver: yupResolver(validator),
+        reValidateMode: 'onBlur',
+        mode: 'onBlur',
     });
+
+    if (auth.role !== 'InvitedUser') {
+        return <Navigate to={paths.login} />;
+    }
+
+    function handleSubmit(form: Form) {
+        changePassword({ ...form });
+    }
 
     return (
         <AuthCompactLayout>
@@ -27,7 +53,12 @@ export function SetupInvitedUserPage() {
                 </Typography>
             </Stack>
             <FormProvider {...methods}>
-                <Stack spacing={3} alignItems='center'>
+                <Stack
+                    component='form'
+                    spacing={3}
+                    alignItems='center'
+                    onSubmit={methods.handleSubmit(handleSubmit)}
+                >
                     <TextField
                         name='password'
                         label='Password'
@@ -54,7 +85,7 @@ export function SetupInvitedUserPage() {
                         size='large'
                         type='submit'
                         variant='contained'
-                        // loading={isSubmitting}
+                        loading={isChangePasswordPending}
                     >
                         Setup
                     </LoadingButton>

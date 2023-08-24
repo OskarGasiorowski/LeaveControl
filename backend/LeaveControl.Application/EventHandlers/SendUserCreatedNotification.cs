@@ -23,11 +23,14 @@ public class SendUserCreatedNotification : INotificationHandler<UserCreatedEvent
             return Task.CompletedTask;
         }
 
-        var token = _jwtService.Create(new CreateTokenModel(
-            notification.UserId, 
-            notification.Email, 
-            Role.InvitedUser(),
-            notification.TenantId));
+        var token = _jwtService.Create(
+            new CreateTokenModel(
+                notification.UserId, 
+                notification.Email, 
+                Role.InvitedUser(),
+                notification.TenantId),
+            3 * 24 // TODO add it to settings
+            );
         
         Debug.WriteLine(token);
 

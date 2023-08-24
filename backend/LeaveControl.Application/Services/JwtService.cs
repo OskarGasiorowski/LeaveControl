@@ -11,7 +11,7 @@ namespace LeaveControl.Application.Services;
 
 public interface IJwtService
 {
-    public JwtToken Create(CreateTokenModel model);
+    public JwtToken Create(CreateTokenModel model, int? expirationHours = null);
 }
 
 public class JwtService : IJwtService
@@ -23,7 +23,7 @@ public class JwtService : IJwtService
         _settings = settings.Value;
     }
 
-    public JwtToken Create(CreateTokenModel model)
+    public JwtToken Create(CreateTokenModel model, int? expirationHours = null)
     {
         var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_settings.Key));
         var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
@@ -42,7 +42,7 @@ public class JwtService : IJwtService
             issuer: _settings.Issuer,
             audience: _settings.Audience,
             claims: claims,
-            expires: DateTime.UtcNow.AddHours(_settings.ExpirationHours),
+            expires: DateTime.UtcNow.AddHours(expirationHours ?? _settings.ExpirationHours),
             signingCredentials: credentials
         );
 

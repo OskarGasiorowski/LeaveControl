@@ -35,3 +35,7 @@ export type UserWithGivenEmailExistsError = {
     type: ErrorType.Conflict;
     message: string;
 };
+
+export interface ChangePasswordRequest {
+    password: string;
+}

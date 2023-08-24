@@ -1,5 +1,12 @@
 import ky from 'ky';
-import { createAccount, CreateAccountRequest, login, LoginRequest } from './auth';
+import {
+    changePassword,
+    ChangePasswordRequest,
+    createAccount,
+    CreateAccountRequest,
+    login,
+    LoginRequest,
+} from './auth';
 import { addUser, AddUserRequest, createTenant, CreateTenantRequest, getUsers } from './tenant';
 import { useAuth } from '#modules/auth';
 import { useMemo } from 'react';
@@ -52,5 +59,6 @@ export function useApi() {
             approvePendingRequests(authenticatedApi, userId, leaveId),
         declinePendingRequests: (userId: string, leaveId: string) =>
             declinePendingRequests(authenticatedApi, userId, leaveId),
+        changePassword: (body: ChangePasswordRequest) => changePassword(authenticatedApi, body),
     };
 }

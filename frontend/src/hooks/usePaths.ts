@@ -10,7 +10,8 @@ export function usePaths() {
             template: '/user-calendar/:userId',
             generate: (userId: string) => `/user-calendar/${userId}`,
         },
-        setupInvitedUser: '/invite/setup/:jwt',
+        handleSetupInvitedUser: '/invite/setup/token',
+        setupInvitedUser: '/invite/setup',
         myCalendar: '/user-calendar/me',
         leaveRequests: 'requests',
     };
