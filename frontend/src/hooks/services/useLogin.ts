@@ -35,7 +35,7 @@ export function useLogin() {
             }
 
             if (role === 'InvitedUser') {
-                // TODO
+                navigate(paths.setupInvitedUser);
                 return;
             }
 
