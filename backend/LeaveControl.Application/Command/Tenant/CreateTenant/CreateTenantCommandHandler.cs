@@ -1,5 +1,6 @@
 using LeaveControl.Application.Services;
-using LeaveControl.Application.Services.Models;
+using LeaveControl.Application.Services.Jwt;
+using LeaveControl.Application.Services.Jwt.Models;
 using LeaveControl.Domain.Aggregates.Tenant;
 using LeaveControl.Domain.Aggregates.Tenant.Models;
 using LeaveControl.Domain.Aggregates.User;

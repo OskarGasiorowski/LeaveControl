@@ -16,7 +16,7 @@ export function useAuth() {
         navigate(paths.login, { replace: true });
     }
 
-    const userId = useMemo(() => jwtDecode<{ sub: string }>(token || '').sub || '', [token]);
+    const userId = useMemo(() => (token ? jwtDecode<{ sub: string }>(token).sub : ''), [token]);
 
     return {
         isAuthenticated: !!token,

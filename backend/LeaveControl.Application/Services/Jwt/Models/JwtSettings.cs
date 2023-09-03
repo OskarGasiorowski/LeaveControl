@@ -1,4 +1,4 @@
-namespace LeaveControl.Application.Services.Models;
+namespace LeaveControl.Application.Services.Jwt.Models;
 
 public class JwtSettings
 {

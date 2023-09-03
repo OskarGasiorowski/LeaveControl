@@ -1,5 +1,6 @@
 using LeaveControl.Application.Services;
-using LeaveControl.Application.Services.Models;
+using LeaveControl.Application.Services.Jwt;
+using LeaveControl.Application.Services.Jwt.Models;
 using LeaveControl.Domain.Repositories;
 using LeaveControl.Domain.Types;
 using MediatR;

@@ -1,26 +1,34 @@
 using System.Diagnostics;
 using LeaveControl.Application.Services;
-using LeaveControl.Application.Services.Models;
+using LeaveControl.Application.Services.Jwt;
+using LeaveControl.Application.Services.Jwt.Models;
+using LeaveControl.Application.Services.Mailing;
+using LeaveControl.Application.Services.Mailing.Models;
 using LeaveControl.Domain.Aggregates.User.Events;
 using LeaveControl.Domain.Types;
 using MediatR;
+using Microsoft.Extensions.Options;
 
 namespace LeaveControl.Application.EventHandlers;
 
 public class SendUserCreatedNotification : INotificationHandler<UserCreatedEvent>
 {
     private readonly IJwtService _jwtService;
+    private readonly IMailingService _mailingService;
+    private readonly AppSettings _settings;
 
-    public SendUserCreatedNotification(IJwtService jwtService)
+    public SendUserCreatedNotification(IJwtService jwtService, IMailingService mailingService, IOptions<AppSettings> settings)
     {
         _jwtService = jwtService;
+        _mailingService = mailingService;
+        _settings = settings.Value;
     }
 
-    public Task Handle(UserCreatedEvent notification, CancellationToken cancellationToken)
+    public async Task Handle(UserCreatedEvent notification, CancellationToken cancellationToken)
     {
         if (notification.Role != Role.InvitedUser())
         {
-            return Task.CompletedTask;
+            return;
         }
 
         var token = _jwtService.Create(
@@ -29,11 +37,11 @@ public class SendUserCreatedNotification : INotificationHandler<UserCreatedEvent
                 notification.Email, 
                 Role.InvitedUser(),
                 notification.TenantId),
-            3 * 24 // TODO add it to settings
+            _settings.UserInvitedLinkExpirationHours
             );
-        
-        Debug.WriteLine(token);
 
-        return Task.CompletedTask;
+        await _mailingService.InviteUser(
+            new InviteUserModel(notification.Email, token)
+        );
     }
 }

@@ -1,13 +1,15 @@
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using Azure.Identity;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using LeaveControl.Api;
 using LeaveControl.Api.Controllers.Calendar.Requests;
 using LeaveControl.Application;
 using LeaveControl.Application.Command.Calendar.AddLeave;
-using LeaveControl.Application.Services.Models;
+using LeaveControl.Application.Services.Jwt.Models;
+using LeaveControl.Application.Services.Mailing.MailingProvider.Models;
 using LeaveControl.Infrastructure;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
@@ -18,6 +20,12 @@ using Oakton;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Host.ApplyOaktonExtensions();
+
+builder.Host.ConfigureAppConfiguration((context, config) =>
+{
+    var url = new Uri("https://leavecontrol-keyvault.vault.azure.net/");
+    config.AddAzureKeyVault(url, new DefaultAzureCredential());
+});
 
 builder.Services.AddControllers()
     .AddNewtonsoftJson(options =>
@@ -36,6 +44,8 @@ builder.Services
     .AddValidatorsFromAssemblyContaining<PostLeaveRequestValidator>()
     .AddFluentValidationAutoValidation()
     .Configure<JwtSettings>(builder.Configuration.GetSection("Jwt"))
+    .Configure<MailgunSettings>(builder.Configuration.GetSection("Mailgun"))
+    .Configure<AppSettings>(builder.Configuration.GetSection("App"))
     .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {

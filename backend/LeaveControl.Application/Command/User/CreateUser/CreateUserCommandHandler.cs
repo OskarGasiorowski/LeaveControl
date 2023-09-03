@@ -1,5 +1,6 @@
 using LeaveControl.Application.Services;
-using LeaveControl.Application.Services.Models;
+using LeaveControl.Application.Services.Jwt;
+using LeaveControl.Application.Services.Jwt.Models;
 using LeaveControl.Domain;
 using LeaveControl.Domain.Aggregates.User;
 using LeaveControl.Domain.Repositories;
@@ -42,7 +43,7 @@ public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, Creat
             Token = _jwtService.Create(new CreateTokenModel(
                 user.Id, 
                 user.Email, 
-                Role.InvitedUser(),
+                Role.IncompleteAdmin(),
                 user.TenantId)),
             UserId = user.Id,
             TenantId = user.TenantId,

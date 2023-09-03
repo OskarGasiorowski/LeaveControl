@@ -1,13 +1,12 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using LeaveControl.Application.Services.Models;
-using LeaveControl.Domain.Aggregates.User;
+using LeaveControl.Application.Services.Jwt.Models;
 using LeaveControl.Domain.Types;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 
-namespace LeaveControl.Application.Services;
+namespace LeaveControl.Application.Services.Jwt;
 
 public interface IJwtService
 {
