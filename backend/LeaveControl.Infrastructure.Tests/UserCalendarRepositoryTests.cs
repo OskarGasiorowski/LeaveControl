@@ -3,6 +3,8 @@ using LeaveControl.Domain.Aggregates.UserCalendar.Models;
 using LeaveControl.Domain.Types;
 using LeaveControl.Infrastructure.Repositories;
 using Marten;
+using MediatR;
+using Moq;
 using Testcontainers.PostgreSql;
 
 namespace LeaveControl.Infrastructure.Tests;
@@ -15,8 +17,10 @@ public class UserCalendarRepositoryTests : IAsyncLifetime
     public async Task CreateAndGet_UserCalendarAggregate_ReturnsExpectedAggregate()
     {
         using var documentStore = DocumentStore.For(_postgreSqlContainer.GetConnectionString());
-        using var session = documentStore.LightweightSession();
-        var repository = new Repository<UserCalendarAggregate>(session);
+        var mock = new Mock<IMediator>();
+
+        await using var session = documentStore.LightweightSession();
+        var repository = new Repository<UserCalendarAggregate>(session, mock.Object);
 
         var aggregate = UserCalendarAggregate.New(UserId.Generate(), new CalendarSettings
         {
